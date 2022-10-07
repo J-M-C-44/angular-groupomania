@@ -1,0 +1,77 @@
+/* #region  ------------------------------------------   Variables  ----------------------------*/
+// couleurs principales du site
+$color-n1:#FD2D01;
+$color-n2:#FFD7D7;
+$color-n3:#4E5166;
+
+// autres couleurs : couleurs dérivées, back-grounds grisés etc
+$color-n1-light: lighten($color-n1,35%) ;
+$color-n4:#eaeaea;
+$color-n4-dk1:darken($color-n4,10%);
+$color-n4-dk2:darken($color-n4,30%);
+$color-n5:#F6F6F6;
+$color-n6:#018867;
+$color-n6-light: lighten($color-n6,60%) ;
+$color-n7: #353535;
+
+// map des breakpoints (utilisée dans mixin mediaqueries)
+$breakpoints:(
+    screen-xs: 320px,    
+    screen-s:  576px,
+    screen-m:  768px,
+    screen-l:  992px,
+    screen-xl: 1200px,
+    screen-xxl:1440px
+);
+/* #endregion  ---------------------------------------   Variables  ----------------------------*/
+
+/* #region  ------------------------------------------   Mixins  -------------------------------*/
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+@mixin flex-column-jcenter {
+    @include flex-column;
+    justify-content:center;
+}    
+// gestion des différentes ombres
+@mixin shadow-light {
+    box-shadow: 0px 4px 9px $color-n4-dk1;
+}
+@mixin shadow-dark {
+    box-shadow: 0px 4px 9px $color-n4-dk2;
+}
+
+//mediaqueries s'appuyant sur la map de breakpoints
+@mixin xsmall-screen {
+    @media screen and (min-width: map-get($breakpoints, screen-xs)) { 
+        @content;
+    }
+}
+@mixin small-screen {
+    @media screen and (min-width: map-get($breakpoints, screen-s)) { 
+        @content;
+    }
+}
+@mixin medium-screen {
+    @media screen and (min-width: map-get($breakpoints, screen-m)) { 
+        @content;
+    }
+}
+@mixin large-screen {
+    @media screen and (min-width: map-get($breakpoints, screen-l)) { 
+        @content;
+    }
+}
+@mixin xlarge-screen {
+    @media screen and (min-width: map-get($breakpoints, screen-xl)) { 
+        @content;
+    }
+}
+@mixin xxlarge-screen {
+    @media screen and (min-width: map-get($breakpoints, screen-xxl)) { 
+        @content;
+    }
+}
+/* #endregion  ---------------------------------------   Mixins --------------------------------*/
