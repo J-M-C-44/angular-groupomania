@@ -1,8 +1,9 @@
 /* #region  ------------------------------------------   Variables  ----------------------------*/
 // couleurs principales du site
-$color-n1:#FD2D01;
-$color-n2:#FFD7D7;
-$color-n3:#4E5166;
+$color-n1:#4E5166;
+$color-n2:#FD2D01;
+$color-n3:#FFD7D7;
+
 
 // autres couleurs : couleurs dérivées, back-grounds grisés etc
 $color-n1-light: lighten($color-n1,35%) ;

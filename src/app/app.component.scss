@@ -1,10 +1,10 @@
-.global-container {
-    max-width: map-get($breakpoints, screen-xxl);
-    margin:auto;
-    @include flex-column;
-    flex-wrap: wrap;
-    // @include xxlarge-screen {
-    //     border-right: 1px solid $color-n4;
-    //     border-left: 1px solid $color-n4;
-    // }
-}
+// .global-container {
+//     max-width: map-get($breakpoints, screen-xxl);
+//     margin:auto;
+//     @include flex-column;
+//     flex-wrap: wrap;
+//     // @include xxlarge-screen {
+//     //     border-right: 1px solid $color-n4;
+//     //     border-left: 1px solid $color-n4;
+//     // }
+// }

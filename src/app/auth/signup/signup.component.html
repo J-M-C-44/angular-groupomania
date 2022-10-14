@@ -1,1 +1,32 @@
 <p>signup works!</p>
+<div class="global-signup-container"> 
+    <h1>
+        <img src="assets/icon-groupomania-red.png" type="image" alt="icone groupomania" class="auth-icon">
+    </h1>
+    <div class="signup-container"> 
+        <h2> Enregistrement </h2>
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+              <mat-label> votre email </mat-label>
+              <input #signupFormEmail matInput placeholder="you@example.com" formControlName="email" required>
+              <span matSuffix><mat-icon>email</mat-icon></span>
+              <mat-error *ngIf="signupForm.controls.email.invalid">{{getErrorMessageEmail()}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label> votre mot de passe </mat-label>
+              <input id="signupFormPassword" matInput formControlName="password" required [type]="hide ? 'password' : 'text'">
+              <mat-icon matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  {{hide ? 'visibility_off' : 'visibility'}}
+              </mat-icon>
+              <mat-error *ngIf="signupForm.controls.password.invalid">{{getErrorMessagePassword()}}</mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid" > S'enregistrer </button>
+        </form>
+        <mat-error *ngIf="errorMsgSubmit">{{ errorMsgSubmit }}</mat-error>
+        <p class="signup-login-switcher-message"> 
+            Déjà enregistré ? <a routerLink="/auth/login"> connectez-vous !</a> 
+        </p>
+    </div>
+</div>

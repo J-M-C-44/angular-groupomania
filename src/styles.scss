@@ -1,5 +1,123 @@
-* {
-    box-sizing: border-box;
-    font-family: 'Lato', sans-serif;
-    font-size: 16px;
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+$my-custom-typography: mat.define-typography-config(
+    // Specify "lato" as the default font family for all levels.
+    $font-family: 'lato',
+  );
+@include mat.core($my-custom-typography);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+//icijco: après essai: ce n'est pas pas beau, à revoir
+$grey-groupomania-palette: (
+ 50: #f0f0fd,
+ 100: #d7dbed,
+ 200: #c1c4d9,
+ 300: #a8acc6,
+ 400: #9599b5,
+ 500: #8287a6,
+ 600: #727894,
+ 700: #5f637d,
+ 800: #4e5166,
+ 900: #393c4e,
+
+ contrast: (
+   50: rgba(black, 0.87),
+   100: rgba(black, 0.87),
+   200: rgba(black, 0.87),
+   300: white,
+   400: white,
+   500: white,
+   600: white,
+   700: white,
+   800: white,
+   900: white,
+ )
+);
+$red-groupomania-palette: (
+ 50: #ffe8e6,
+ 100: #ffcab9,
+ 200: #ffa68c,
+ 300: #ff815d,
+ 400: #ff6038,
+ 500: #ff3b0e,
+ 600: #ff3408,
+ 700: #fd2b01,
+ 800: #ef1f00,
+ 900: #d80000,
+
+ contrast: (
+   50: rgba(black, 0.87),
+   100: rgba(black, 0.87),
+   200: rgba(black, 0.87),
+   300: white,
+   400: white,
+   500: white,
+   600: white,
+   700: white,
+   800: white,
+   900: white,
+ )
+);
+$angular-groupomania-primary: mat.define-palette($grey-groupomania-palette);
+$angular-groupomania-accent: mat.define-palette($red-groupomania-palette, 700, 200, 900);
+
+//  $angular-groupomania-primary: mat.define-palette(mat.$indigo-palette);
+//  $angular-groupomania-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+
+// The warn palette is optional (defaults to red).
+$angular-groupomania-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+
+$angular-groupomania-theme: mat.define-light-theme((
+  color: (
+    primary: $angular-groupomania-primary,
+    accent: $angular-groupomania-accent,
+    warn: $angular-groupomania-warn,
+  ),
+//   typography : $my-custom-typography,
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($angular-groupomania-theme);
+
+// * {
+//     box-sizing: border-box;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 16px;
+// }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// ::ng-deep .snack-style-ok {
+//   background-color: aquamarine;
+//   color: black;
+//   display : inline-block;
+//   text-align: center;
+// }
+// ::ng-deep .snack-style-ko {
+//   background-color: red;
+//   text-align: center;
+// }
+.snack-style-ok {
+  background-color: aquamarine;
+  color: black;
+  display : inline-block;
+  text-align: center;
+}
+.snack-style-ko {
+  background-color: red;
+  text-align: center;
 }

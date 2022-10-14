@@ -1,1 +1,32 @@
-<p>login works!</p>
+<div class="global-login-container"> 
+    <h1>
+      <img src="assets/icon-groupomania-red.png" type="image" alt="icone groupomania" class="auth-icon">
+    </h1>
+    <div class="login-container"> 
+        <h2> Connexion </h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+              <mat-label> votre email </mat-label>
+              <input matInput placeholder="you@example.com" formControlName="email" required>
+              <span matSuffix><mat-icon>email</mat-icon></span>
+              <mat-error *ngIf="loginForm.controls.email.invalid">{{getErrorMessageEmail()}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label> votre mot de passe </mat-label>
+              <input matInput formControlName="password" required [type]="hide ? 'password' : 'text'">
+              <mat-icon matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  {{hide ? 'visibility_off' : 'visibility'}}
+              </mat-icon>
+              <mat-error *ngIf="loginForm.controls.password.invalid">{{getErrorMessagePassword()}}</mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid" > Se connecter </button>
+        </form>
+        <mat-error *ngIf="errorMsgSubmit">{{ errorMsgSubmit }}</mat-error>
+        <p class="signup-login-switcher-message"> 
+            Nouveau sur le réseau groupomania ? <a routerLink="/auth/signup"> Inscrivez-vous !</a> 
+        </p>
+    </div>
+</div>
+  
