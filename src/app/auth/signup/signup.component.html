@@ -1,9 +1,8 @@
-<p>signup works!</p>
-<div class="global-signup-container"> 
+<div class="signup__global-container"> 
     <h1>
-        <img src="assets/icon-groupomania-red.png" type="image" alt="icone groupomania" class="auth-icon">
+        <img src="assets/icon-groupomania-red.png" type="image" alt="icone groupomania" class="signup__auth-icon">
     </h1>
-    <div class="signup-container"> 
+    <div class="signup__container"> 
         <h2> Enregistrement </h2>
         <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <mat-form-field appearance="fill">
@@ -25,7 +24,7 @@
             <button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid" > S'enregistrer </button>
         </form>
         <mat-error *ngIf="errorMsgSubmit">{{ errorMsgSubmit }}</mat-error>
-        <p class="signup-login-switcher-message"> 
+        <p class="signup__switcher-message"> 
             Déjà enregistré ? <a routerLink="/auth/login"> connectez-vous !</a> 
         </p>
     </div>

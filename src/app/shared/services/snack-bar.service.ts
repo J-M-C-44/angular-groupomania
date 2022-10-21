@@ -16,7 +16,7 @@ export class SnackBarService {
       duration: duration ? duration : 3000,
       horizontalPosition: hPosition ? hPosition : 'center',
       verticalPosition: vPosition ? vPosition : 'top',
-      panelClass: className ? className : 'snack-style-ok'
+      panelClass: className ? className : 'snack-style--ok'
     });
   }
 }

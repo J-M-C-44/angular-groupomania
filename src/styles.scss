@@ -111,13 +111,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 //   background-color: red;
 //   text-align: center;
 // }
-.snack-style-ok {
+.snack-style--ok {
   background-color: aquamarine;
   color: black;
   display : inline-block;
   text-align: center;
 }
-.snack-style-ko {
+.snack-style--ko {
   background-color: red;
   text-align: center;
+}
+.form_image-input {
+  display: none;
 }

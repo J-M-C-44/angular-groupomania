@@ -1,8 +1,8 @@
-<div class="global-login-container"> 
+<div class="login__global-container"> 
     <h1>
-      <img src="assets/icon-groupomania-red.png" type="image" alt="icone groupomania" class="auth-icon">
+      <img src="assets/icon-groupomania-red.png" type="image" alt="icone groupomania" class="login__auth-icon">
     </h1>
-    <div class="login-container"> 
+    <div class="login__container"> 
         <h2> Connexion </h2>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <mat-form-field appearance="fill">
@@ -24,7 +24,7 @@
             <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid" > Se connecter </button>
         </form>
         <mat-error *ngIf="errorMsgSubmit">{{ errorMsgSubmit }}</mat-error>
-        <p class="signup-login-switcher-message"> 
+        <p class="login__switcher-message"> 
             Nouveau sur le réseau groupomania ? <a routerLink="/auth/signup"> Inscrivez-vous !</a> 
         </p>
     </div>

@@ -1,17 +1,17 @@
 @import '../../../styles/variables.scss';
 
-.global-signup-container {
+.signup__global-container {
     max-width: 90%;
     margin:auto; 
 }
-.auth-icon {
+.signup__auth-icon {
     display: flex;
     flex-direction: column;
     max-width: 100%;
     margin:auto; 
 }
 
-.signup-container  {
+.signup__container  {
     display: flex;
     flex-direction: column;
     margin:auto; 
@@ -24,7 +24,7 @@ form {
     flex-direction: column;
 }
 
-.signup-login-switcher-message {
+.signup__switcher-message {
     margin-top: 2rem;
     display: flex;
     justify-content: space-evenly;

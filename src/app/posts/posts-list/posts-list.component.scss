@@ -1,0 +1,33 @@
+.post-creation {
+    margin-top: 2rem ;
+    margin-bottom: 4rem ;
+}
+
+.example-card {
+    max-width: 800px;
+    margin: auto;
+    margin-top: 2rem ;
+  }
+ 
+// icicjco :à revoir avec vraies données quand user intégré
+.example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+.mat-form-field {
+    display: inline;
+}
+
+.form__mat-card-action--spacer  {
+    flex: 1 1 auto;
+}
+
+.mat-card-image {
+    max-height: 800px;
+    max-width: 100%;
+    width: auto;
+    margin: auto;
+    // height: 200px;
+    //width: 100%;
+    object-fit: cover;
+}

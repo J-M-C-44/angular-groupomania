@@ -1,0 +1,27 @@
+<mat-toolbar color = "primary">
+    <h1>
+        <img src="../../../../assets/icon-left-font-monochrome-white.svg" type="image" alt="logo groupomania" class="toolbar-logo">
+    </h1>
+
+    <span class="toolbar-spacer"></span>
+    
+        <button (click)="goToPostsList()" mat-raised-button class="material-icons-outlined" aria-label="icon-button pour aller sur la liste des postes">
+            <mat-icon color = "primary">question_answer</mat-icon>
+        </button>
+
+        <button (click)="goToUsersList()" mat-icon-button class="material-icons-outlined" aria-label="icon-button pour aller sur la liste des utilisateurs">
+            <mat-icon color = "primary">groups</mat-icon>
+        </button>
+
+    <span class="toolbar-spacer"></span>
+
+        <button (click)="goToProfile()" mat-icon-button class="material-icons-outlined" aria-label="icon-button pour aller sur son profil">
+            <mat-icon color = "primary" >person</mat-icon>
+        </button>
+
+        <button (click)="logout()" mat-icon-button class="material-icons-outlined" aria-label="icon-button pour se déconnecter">
+            <mat-icon color = "primary" >logout</mat-icon>
+        </button>
+
+
+</mat-toolbar>

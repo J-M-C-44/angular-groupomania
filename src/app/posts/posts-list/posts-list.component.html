@@ -1,1 +1,75 @@
-<p>posts-list works!</p>
+
+<!-- <p>posts-list works!</p> -->
+<header>
+    <app-toolbar></app-toolbar>
+</header>
+
+<section class="post-creation">
+    <mat-card class="example-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title> {{this.fullName}}</mat-card-title>
+        </mat-card-header>
+        <form [formGroup]="newPostForm" (ngSubmit)="onNewPostSubmit()">
+            <!-- <mat-card-content> -->
+            <mat-form-field appearance="fill">
+                <mat-label> Que voulez vous partager aujourd'hui ? </mat-label>
+                <textarea   matInput rows="3" class="" maxlength="1000" placeholder="Bonjour tout le monde!"
+                            formControlName="textPost" required> 
+                </textarea>
+                <mat-error *ngIf="newPostForm.controls.textPost.invalid">{{getErrorMessageTextPost()}}</mat-error>
+            </mat-form-field>
+            <img *ngIf="imagePreview" [src]="imagePreview" mat-card-image alt="your picture" >
+            
+            <mat-card-actions align="end">
+                <div>
+                    <!-- <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp " formControlName="imagePost" -->
+                    <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
+                            #imageInput class ="form_image-input" (change)="onImageAdded($event)" > 
+                    <button type="button" mat-raised-button color="primary" (click)="imageInput.click()" alt="bouton ajouter une image">
+                         <mat-icon> add_photo_alternate </mat-icon>
+                    </button>
+                    {{fileName}}
+                </div>
+                <span class="form__mat-card-action--spacer"></span>
+                
+                <button type="reset" mat-raised-button color="primary" (click)="onResetForm()">
+                    <mat-icon>clear</mat-icon>
+                </button>
+                <button mat-raised-button color="primary" type="submit" alt="publier votre message" [disabled]="!newPostForm.valid" >Publier
+                    <mat-icon>send</mat-icon>
+                </button>
+            </mat-card-actions>
+        </form>
+      </mat-card>
+</section>
+
+
+<section class="posts-list">
+    <div *ngFor="let post of posts" >
+        <mat-card class="example-card">
+
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title> {{post.userId}} </mat-card-title>
+              <mat-card-subtitle> le {{post.modifiedTime | date:'dd/mm/yyyy, à hh:mm'}} </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <p> {{post.text}} </p>
+            </mat-card-content>
+            <img  *ngIf="post.imageUrl" [src]="post.imageUrl" mat-card-image alt="Post Image">
+            <mat-divider inset></mat-divider>
+                
+            <mat-card-actions align="end">  
+                <button type="button" mat-raised-button color="primary" (click)="likePost(post.id)" [matBadge]="getCountLikes(post.id)" matBadgeColor="accent">
+                    <mat-icon >thumb_up </mat-icon>
+                </button>
+                <button mat-raised-button color="primary" type="button" alt="commentaires" (click)="showComments(post.id)" [matBadge]="getCountComments(post.id)" matBadgeColor="accent">
+                    <mat-icon>comment</mat-icon>
+                </button>
+            </mat-card-actions>
+
+          </mat-card>
+    </div>
+</section>

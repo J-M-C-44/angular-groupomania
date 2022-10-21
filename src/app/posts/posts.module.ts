@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 // import { SharedModule } from 'src/app/shared/shared.module';
 import { PostsRoutingModule } from './posts-routing.module';
 import { PostsListComponent } from './posts-list/posts-list.component';
-
-
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +12,7 @@ import { PostsListComponent } from './posts-list/posts-list.component';
   imports: [
     CommonModule,
     PostsRoutingModule,
-    // SharedModule
+    SharedModule
   ]
 })
 export class PostsModule { }

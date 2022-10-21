@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../shared/auth.service';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { Router } from '@angular/router';
+import { TokenService } from 'src/app/core/services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private snackBarService: SnackBarService,
-    private router: Router
+    private router: Router,
+    private tokenService: TokenService,
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +47,7 @@ export class LoginComponent implements OnInit {
 
     if (this.loginForm.controls.password.hasError('required'))
         return 'mot de passe obligatoire';
-    return this.loginForm.controls.password.invalid ? 'doit contenir au moins 8 caractères dont 1 chiffre, 1 minuscule, 1 majuscule et un caractère spécial ' 
+    return this.loginForm.controls.password.invalid ? 'doit contenir au moins 8 caractères dont 2 chiffres, 1 minuscule, 1 majuscule et un caractère spécial ' 
       : '';
   }
   
@@ -62,13 +64,13 @@ export class LoginComponent implements OnInit {
             next : (data) => {
               console.log('données subscribe reçues : ', data)
               this.snackBarService.openSnackBar('Bienvenue sur le réseau social de Groupomania!','');
-              localStorage.setItem('token', data.token);
+              this.tokenService.saveToken(data.token);
               this.router.navigateByUrl('posts');
             },
             error: (err) => {
               console.log('données subscribe ko : ', err);
               this.errorMsgSubmit = 'Connection impossible:  ' + err;
-              this.snackBarService.openSnackBar(this.errorMsgSubmit,'','','', 'bottom', 'snack-style-ko');
+              this.snackBarService.openSnackBar(this.errorMsgSubmit,'','','', 'bottom', 'snack-style--ko');
             },
             // complete: () => console.info('complete')
           })

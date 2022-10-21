@@ -38,7 +38,7 @@ export class SignupComponent implements OnInit {
   getErrorMessagePassword() {
     if (this.signupForm.controls.password.hasError('required'))
         return 'mot de passe obligatoire';
-    return this.signupForm.controls.password.invalid ? 'doit contenir au moins 8 caractères dont 2 chiffre, 1 minuscule, 1 majuscule et un caractère spécial ' 
+    return this.signupForm.controls.password.invalid ? 'doit contenir au moins 8 caractères dont 2 chiffres, 1 minuscule, 1 majuscule et un caractère spécial ' 
       : '';
   }
   
@@ -53,7 +53,6 @@ export class SignupComponent implements OnInit {
             next : (data) => {
               console.log('données signup reçues : ', data)
               this.snackBarService.openSnackBar('enregistrement réussi! Connectez vous pour accéder au réseau social','');
-              localStorage.setItem('token', data.token);
               this.router.navigateByUrl('auth/login');
             },
             error: (err) => {
@@ -69,7 +68,7 @@ export class SignupComponent implements OnInit {
               if (err.includes('invalid password')) 
                  this.el.nativeElement.querySelector('input[formControlName="password"]').focus();
 
-              this.snackBarService.openSnackBar(this.errorMsgSubmit,'','','', 'bottom', 'snack-style-ko');
+              this.snackBarService.openSnackBar(this.errorMsgSubmit,'','','', 'bottom', 'snack-style--ko');
             },
             // complete: () => console.info('complete')
           })
