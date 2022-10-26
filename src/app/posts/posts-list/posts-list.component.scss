@@ -8,7 +8,32 @@
     margin: auto;
     margin-top: 2rem ;
   }
- 
+ // icijco : pb de prise en compte
+ .comment__item {
+    display: flex;
+    margin-top: 1rem;
+ }
+ .comment__date {
+    font-size: x-small;
+    color: rgba(0, 0, 0, 0.54);
+    padding-left: 1rem;
+ }
+.comment-card {
+    max-width: 90%;
+    background-color:#f0f0fd;
+    margin-left: 1rem;
+    // display: inline-block;
+ ;
+}
+// .comment__form-container {
+//     display:flex;
+// }
+.comment__form{
+    width: 100%;
+    margin-left: 1rem;
+}
+
+
 // icicjco :à revoir avec vraies données quand user intégré
 .example-header-image {
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');

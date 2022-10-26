@@ -6,7 +6,8 @@ $color-n3:#FFD7D7;
 
 
 // autres couleurs : couleurs dérivées, back-grounds grisés etc
-$color-n1-light: lighten($color-n1,35%) ;
+$color-n1-light: lighten($color-n1,60%) ;
+$color-n3-light: lighten($color-n3,35%) ;
 $color-n4:#eaeaea;
 $color-n4-dk1:darken($color-n4,10%);
 $color-n4-dk2:darken($color-n4,30%);

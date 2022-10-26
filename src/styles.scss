@@ -93,13 +93,19 @@ $angular-groupomania-theme: mat.define-light-theme((
 // that you are using.
 @include mat.all-component-themes($angular-groupomania-theme);
 
+@import 
+    "./styles/variables.scss";
 // * {
 //     box-sizing: border-box;
 //     font-family: 'Lato', sans-serif;
 //     font-size: 16px;
 // }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: $color-n1-light
+}
 
 // ::ng-deep .snack-style-ok {
 //   background-color: aquamarine;
@@ -123,4 +129,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 .form_image-input {
   display: none;
+}
+.post-creation__card {
+  background-color: #ffe8e6; //$color-n3-light
 }

@@ -5,7 +5,7 @@
 </header>
 
 <section class="post-creation">
-    <mat-card class="example-card">
+    <mat-card class="example-card post-creation__card" >
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
           <mat-card-title> {{this.fullName}}</mat-card-title>
@@ -46,30 +46,112 @@
 
 
 <section class="posts-list">
-    <div *ngFor="let post of posts" >
+    <div *ngFor="let postExt of postsExt" >
         <mat-card class="example-card">
 
             <mat-card-header>
               <div mat-card-avatar class="example-header-image"></div>
-              <mat-card-title> {{post.userId}} </mat-card-title>
-              <mat-card-subtitle> le {{post.modifiedTime | date:'dd/mm/yyyy, à hh:mm'}} </mat-card-subtitle>
+              <mat-card-title> {{postExt.userId}} </mat-card-title>
+              <mat-card-subtitle> le {{postExt.modifiedTime | date:'d/M/yyyy, HH:mm'}} </mat-card-subtitle>
             </mat-card-header>
 
+            <img  *ngIf="postExt.imageUrl" [src]="postExt.imageUrl" mat-card-image alt="Post Image">
             <mat-card-content>
-                <p> {{post.text}} </p>
+                <p> {{postExt.text}} </p>
             </mat-card-content>
-            <img  *ngIf="post.imageUrl" [src]="post.imageUrl" mat-card-image alt="Post Image">
+            
             <mat-divider inset></mat-divider>
                 
             <mat-card-actions align="end">  
-                <button type="button" mat-raised-button color="primary" (click)="likePost(post.id)" [matBadge]="getCountLikes(post.id)" matBadgeColor="accent">
+                <!-- <button type="button" mat-raised-button color="primary" (click)="likePost(post.id)" [matBadge]="nbLikes(post.id)" matBadgeColor="accent"> -->
+                <button type="button" mat-raised-button color="primary" (click)="likePost(postExt)" [matBadge]="(postExt.nbLikes!>0)? postExt.nbLikes : ''" [matBadgeColor]="postExt.isLiked ? 'accent' : 'primary'">
                     <mat-icon >thumb_up </mat-icon>
                 </button>
-                <button mat-raised-button color="primary" type="button" alt="commentaires" (click)="showComments(post.id)" [matBadge]="getCountComments(post.id)" matBadgeColor="accent">
+                <!-- <button mat-raised-button color="primary" type="button" alt="commentaires" (click)="showComments(postExt.id)" [matBadge]="nbComments(postExt.id) " matBadgeColor="accent"> -->
+                <button mat-raised-button color="primary" type="button" alt="commentaires" (click)="showComments(postExt)" [matBadge]="(postExt.nbComments!>0)? postExt.nbComments : ''" matBadgeColor="primary">
                     <mat-icon>comment</mat-icon>
                 </button>
             </mat-card-actions>
+            <!-- <div *ngIf="(postExt.nbComments!>0) && postExt.commentsShowed "> -->
+            <div *ngIf="postExt.commentsShowed ">
 
+                <div *ngFor="let comment of postExt.comments" class="comment__item">
+                    <div mat-card-avatar class="example-header-image"></div>
+                    <div>
+                        <mat-card class="comment-card">
+
+                            <mat-card-header>
+                            <!-- <div mat-card-avatar class="example-header-image"></div> -->
+                            <mat-card-title> {{comment.userId}}  
+                                <span class="comment__date" > le {{comment.modifiedTime | date:'d/M/yy, HH:mm'}} </span>
+                            </mat-card-title>
+                            
+                            </mat-card-header>
+                
+                            <mat-card-content>
+                                <p> {{comment.text}} </p>
+                                <img  *ngIf="comment.imageUrl" [src]="comment.imageUrl" mat-card-image alt="Comment Image">
+                            </mat-card-content>
+                            
+                        </mat-card>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="comment__item">
+                    <div mat-card-avatar class="example-header-image"></div>
+                    <form [formGroup]="newCommentForm" (ngSubmit)="onNewCommentSubmit(postExt)" class="comment__form">
+                        <mat-form-field appearance="fill">
+                            <mat-label> Ecrivez votre commentaire </mat-label>
+                            <textarea   matInput rows="1" class="" maxlength="1000" placeholder="Bravo, j'aime beaucoup !"
+                                        formControlName="textComment" required> 
+                            </textarea>
+                            <mat-error *ngIf="newCommentForm.controls.textComment.invalid">{{getErrorMessageTextComment()}}</mat-error>
+                        </mat-form-field>
+                        <img *ngIf="commentImagePreview" [src]="commentImagePreview" mat-card-image alt="your picture" >
+                        
+                        <mat-card-actions align="end">
+                            <div>
+                                <!-- <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp " formControlName="imagePost" -->
+                                <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
+                                        #commentImageInput class ="form_image-input" (change)="onCommentImageAdded($event)" > 
+                                <button type="button" mat-raised-button color="primary" (click)="commentImageInput.click()" alt="bouton ajouter une image">
+                                     <mat-icon> add_photo_alternate </mat-icon>
+                                </button>
+                                {{commentFileName}}
+                            </div>
+                            <span class="form__mat-card-action--spacer"></span>
+                            
+                            <button type="reset" mat-raised-button color="primary" (click)="onResetCommentForm()">
+                                <mat-icon>clear</mat-icon>
+                            </button>
+                            <button mat-raised-button color="primary" type="submit" alt="publier votre commenatire" [disabled]="!newCommentForm.valid" >Publier
+                                <mat-icon>send</mat-icon>
+                            </button>
+                        </mat-card-actions>
+                    </form>
+
+
+
+
+
+                    <!-- <div> 
+                        <mat-card class="comment-card">
+                            <mat-card-title>  {{this.fullName}} </mat-card-title>           
+                            <mat-card-content>
+                                blabla
+                                <button type="button" mat-mini-fab (click)="imageInput.click()" alt="bouton ajouter une image">
+                                    <mat-icon> add_photo_alternate </mat-icon>
+                               </button>
+                            </mat-card-content>
+                            <button mat-mini-fab color="primary" type="submit" alt="publier votre commentaire" >
+                                <mat-icon>send</mat-icon>
+                            </button>
+                        </mat-card>
+                    </div> -->
+                    
+                </div>
+            </div>
+            <!-- <mat-card-footer> ici sera la partie inser votre commenta   ire</mat-card-footer> -->
           </mat-card>
     </div>
 </section>
