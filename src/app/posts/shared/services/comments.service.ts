@@ -11,7 +11,7 @@ const baseUrl = 'http://localhost:3000/api/v1/'
 })
 export class CommentsService {
 
-  private commentsUrl = baseUrl+'comments';
+  private commentsUrl = baseUrl+'comments/';
   private postsUrl = baseUrl+'posts/';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -85,4 +85,25 @@ export class CommentsService {
       };
   }
 
+  deleteComment (commentId:number): Observable<Comment[]> {
+    return this.http.delete<Comment[]>(this.commentsUrl+commentId)
+        .pipe(
+          tap((data: any) => console.log('données deleteComment  : ', data)),
+          catchError(err => {
+              // console.log('err : ', err);
+            if (!err.status) {
+                err = 'serveur non accessible'  
+            } else if (err.status == 404) {
+                err = 'non trouvé'  
+            
+            } else if (err.status == 500) {
+              err = 'erreur interne serveur'  
+ 
+            } else {
+                err = err.error.message
+            } 
+            throw err;
+          })
+        )
+  }
 }

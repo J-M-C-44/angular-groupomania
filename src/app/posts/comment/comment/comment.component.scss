@@ -1,0 +1,14 @@
+.comment__date {
+    font-size: x-small;
+    color: rgba(0, 0, 0, 0.54);
+    padding-left: 1rem;
+ }
+.comment-card {
+    max-width: 90%;
+    background-color:#f0f0fd;
+    margin-left: 1rem;
+    // display: inline-block;
+}
+.comment-card__spacer {
+    flex: 1 1 auto;
+}  

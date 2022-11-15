@@ -1,0 +1,35 @@
+<!-- <div mat-card-avatar class="example-header-image"> -->
+<div mat-card-avatar>
+    <img mat-card-avatar [src]= avatarUrl alt="avatar"> 
+</div>
+<div>
+    <mat-card class="comment-card">
+        <!-- <app-header-card-users-info [userId] ="comment.userId"  [modifiedTime] ="comment.modifiedTime" typeMessage = "comment"> </app-header-card-users-info> -->
+        <mat-card-header>
+        <!-- <div mat-card-avatar class="example-header-image"></div> -->
+            <mat-card-title> {{fullName}}  
+                <span class="comment__date" > le {{comment.modifiedTime | date:'d/M/yy, HH:mm'}} </span>
+            </mat-card-title>
+            <span class="comment-card__spacer"></span>
+            <button *ngIf="isEditable" mat-icon-button [matMenuTriggerFor]="menu" aria-label="bouton icone avec menu pour editer ou supprimer">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openDialogEdit()">
+                    <mat-icon>edit</mat-icon>
+                    <span>éditer</span>
+                </button>
+                <button mat-menu-item (click)="openDialogDelete()">
+                    <mat-icon>delete</mat-icon>
+                    <span>supprimer</span>
+                </button>
+            </mat-menu>
+        </mat-card-header>
+
+        <mat-card-content>
+            <p> {{comment.text}} </p>
+            <img  *ngIf="comment.imageUrl" [src]="comment.imageUrl" mat-card-image alt="Comment Image">
+        </mat-card-content>
+        
+    </mat-card>
+</div>

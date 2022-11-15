@@ -9,6 +9,12 @@ import { LikesService } from '../shared/services/likes.service';
 import { Like } from '../../shared/models/like.model';
 import { CommentsService } from '../shared/services/comments.service';
 import { Comment } from '../../shared/models/comment.model';
+import { UsersService } from '../../shared/services/users.service';
+import { User } from '../../shared/models/user.model';
+// à voir si je garde....
+import { take, delay, tap  } from 'rxjs/operators';
+import { Observable, of } from 'rxjs'; 
+
 
 @Component({
   selector: 'app-posts-list',
@@ -16,44 +22,51 @@ import { Comment } from '../../shared/models/comment.model';
   styleUrls: ['./posts-list.component.scss']
 })
 export class PostsListComponent implements OnInit {
-userId = 0;
-userIsAdmin = false;
-token = new DecodedToken ;
-//AvatarUrl=
-fullName = 'Vous';
-newPostForm = new FormGroup({
-  //icicjco : reprendre controle back-end
-  textPost : new FormControl('', [Validators.minLength(3), Validators.maxLength(1000), Validators.required]),
-  imagePost: new FormControl <File | null> (null)
-})
-newCommentForm = new FormGroup({
-  //icicjco : reprendre controle back-end
-  textComment : new FormControl('', [Validators.minLength(3), Validators.maxLength(1000), Validators.required]),
-  imageComment: new FormControl <File | null> (null)
-})
-fileName = '';
-imageFile!: File;
-imagePreview = '';
-commentFileName = '';
-commentImageFile!: File;
-commentImagePreview = ''
 
-posts:Post[] =[];
-postsExt:PostExtended[] =[];
-likes:Like[]=[]
-// comments:Comment[]=[]
-currentPage = 0;
-totalPages = 0;
-firstPage = true;
-lastPage = true;
-totalRows = 0;
-// nbLikes = 0;
-// nbComments =0;
+  userId = 0;
+  userIsAdmin = false;
+  defaultAvatarUrl ='../../../assets/logo-avatar.jpg'
+  avatarUrl ='';
+  monavatarUrl$ = Observable<User>;
+  url2$ = Observable<string>;
+  asyncObservable!: Observable<User>;
+  token = new DecodedToken ;
+  //AvatarUrl=
+  fullName = 'Vous';
+  newPostForm = new FormGroup({
+    //icicjco : reprendre controle back-end
+    textPost : new FormControl('', [Validators.minLength(3), Validators.maxLength(1000), Validators.required]),
+    imagePost: new FormControl <File | null> (null)
+  })
+  newCommentForm = new FormGroup({
+    //icicjco : reprendre controle back-end
+    textComment : new FormControl('', [Validators.minLength(3), Validators.maxLength(1000), Validators.required]),
+    imageComment: new FormControl <File | null> (null)
+  })
+  fileName = '';
+  imageFile!: File;
+  imagePreview = '';
+  commentFileName = '';
+  commentImageFile!: File;
+  commentImagePreview = ''
+
+  posts:Post[] =[];
+  postsExt:PostExtended[] =[];
+  likes:Like[]=[]
+  // comments:Comment[]=[]
+  currentPage = 0;
+  totalPages = 0;
+  firstPage = true;
+  lastPage = true;
+  totalRows = 0;
+  // nbLikes = 0;
+  // nbComments =0;
 
   constructor(
      private tokenService: TokenService,
      private snackBarService: SnackBarService,
      private PostsService: PostsService,
+     private UsersService: UsersService,
      private LikesService: LikesService,
      private CommentsService: CommentsService,
   ) { }
@@ -61,13 +74,50 @@ totalRows = 0;
   ngOnInit(): void {
     //recup token
     this.token = this.tokenService.getDecodedToken();
-    this.userId = this.token.userId
+    this.userId = this.token.userId;
     this.token.userRole > 0 ? this.userIsAdmin = true : this.userIsAdmin = false;
     // console.log ('this.token.userId: ', this.token.userId, ' - this.userIsAdmin: ', this.userIsAdmin, ' this.token.role', this.token.userRole )
     //recup image avatar
     // ICIJCO get user actif à faire
-
+    // this.UsersService.getOneUser(this.userId)
+    //   .subscribe ( {
+    //     next : (data) => {
+    //       console.log('données getOneUser reçues : ', data)
+    //       if (data.avatarUrl) {
+    //         this.avatarUrl = data.avatarUrl;
+    //       }
+    //     },
+    //     error: (err) => {
+    //       console.log('données getOneUser  ko : ', err);
+    //     },
+    //   }) 
+    
     // création blok posts-list
+    // this.monavatarUrl$ = 123
+    // const url1$ = new Observable(observer => {
+
+    //   observer.next(this.defaultAvatarUrl+1);
+    //   observer.next(this.defaultAvatarUrl+2);
+    //   observer.next(this.defaultAvatarUrl+3);
+    //   observer.complete();
+  
+    // });
+    // url1$.subscribe({
+    //   next: value => console.log(value),
+    //   error: err => console.error(err),
+    //   complete: () => console.log('DONE!')
+    // });
+
+    // // this.url2$ = this.makeObservableUrl2('Async Observable');
+    // // this.asyncObservable = this.makeObservable('Async Observable');
+    // this.asyncObservable = this.getAvatarUrl(this.userId);
+   
+    // this.url2$.subscribe({
+    //   next: value => console.log(value),
+    //   error: err => console.error(err),
+    //   complete: () => console.log('DONE!')
+    // });
+
     this.PostsService.getAllPosts()
           .subscribe ( {
             next : (data) => {
@@ -90,6 +140,9 @@ totalRows = 0;
                 let nbComments = 0;
                 let comments:Comment[] = [];
                 let commentsShowed = false
+                
+                // this.asyncObservable = this.getAvatarUrl(post.userId);
+               // this.avatarUrl$ = this.getAvatarUrl(post.userId)
                 this.LikesService.getAllLikesForOnePost(post.id)
                   .subscribe ( {
                     next : (data) => {
@@ -161,6 +214,55 @@ totalRows = 0;
           
   }
 
+  // makeObservableAvatarUrl(userId:number) :Observable<string> {
+  //   let avatarUrl = this.defaultAvatarUrl;
+  //   // on vérifie si on n'a pas déjà l'url pour l'utilisateur connecté
+  //   if ((userId == this.userId) && this.avatarUrl) {
+  //       return this.avatarUrl;
+  //   }
+  // } 
+
+  // à virer
+  // makeObservableUrl2(value: string): Observable<string> {
+  //  return of(value).pipe(delay(2000));
+  // };
+  // makeObservable(value: string): Observable<string> {
+  //   console.log('entrée dans makeObservable')
+  //   return of(value).pipe(delay(3000));
+  // }
+
+  getAvatarUrl(userId:number) : Observable<User> {
+    let avatarUrl = this.defaultAvatarUrl;
+    // on vérifie si on n'a pas déjà l'url pour l'utilisateur connecté
+    // if ((userId == this.userId) && this.avatarUrl) {
+    //     return this.avatarUrl;
+    // }
+    // return 
+    console.log('--- un apel getAvatarURl pour userID ', userId )
+    return this.UsersService.getOneUser(userId) 
+    // this.UsersService.getOneUser(userId)
+      .pipe(
+        take(1),
+        tap( data => console.log(' ------- et un resultat getOneuser')),
+        
+        )
+      // .subscribe ( {
+      //   next : (data) => {
+      //     console.log('données getOneUser getAvatarUrl reçues : ', data)
+      //     data.avatarUrl ?  avatarUrl = data.avatarUrl  :  avatarUrl = this.defaultAvatarUrl ;
+      //     // if (userId == this.userId) 
+      //     //     this.avatarUrl = avatarUrl;
+      //     //  return avatarUrl;
+      //     },         
+
+      //   error: (err) => {
+      //     console.log('données getOneUser  ko : ', err);
+      //     //  return avatarUrl;
+      //   },
+      // })
+
+  } 
+
   onImageAdded(event:any) {
     this.imageFile = event.target.files[0];
     console.log('this.imageFile : ', this.imageFile);
@@ -221,7 +323,19 @@ totalRows = 0;
               // console.log('données createPost reçues : ', data)
               this.snackBarService.openSnackBar('c\'est partagé !','');
               this.onResetForm()        
-              // ICIJCO : ajouter le nouveau post à la liste des posts
+              // ICIJCO : ajouter le nouveau post à la liste des posts : 
+              // ajouter createdTIme et modifiedTime au back-end et swagger !
+              let createdTime = '2022-10-21T08:34:15.000Z'; 
+              let modifiedTime = '2022-10-21T08:34:15.000Z'; 
+              let nbLikes = 0;
+              let likeId = 0;
+              let isLiked = false;
+              let nbComments = 0;
+              let comments:Comment[] = [];
+              let commentsShowed = false
+              let newPostExt = {...data!, createdTime, modifiedTime, nbLikes, isLiked, likeId, nbComments, comments, commentsShowed}
+              this.postsExt.unshift(newPostExt);
+
             },
             error: (err) => {
               console.log('données createPost  ko : ', err);
@@ -236,7 +350,7 @@ totalRows = 0;
 
   onCommentImageAdded(event:any) {
     this.commentImageFile = event.target.files[0];
-    console.log('this.commentImageFile : ', this.imageFile);
+    console.log('this.commentImageFile : ', this.commentImageFile);
     console.log('this.newCommentForm.value : ', this.newCommentForm.value);
     this.newCommentForm.get('imageComment')!.setValue(this.commentImageFile);
     console.log('this.newCommentForm.value : ', this.newCommentForm.value);
@@ -284,7 +398,10 @@ totalRows = 0;
             next : (data) => {
               this.snackBarService.openSnackBar('c\'est partagé !','');
               this.onResetCommentForm()        
-              // ICIJCO : ajouter le nouveau post à la liste des posts
+              // ICIJCO : ajouter le nouveau commentaire à la liste des commentaires
+              let newComment = {...data}
+              postExt.nbComments! ++||1
+              postExt.comments!.push(newComment)
             },
             error: (err) => {
               console.log('données createComment  ko : ', err);

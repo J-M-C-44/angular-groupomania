@@ -6,10 +6,17 @@
 
 <section class="post-creation">
     <mat-card class="example-card post-creation__card" >
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title> {{this.fullName}}</mat-card-title>
-        </mat-card-header>
+        <!-- <mat-card-header> -->
+            <!-- <img mat-card-avatar src="http://localhost:3000/images/user/1667846325098-fb9eba4cdedd48b9b850290eec9bca9e.jpg" alt="votre avatar"> -->
+          <!-- <div mat-card-avatar class="post-creation__avatar"> <img mat-card-avatar src="{{avatarUrl}}" alt="votre avatar"></div> -->
+           <!-- <img mat-card-avatar src="{{avatarUrl}}" alt="votre avatar"> -->
+           <!-- <img mat-card-avatar [src]='getAvatarUrl(this.userId)' alt="votre avatar"> -->
+           <!-- <p>{{url$ | async}}  </p>       -->
+           <!-- <p>{{(asyncObservable | async)?.avatarUrl}} </p> -->
+           < iciJCO voir pour intégrer retour de l'avatarURl en output pour ne pas aller le rechercher pour ajout commentaire
+           <app-header-card-users-info [userId] ="this.userId"> </app-header-card-users-info>
+          <!-- <mat-card-title> {{this.fullName}}</mat-card-title> -->
+        <!-- </mat-card-header> -->
         <form [formGroup]="newPostForm" (ngSubmit)="onNewPostSubmit()">
             <!-- <mat-card-content> -->
             <mat-form-field appearance="fill">
@@ -49,11 +56,16 @@
     <div *ngFor="let postExt of postsExt" >
         <mat-card class="example-card">
 
-            <mat-card-header>
-              <div mat-card-avatar class="example-header-image"></div>
-              <mat-card-title> {{postExt.userId}} </mat-card-title>
-              <mat-card-subtitle> le {{postExt.modifiedTime | date:'d/M/yyyy, HH:mm'}} </mat-card-subtitle>
-            </mat-card-header>
+            <!-- <mat-card-header> -->
+              <!-- <div mat-card-avatar class="example-header-image"></div> -->
+              <!-- <img mat-card-avatar [src]='getAvatarUrl(postExt.userId)' | async alt="avatar">   -->
+              <!-- <img mat-card-avatar [src]= monavatarUrl$ | async alt="avatar">  -->
+              <!-- <p>{{monavatarUrl$ | async}}  </p> -->
+              <!-- <mat-card-title> {{postExt.userId}} </mat-card-title> -->
+              <!-- <mat-card-subtitle> le {{postExt.modifiedTime | date:'d/M/yyyy, HH:mm'}} </mat-card-subtitle> -->
+              <app-header-card-users-info [userId] ="postExt.userId"  [modifiedTime] ="postExt.modifiedTime"> </app-header-card-users-info>
+
+            <!-- </mat-card-header> -->
 
             <img  *ngIf="postExt.imageUrl" [src]="postExt.imageUrl" mat-card-image alt="Post Image">
             <mat-card-content>
@@ -76,16 +88,14 @@
             <div *ngIf="postExt.commentsShowed ">
 
                 <div *ngFor="let comment of postExt.comments" class="comment__item">
-                    <div mat-card-avatar class="example-header-image"></div>
+                    <app-comment [comment]= "comment" [postExt]= "postExt" class="comment__item"  [isEditable] = "(userIsAdmin || (comment.userId == userId))? true : false"> </app-comment>      
+                    <!-- <div mat-card-avatar class="example-header-image"></div>
                     <div>
                         <mat-card class="comment-card">
-
                             <mat-card-header>
-                            <!-- <div mat-card-avatar class="example-header-image"></div> -->
-                            <mat-card-title> {{comment.userId}}  
-                                <span class="comment__date" > le {{comment.modifiedTime | date:'d/M/yy, HH:mm'}} </span>
-                            </mat-card-title>
-                            
+                                <mat-card-title> {{comment.userId}}  
+                                    <span class="comment__date" > le {{comment.modifiedTime | date:'d/M/yy, HH:mm'}} </span>
+                                </mat-card-title>
                             </mat-card-header>
                 
                             <mat-card-content>
@@ -94,16 +104,17 @@
                             </mat-card-content>
                             
                         </mat-card>
-                    </div>
+                    </div> --> 
                 </div>
                 <mat-divider></mat-divider>
                 <div class="comment__item">
                     <div mat-card-avatar class="example-header-image"></div>
-                    <form [formGroup]="newCommentForm" (ngSubmit)="onNewCommentSubmit(postExt)" class="comment__form">
+                    <app-comment-form [postExt]= "postExt" class = "app-comment__form">  </app-comment-form>    
+                    <!-- <form [formGroup]="newCommentForm" id="testId" (ngSubmit)="onNewCommentSubmit(postExt)" class="comment__form">
                         <mat-form-field appearance="fill">
                             <mat-label> Ecrivez votre commentaire </mat-label>
                             <textarea   matInput rows="1" class="" maxlength="1000" placeholder="Bravo, j'aime beaucoup !"
-                                        formControlName="textComment" required> 
+                                        formControlName="textComment"  required> 
                             </textarea>
                             <mat-error *ngIf="newCommentForm.controls.textComment.invalid">{{getErrorMessageTextComment()}}</mat-error>
                         </mat-form-field>
@@ -111,7 +122,6 @@
                         
                         <mat-card-actions align="end">
                             <div>
-                                <!-- <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp " formControlName="imagePost" -->
                                 <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
                                         #commentImageInput class ="form_image-input" (change)="onCommentImageAdded($event)" > 
                                 <button type="button" mat-raised-button color="primary" (click)="commentImageInput.click()" alt="bouton ajouter une image">
@@ -128,7 +138,7 @@
                                 <mat-icon>send</mat-icon>
                             </button>
                         </mat-card-actions>
-                    </form>
+                    </form> -->
 
 
 
@@ -151,7 +161,7 @@
                     
                 </div>
             </div>
-            <!-- <mat-card-footer> ici sera la partie inser votre commenta   ire</mat-card-footer> -->
-          </mat-card>
+            <!-- <mat-card-footer> ici sera la partie insérer votre commentaire   ire</mat-card-footer> -->
+        </mat-card>
     </div>
 </section>

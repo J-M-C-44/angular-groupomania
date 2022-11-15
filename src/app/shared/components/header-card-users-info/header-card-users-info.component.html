@@ -1,0 +1,6 @@
+<!-- <p>{{userId}}</p> -->
+<mat-card-header> 
+    <img mat-card-avatar [src]= avatarUrl alt="avatar"> 
+    <mat-card-title> {{fullName}}</mat-card-title>
+    <mat-card-subtitle *ngIf="modifiedTime"> le {{modifiedTime | date:'d/M/yyyy, HH:mm'}} </mat-card-subtitle>
+</mat-card-header>

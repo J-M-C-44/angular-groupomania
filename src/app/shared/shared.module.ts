@@ -11,13 +11,17 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { HeaderCardUsersInfoComponent } from './components/header-card-users-info/header-card-users-info.component';
 
 
 
 @NgModule({
   declarations: [
     ToolbarComponent,
+    HeaderCardUsersInfoComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +32,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     MatInputModule,
     MatIconModule,
     MatToolbarModule,
+    MatCardModule,
   ],
   exports: [
     FormsModule,
@@ -41,7 +46,10 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     MatCardModule,
     MatDividerModule,
     MatBadgeModule,
+    MatMenuModule,
+    MatDialogModule,
     ToolbarComponent,
+    HeaderCardUsersInfoComponent,
 
   ]
 })

@@ -1,0 +1,30 @@
+<form [formGroup]="newCommentForm" id="testId" (ngSubmit)="onNewCommentSubmit(postExt)" class="comment__form">
+    <mat-form-field appearance="fill">
+        <mat-label> Ecrivez votre commentaire </mat-label>
+        <textarea   matInput rows="1" class="" maxlength="1000" placeholder="Bravo, j'aime beaucoup !"
+                    formControlName="textComment"  required> 
+        </textarea>
+        <mat-error *ngIf="newCommentForm.controls.textComment.invalid">{{getErrorMessageTextComment()}}</mat-error>
+    </mat-form-field>
+    <img *ngIf="commentImagePreview" [src]="commentImagePreview" mat-card-image alt="your picture" >
+    
+    <mat-card-actions align="end">
+        <div>
+            <!-- <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp " formControlName="imagePost" -->
+            <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
+                    #commentImageInput class ="form_image-input" (change)="onCommentImageAdded($event)" > 
+            <button type="button" mat-raised-button color="primary" (click)="commentImageInput.click()" alt="bouton ajouter une image">
+                 <mat-icon> add_photo_alternate </mat-icon>
+            </button>
+            {{commentFileName}}
+        </div>
+        <span class="form__mat-card-action--spacer"></span>
+        
+        <button type="reset" mat-raised-button color="primary" (click)="onResetCommentForm()">
+            <mat-icon>clear</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" type="submit" alt="publier votre commentaire" [disabled]="!newCommentForm.valid" >Publier
+            <mat-icon>send</mat-icon>
+        </button>
+    </mat-card-actions>
+</form>

@@ -9,7 +9,7 @@ const baseUrl = 'http://localhost:3000/api/v1/'
 // ICIJCO à mettre en interface + import 
 export interface PostDataRetreived {
   id: number,
-  userId:string,
+  userId:number,
   text:string,
   imageUrl: string,
 }
