@@ -11,6 +11,7 @@ import { CommentsService } from '../shared/services/comments.service';
 import { Comment } from '../../shared/models/comment.model';
 import { UsersService } from '../../shared/services/users.service';
 import { User } from '../../shared/models/user.model';
+import {MatDialog} from '@angular/material/dialog'
 // à voir si je garde....
 import { take, delay, tap  } from 'rxjs/operators';
 import { Observable, of } from 'rxjs'; 
@@ -346,6 +347,42 @@ export class PostsListComponent implements OnInit {
             // complete: () => console.info('complete')
           })
     }
+  }
+  openDialogEdit() : void {
+    console.log('openDialogEdit')
+    // const dialogRef = this.dialog.open(PostEditDialogComponent, {
+    //     width:'95%',
+    //     maxWidth:'800px',
+    //     data: {
+    //       postExt: this.postExt,
+    //       postsExt: this.postsExt,
+    //     },
+    // });
+  }
+
+  openDialogDelete() : void {
+     console.log('openDialogDelete')
+    // const dialogRef = this.dialog.open(CommentDeleteDialogComponent);
+
+    // dialogRef.afterClosed().subscribe(deleteIsConfirmed => {
+    //   if (deleteIsConfirmed)  {
+    //     console.log(`deleteIsConfirmed : ${deleteIsConfirmed}`) ;
+    //     this.PostsService.deletePost(this.post.id)
+    //       .subscribe ( {  
+    //         next : (data) => {
+    //           this.snackBarService.openSnackBar('post supprimé',''); 
+    //           this.postsExt= this.postsExt.filter(p => p.id !== this.post.id)
+    //         },
+    //         error: (err) => {
+    //           console.log('suppression post  ko : ', err);
+    //           //this.errorMsgSubmit
+    //           let errorMsgSubmit = 'suppression post échouée: ' + err
+    //           this.snackBarService.openSnackBar(errorMsgSubmit,'','','', '', 'snack-style--ko');
+    //         },
+    //         // complete: () => console.info('complete')
+    //       })
+    //   }
+    // });
   }
 
   onCommentImageAdded(event:any) {

@@ -1,3 +1,4 @@
+// ICIJCO: à passer en mutualiser
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 

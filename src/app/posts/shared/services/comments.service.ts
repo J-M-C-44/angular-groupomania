@@ -106,4 +106,59 @@ export class CommentsService {
           })
         )
   }
+
+  updateComment(commentId:number, text:string, imageComment?:File|string,) : Observable<Comment> {
+    if (imageComment && (imageComment != 'toDelete')) {
+      //form data
+      const formData: FormData = new FormData();
+      let comment = { text : text}
+      formData.append('comment', JSON.stringify(comment));
+      formData.append('image', imageComment);
+      return this.http.put(this.commentsUrl+commentId, formData, this.httpOptions)
+          .pipe(
+            tap((data: any) => console.log('données reçues : ', data)),
+            catchError(err => {
+               console.log('err : ', err);
+              if (!err.status) {
+                  err = 'serveur non accessible'  
+              } else if (err.status == 500) {
+                  err = 'erreur interne serveur' 
+              } else if (err.status == 404) {
+                  err = 'non trouvé'   
+              } else {
+                  err = err.error.message
+              } 
+              throw err;
+            })
+          )
+    } else {
+      // JSON
+        let body = {} 
+        if (imageComment && (imageComment = 'toDelete')) {
+          let imageUrl = imageComment
+          body = {text, imageUrl}; 
+        } else {
+          body = {text};
+        }
+        // return this.http.post(this.commentsUrl+commentId,{ text }, this.httpOptions)
+        return this.http.put(this.commentsUrl+commentId, body, this.httpOptions)
+          .pipe(
+            tap((data: any) => console.log('données reçues : ', data)),
+            catchError(err => {
+              // console.log('err : ', err);
+              if (!err.status) {
+                err = 'serveur non accessible'  
+            } else if (err.status == 500) {
+                err = 'erreur interne serveur' 
+            } else if (err.status == 404) {
+                err = 'non trouvé'   
+            } else {
+                err = err.error.message
+            } 
+              throw err;
+            })
+          )
+      };
+  }
 }
+

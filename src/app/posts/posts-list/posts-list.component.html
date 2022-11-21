@@ -17,8 +17,9 @@
            <app-header-card-users-info [userId] ="this.userId"> </app-header-card-users-info>
           <!-- <mat-card-title> {{this.fullName}}</mat-card-title> -->
         <!-- </mat-card-header> -->
-        <form [formGroup]="newPostForm" (ngSubmit)="onNewPostSubmit()">
-            <!-- <mat-card-content> -->
+        <!-- icicjco : revoir class app-comment-form en mutualisé ou app-post__form -->
+        <app-post-form [postsExt]= "postsExt" class = "app-comment__form">  </app-post-form>    
+        <!-- <form [formGroup]="newPostForm" (ngSubmit)="onNewPostSubmit()">
             <mat-form-field appearance="fill">
                 <mat-label> Que voulez vous partager aujourd'hui ? </mat-label>
                 <textarea   matInput rows="3" class="" maxlength="1000" placeholder="Bonjour tout le monde!"
@@ -30,7 +31,6 @@
             
             <mat-card-actions align="end">
                 <div>
-                    <!-- <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp " formControlName="imagePost" -->
                     <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
                             #imageInput class ="form_image-input" (change)="onImageAdded($event)" > 
                     <button type="button" mat-raised-button color="primary" (click)="imageInput.click()" alt="bouton ajouter une image">
@@ -47,7 +47,7 @@
                     <mat-icon>send</mat-icon>
                 </button>
             </mat-card-actions>
-        </form>
+        </form> -->
       </mat-card>
 </section>
 
@@ -63,8 +63,23 @@
               <!-- <p>{{monavatarUrl$ | async}}  </p> -->
               <!-- <mat-card-title> {{postExt.userId}} </mat-card-title> -->
               <!-- <mat-card-subtitle> le {{postExt.modifiedTime | date:'d/M/yyyy, HH:mm'}} </mat-card-subtitle> -->
+              
               <app-header-card-users-info [userId] ="postExt.userId"  [modifiedTime] ="postExt.modifiedTime"> </app-header-card-users-info>
-
+              <span class="spacer"></span>
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="bouton icone avec menu pour editer ou supprimer">
+            <!-- <button *ngIf="isCommentEditable" mat-icon-button [matMenuTriggerFor]="menu" aria-label="bouton icone avec menu pour editer ou supprimer"> -->
+                  <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="openDialogEdit()">
+                      <mat-icon>edit</mat-icon>
+                      <span>éditer</span>
+                  </button>
+                  <button mat-menu-item (click)="openDialogDelete()">
+                      <mat-icon>delete</mat-icon>
+                      <span>supprimer</span>
+                  </button>
+              </mat-menu>
             <!-- </mat-card-header> -->
 
             <img  *ngIf="postExt.imageUrl" [src]="postExt.imageUrl" mat-card-image alt="Post Image">
@@ -88,7 +103,7 @@
             <div *ngIf="postExt.commentsShowed ">
 
                 <div *ngFor="let comment of postExt.comments" class="comment__item">
-                    <app-comment [comment]= "comment" [postExt]= "postExt" class="comment__item"  [isEditable] = "(userIsAdmin || (comment.userId == userId))? true : false"> </app-comment>      
+                    <app-comment [comment]= "comment" [postExt]= "postExt" class="comment__item"  [isCommentEditable] = "(userIsAdmin || (comment.userId == userId))? true : false"> </app-comment>      
                     <!-- <div mat-card-avatar class="example-header-image"></div>
                     <div>
                         <mat-card class="comment-card">
@@ -108,9 +123,10 @@
                 </div>
                 <mat-divider></mat-divider>
                 <div class="comment__item">
+                    <!-- ICIJCO : remplacer image par celle du user  -->
                     <div mat-card-avatar class="example-header-image"></div>
                     <app-comment-form [postExt]= "postExt" class = "app-comment__form">  </app-comment-form>    
-                    <!-- <form [formGroup]="newCommentForm" id="testId" (ngSubmit)="onNewCommentSubmit(postExt)" class="comment__form">
+                    <!-- <form [formGroup]="newCommentForm" (ngSubmit)="onNewCommentSubmit(postExt)" class="comment__form">
                         <mat-form-field appearance="fill">
                             <mat-label> Ecrivez votre commentaire </mat-label>
                             <textarea   matInput rows="1" class="" maxlength="1000" placeholder="Bravo, j'aime beaucoup !"

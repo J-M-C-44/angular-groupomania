@@ -1,0 +1,31 @@
+<form [formGroup]="newPostForm" (ngSubmit)="onNewPostSubmit()">
+    <!-- <mat-card-content> -->
+    <mat-form-field appearance="fill">
+        <mat-label> Que voulez vous partager aujourd'hui ? </mat-label>
+        <textarea   matInput rows="3" class="" maxlength="1000" placeholder="Bonjour tout le monde!"
+                    formControlName="textPost" required> 
+        </textarea>
+        <mat-error *ngIf="newPostForm.controls.textPost.invalid">{{getErrorMessageTextPost()}}</mat-error>
+    </mat-form-field>
+    <img *ngIf="imagePreview" [src]="imagePreview" mat-card-image alt="your picture" >
+    
+    <mat-card-actions align="end">
+        <div>
+            <!-- <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp " formControlName="imagePost" -->
+            <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
+                    #imageInput class ="form_image-input" (change)="onImageAdded($event)" > 
+            <button type="button" mat-raised-button color="primary" (click)="imageInput.click()" alt="bouton ajouter une image">
+                 <mat-icon> add_photo_alternate </mat-icon>
+            </button>
+            {{fileName}}
+        </div>
+        <span class="spacer"></span>
+        
+        <button type="reset" mat-raised-button color="primary" (click)="onResetForm()">
+            <mat-icon>clear</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" type="submit" alt="publier votre message" [disabled]="!newPostForm.valid" >Publier
+            <mat-icon>send</mat-icon>
+        </button>
+    </mat-card-actions>
+</form>

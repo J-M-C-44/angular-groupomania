@@ -1,9 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject, Optional  } from '@angular/core';
 import { PostExtended } from '../../../shared/models/post.model';
 import { CommentsService } from '../../shared/services/comments.service';
 import { Comment } from '../../../shared/models/comment.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { CommentEditDialogComponent } from '../comment-edit-dialog/comment-edit-dialog.component';
+import { CommentComponent } from '../comment/comment.component';
 
 @Component({
   selector: 'app-comment-form',
@@ -13,29 +16,45 @@ import { SnackBarService } from '../../../shared/services/snack-bar.service';
 export class CommentFormComponent implements OnInit {
 
   @Input() postExt!: PostExtended
+  @Input() comment?: Comment
   commentFileName = '';
   commentImageFile!: File;
   commentImagePreview = ''
+  defaultTextForm='defaut text 2'
   
-  newCommentForm = new FormGroup({
+  newCommentForm!: FormGroup;/* = new FormGroup({
     //icicjco : reprendre controle back-end
     textComment : new FormControl('', [Validators.minLength(3), Validators.maxLength(1000), Validators.required]),
     imageComment: new FormControl <File | null> (null)
-  })
+    // imageComment: new FormControl < ('http://localhost:3000/images/post/1668590693422-9478ad093e794d8db2dd8c5b62e55249.png')
+    
+  })*/
 
   constructor(
     private CommentsService: CommentsService,
     private snackBarService: SnackBarService,
+    @Optional() public dialogRef: MatDialogRef<CommentEditDialogComponent>,
   ) { }
 
   ngOnInit(): void {
-  }
+    if (this.comment) {
+      this.defaultTextForm = this.comment.text
+      this.commentImagePreview = this.comment.imageUrl ? this.comment.imageUrl : '' 
+    } 
 
+    this.newCommentForm = new FormGroup({
+      textComment : new FormControl(this.comment?.text, [Validators.minLength(3), Validators.maxLength(1000), Validators.required]),
+      imageComment: new FormControl <File | string | null> (null)
+    });
+
+  }
+  // ICIJCO : à voir à froid: ajout sucre syntaxique
+  // get form(): {[key: string]: AbstractControl<unknown, unknown>} {
+  //   return this.newCommentForm.controls;
+  // }
   
-  onCommentImageAdded(event:any) {
+  onCommentImageAdded(event:any) : void {
     this.commentImageFile = event.target.files[0];
-    console.log('this.commentImageFile : ', this.commentImageFile);
-    console.log('this.newCommentForm.value : ', this.newCommentForm.value);
     this.newCommentForm.get('imageComment')!.setValue(this.commentImageFile);
     console.log('this.newCommentForm.value : ', this.newCommentForm.value);
     // this.newPostForm.updateValueAndValidity();
@@ -50,12 +69,20 @@ export class CommentFormComponent implements OnInit {
       this.commentFileName = this.commentImageFile.name;
     }
   }
-  onResetCommentForm() {
+  onCommentImageDeleted(): void {
+    this.newCommentForm.get('imageComment')!.setValue('toDelete');
+    console.log('this.newCommentForm.value  image deleted: ', this.newCommentForm.value);
+    this.commentFileName = '';
+    this.commentImagePreview =''
+    }
+  
+  onResetCommentForm() : void {
     this.newCommentForm.reset();
     this.newCommentForm.controls.textComment.setErrors(null)
     this.newCommentForm.updateValueAndValidity()
     this.commentFileName ='';
-    this.commentImagePreview = '';
+    // icicJCO : à revoir si je laisse ?? ou si ? -- : --
+    this.commentImagePreview = this.comment?.imageUrl ?? '';
   }
   
   getErrorMessageTextComment() {
@@ -76,8 +103,8 @@ export class CommentFormComponent implements OnInit {
         return
       }
       textComment = textComment!.trim();
-      console.log('création de comment demandée - textComment: ',textComment!, 'imageComment : ', imageComment! )
-      this.CommentsService.addComment(postExt.id,textComment!,imageComment!)
+      console.log('création de comment demandée - textComment: ',textComment, 'imageComment : ', imageComment )
+      this.CommentsService.addComment(postExt.id, textComment, imageComment)
           .subscribe ( {
             next : (data) => {
               this.snackBarService.openSnackBar('c\'est partagé !','');
@@ -89,7 +116,46 @@ export class CommentFormComponent implements OnInit {
             },
             error: (err) => {
               console.log('données createComment  ko : ', err);
-              //this.errorMsgSubmit
+              let errorMsgSubmit = 'Publication échouée: ' + err
+              this.snackBarService.openSnackBar(errorMsgSubmit,'','','', '', 'snack-style--ko');
+            },
+            // complete: () => console.info('complete')
+          })
+    }
+  }
+
+  onEditedCommentSubmit(postExt:PostExtended) {
+    console.log ('on edit comment!')
+    if (this.newCommentForm.valid) {
+      
+      let {textComment, imageComment} = this.newCommentForm.value;
+      if (!textComment || textComment.trim().length <3 ) {
+        this.newCommentForm.controls.textComment.setErrors(Validators.required)
+        this.newCommentForm.updateValueAndValidity()
+        return
+      }
+      textComment = textComment!.trim();
+      console.log('modification de comment demandée - textComment: ',textComment, 'imageComment : ', imageComment )
+      this.CommentsService.updateComment(this.comment!.id, textComment, imageComment)
+          .subscribe ( {
+            next : (data) => {
+              this.snackBarService.openSnackBar('c\'est partagé !','');
+              this.onResetCommentForm()   
+              // on met à jour comment pour l'affichagee
+              this.comment!.text = textComment
+              if (imageComment) { 
+                if  (imageComment == 'toDelete') {
+                  this.comment!.imageUrl = null;
+                } else {
+                  this.comment!.imageUrl = data.imageUrl
+                }
+              }
+               this.dialogRef.close()
+              //CommentEditDialogComponent.close();
+              
+            },
+            error: (err) => {
+              console.log('données createComment  ko : ', err);
               let errorMsgSubmit = 'Publication échouée: ' + err
               this.snackBarService.openSnackBar(errorMsgSubmit,'','','', '', 'snack-style--ko');
             },

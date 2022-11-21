@@ -6,7 +6,9 @@ import { User } from '../../../shared/models/user.model';
 import { UsersService } from '../../../shared/services/users.service';
 import { PostExtended } from '../../../shared/models/post.model';
 import {MatDialog} from '@angular/material/dialog'
+import {CommentEditDialogComponent} from '../comment-edit-dialog/comment-edit-dialog.component';
 import {CommentDeleteDialogComponent} from '../comment-delete-dialog/comment-delete-dialog.component';
+// import {CommentFormComponent} from '../comment-form/comment-form.component';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 @Component({
@@ -17,7 +19,7 @@ import { SnackBarService } from '../../../shared/services/snack-bar.service';
 export class CommentComponent implements OnInit {
   @Input() comment!: Comment;
   @Input() postExt!: PostExtended
-  @Input() isEditable!: boolean
+  @Input() isCommentEditable!: boolean
   defaultAvatarUrl ='../../../assets/logo-avatar.jpg'
   avatarUrl ='';
   fullName ='';
@@ -55,21 +57,31 @@ export class CommentComponent implements OnInit {
   }
   openDialogEdit() : void {
     console.log('openDialogEdit')
+    const dialogRef = this.dialog.open(CommentEditDialogComponent, {
+        // panelClass: ['md:w-3/5', 'w-full'],
+        // maxHeight: '85vh',
+        width:'95%',
+        maxWidth:'800px',
+        data: {
+          comment: this.comment,
+          postExt: this.postExt,
+        },
+    });
   }
 
   openDialogDelete() : void {
-    console.log('openDialogDelete')
+    // console.log('openDialogDelete')
     const dialogRef = this.dialog.open(CommentDeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(deleteIsConfirmed => {
       if (deleteIsConfirmed)  {
         console.log(`deleteIsConfirmed : ${deleteIsConfirmed}`) ;
         this.CommentsService.deleteComment(this.comment.id)
-          .subscribe ( {
+          .subscribe ( {  
             next : (data) => {
               this.snackBarService.openSnackBar('commentaire supprimé',''); 
               this.postExt.nbComments! --
-              // filter postExt
+              // on supprime également le commentaire de postExt (pour l'affichage)
               this.postExt.comments = this.postExt.comments!.filter(c => c.id !== this.comment.id)
             },
             error: (err) => {

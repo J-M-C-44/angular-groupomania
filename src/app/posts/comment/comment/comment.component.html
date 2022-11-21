@@ -10,8 +10,8 @@
             <mat-card-title> {{fullName}}  
                 <span class="comment__date" > le {{comment.modifiedTime | date:'d/M/yy, HH:mm'}} </span>
             </mat-card-title>
-            <span class="comment-card__spacer"></span>
-            <button *ngIf="isEditable" mat-icon-button [matMenuTriggerFor]="menu" aria-label="bouton icone avec menu pour editer ou supprimer">
+            <span class="spacer"></span>
+            <button *ngIf="isCommentEditable" mat-icon-button [matMenuTriggerFor]="menu" aria-label="bouton icone avec menu pour editer ou supprimer">
                 <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
