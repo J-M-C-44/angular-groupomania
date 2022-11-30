@@ -85,7 +85,7 @@ export class CommentsService {
       };
   }
 
-  deleteComment (commentId:number): Observable<Comment[]> {
+  deleteComment (commentId:number): Observable<Comment> {
     return this.http.delete<Comment[]>(this.commentsUrl+commentId)
         .pipe(
           tap((data: any) => console.log('données deleteComment  : ', data)),

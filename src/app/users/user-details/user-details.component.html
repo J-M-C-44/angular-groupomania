@@ -1,1 +1,73 @@
-<p>user-details works!</p>
+<header>
+    <app-toolbar></app-toolbar>
+</header>
+<p>user-details works! - to be continued </p>
+<!-- <img mat-card-avatar [src]= detailedUser.avatarUrl alt="avatar"> 
+
+<p> {{fullName}} </p>
+<p> id : {{detailedUser.id}} </p>
+<p> email : {{detailedUser.email}} </p>
+<p> lastname : {{detailedUser.lastname}} </p>
+<p> firstname : {{detailedUser.firstname}} </p>
+<p> fonction : {{detailedUser.fonction}} </p>
+<p> createdTime: {{detailedUser.createdTime}} </p>
+<p> modifiedTime:{{detailedUser.modifiedTime}} </p>
+ -->
+
+
+<!--  -->
+
+<mat-card class="example-card">
+    
+    <div class ="header-card">  
+        <div class="avatar-container" > <img class="img-avatar" [src]= detailedUser.avatarUrl alt="avatar"> </div>
+        <!-- <mat-card-header>   -->
+            <p class="user-card__name"> {{detailedUser.fullName}}</p>
+        <!-- </mat-card-header> -->
+    </div>
+
+  <!-- <img  *ngIf="postExt.imageUrl" [src]="postExt.imageUrl" mat-card-image alt="Post Image"> -->
+  <mat-card-content>
+    <ul>
+        <li> 
+            <mat-icon matListItemIcon>numbers</mat-icon>
+            <span class="user-card__liste-item"> N° {{detailedUser.id}} </span>
+        </li>
+        <!-- <li> 
+            <mat-icon matListItemIcon>perm_identity</mat-icon>
+            <span class="user-card__liste-item"> Nom : {{detailedUser.lastname }} </span>
+            <span class="user-card__liste-item"> Prénom : {{detailedUser.firstname }} </span>
+        </li> -->
+        <li> 
+            <mat-icon matListItemIcon>engineering</mat-icon>
+            <span class="user-card__liste-item"> {{detailedUser.fonction }} </span>
+        </li>
+        <li> 
+            <mat-icon matListItemIcon>email</mat-icon>
+            <span class="user-card__liste-item"> {{detailedUser.email}} </span>
+        </li>
+        <li> 
+            <mat-icon matListItemIcon>history</mat-icon>
+            <span class="user-card__liste-item"> inscrit depuis le {{detailedUser.createdTime | date:'d/M/yyyy'}} </span>
+        </li>
+        
+    </ul>
+        <!-- <div mat-subheader>Folders</div> -->
+        <!-- <mat-list-item *ngFor="let note of notes">
+            <mat-icon matListItemIcon>note</mat-icon>
+            <div matListItemTitle>{{note.name}}</div>
+            <div matListItemLine>{{note.updated | date}}</div>
+          </mat-list-item> -->
+        
+  </mat-card-content>
+  
+  <mat-divider inset></mat-divider>
+      
+  <mat-card-actions align="end">  
+      <button mat-raised-button color="primary" type="button" alt="commentaires">
+          <mat-icon>delete</mat-icon>
+      </button>
+  </mat-card-actions>
+
+  
+</mat-card>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Optional } from '@angular/core';
 import { PostsService } from '../shared/services/posts.service';
 import { Post } from '../../shared/models/post.model';
 import { PostExtended } from '../../shared/models/post.model';
@@ -6,6 +6,8 @@ import { Comment } from '../../shared/models/comment.model';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { PostEditDialogComponent } from '../post-edit-dialog/post-edit-dialog.component';
+import {formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-post-form',
@@ -14,6 +16,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class PostFormComponent implements OnInit {
   @Input() postsExt!: PostExtended[]
+  @Input() postExt!: PostExtended
 
   newPostForm!: FormGroup;
   fileName = '';
@@ -23,13 +26,16 @@ export class PostFormComponent implements OnInit {
   constructor(
     private snackBarService: SnackBarService,
     private PostsService: PostsService,
+    @Optional() public dialogRef: MatDialogRef<PostEditDialogComponent>,
   ) { }
 
   ngOnInit(): void {
 
+    this.imagePreview = this.postExt?.imageUrl ? this.postExt.imageUrl : '' ;
+
     this.newPostForm = new FormGroup({
-      // textPost : new FormControl(this.post?.text, [Validators.minLength(3), Validators.maxLength(1000), Validators.required]),
-      textPost : new FormControl('', [Validators.minLength(3), Validators.maxLength(1000), Validators.required]),
+      textPost : new FormControl(this.postExt?.text, [Validators.minLength(3), Validators.maxLength(1000), Validators.required]),
+      // textPost : new FormControl('', [Validators.minLength(3), Validators.maxLength(1000), Validators.required]),
       imagePost: new FormControl <File | string | null> (null)
     });
   }
@@ -53,9 +59,15 @@ export class PostFormComponent implements OnInit {
       this.fileName = this.imageFile.name;
     }
   }
+
+  onImageDeleted(): void {
+    this.newPostForm.get('imagePost')!.setValue('toDelete');
+    console.log('this.newPostForm.value  image deleted: ', this.newPostForm.value);
+    this.fileName = '';
+    this.imagePreview =''
+    }
+
   onResetForm() {
-    //icijco : à revoir car pb de non suppression image après soumission puis bouton reset ou erreur champs texte vide....
-    // mettre untouch pour essayer
     this.newPostForm.reset();
     this.newPostForm.controls.textPost.setErrors(null)
     this.newPostForm.updateValueAndValidity()
@@ -95,10 +107,8 @@ export class PostFormComponent implements OnInit {
               // console.log('données createPost reçues : ', data)
               this.snackBarService.openSnackBar('c\'est partagé !','');
               this.onResetForm()        
-              // ICIJCO : ajouter le nouveau post à la liste des posts : 
-              // ajouter createdTIme et modifiedTime au back-end et swagger !
-              let createdTime = '2022-10-21T08:34:15.000Z'; 
-              let modifiedTime = '2022-10-21T08:34:15.000Z'; 
+              let createdTime = formatDate(new Date(), 'yyyy-MM-ddThh:mm:ss', 'en-US')
+              let modifiedTime = createdTime;
               let nbLikes = 0;
               let likeId = 0;
               let isLiked = false;
@@ -120,6 +130,45 @@ export class PostFormComponent implements OnInit {
     }
   }
 
+
+  onEditedPostSubmit() {
+    console.log ('on edit post!')
+    if (this.newPostForm.valid) {
+      
+      let {textPost, imagePost} = this.newPostForm.value;
+      if (!textPost || textPost.trim().length <3 ) {
+        this.newPostForm.controls.textPost.setErrors(Validators.required)
+        this.newPostForm.updateValueAndValidity()
+        return
+      }
+      textPost = textPost!.trim();
+      console.log('modification de post demandée - textPost: ',textPost!, 'imagePost : ', imagePost! )
+      this.PostsService.updatePost(this.postExt!.id, textPost!,imagePost!)
+          .subscribe ( {
+            next : (data) => {
+              this.snackBarService.openSnackBar('c\'est partagé !','');
+              this.onResetForm()   
+              // on met à jour post pour l'affichagee
+              this.postExt!.text = textPost
+              if (imagePost) { 
+                if  (imagePost == 'toDelete') {
+                  this.postExt!.imageUrl = null;
+                } else {
+                  this.postExt!.imageUrl = data.imageUrl
+                }
+              }
+               this.dialogRef.close()
+            },
+
+            error: (err) => {
+              console.log('données updatePost  ko : ', err);
+              let errorMsgSubmit = 'Publication échouée: ' + err
+              this.snackBarService.openSnackBar(errorMsgSubmit,'','','', '', 'snack-style--ko');
+            },
+            // complete: () => console.info('complete')
+          })
+    }
+  }
 
 
 

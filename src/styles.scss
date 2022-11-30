@@ -22,7 +22,8 @@ $grey-groupomania-palette: (
  200: #c1c4d9,
  300: #a8acc6,
  400: #9599b5,
- 500: #8287a6,
+ 500: #5f637d,
+//  500: #8287a6,
  600: #727894,
  700: #5f637d,
  800: #4e5166,
@@ -106,7 +107,11 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     background-color: $color-n1-light
 }
-
+ul{
+  list-style: none;
+  padding: 0;
+  margin:0;
+}
 // ::ng-deep .snack-style-ok {
 //   background-color: aquamarine;
 //   color: black;

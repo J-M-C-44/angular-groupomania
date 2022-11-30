@@ -8,7 +8,7 @@
         <mat-card-header>
         <!-- <div mat-card-avatar class="example-header-image"></div> -->
             <mat-card-title> {{fullName}}  
-                <span class="comment__date" > le {{comment.modifiedTime | date:'d/M/yy, HH:mm'}} </span>
+                <span class="comment__date" > le {{comment.createdTime | date:'d/M/yy, HH:mm'}} </span>
             </mat-card-title>
             <span class="spacer"></span>
             <button *ngIf="isCommentEditable" mat-icon-button [matMenuTriggerFor]="menu" aria-label="bouton icone avec menu pour editer ou supprimer">

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenService } from 'src/app/core/services/token.service';
+import { UsersService } from '../../services/users.service';
 
 
 @Component({
@@ -13,6 +14,7 @@ export class ToolbarComponent implements OnInit {
   constructor(
     private router: Router,
     private tokenService: TokenService,
+    private usersService: UsersService,
        
   ) { }
 
@@ -21,18 +23,20 @@ export class ToolbarComponent implements OnInit {
   }
 
   goToPostsList() : void {
-    this.router.navigateByUrl('posts');
+    this.router.navigate(['/posts']);
   }
   goToUsersList() : void {
     this.router.navigateByUrl('/users');
   }
   goToProfile() : void {
-    this.router.navigateByUrl('users/user-detail');
+    this.router.navigateByUrl('/users/me');
+    // ICICJCO pour test, à virer
+    // this.router.navigateByUrl('/users/1');
 
   }
   logout() : void {
-    //localStorage.removeItem('token');
     this.tokenService.deleteToken();
+    this.usersService.eraseMyUserData();
     this.router.navigateByUrl('/auth/login');
   }
 }

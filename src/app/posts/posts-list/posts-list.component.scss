@@ -8,56 +8,35 @@
     margin: auto;
     margin-top: 2rem ;
   }
- // icijco : pb de prise en compte
- .comment__item {
-    display: flex;
-    margin-top: 1rem;
- }
- .comment__date {
-    font-size: x-small;
-    color: rgba(0, 0, 0, 0.54);
-    padding-left: 1rem;
- }
-.comment-card {
-    max-width: 90%;
-    background-color:#f0f0fd;
-    margin-left: 1rem;
-    // display: inline-block;
- ;
-}
+ 
+// .comment-card {
+//     max-width: 90%;
+//     background-color:#f0f0fd;
+//     margin-left: 1rem;
+//     // display: inline-block;
+//  ;
+// }
 // .comment__form-container {
 //     display:flex;
 // }
-.comment__form{
-    width: 100%;
-    margin-left: 1rem;
-}
-.app-comment__form{
-    width: 100%;
-}
 
-// icicjco :à revoir avec vraies données quand user intégré
-.example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
-}
-.post-creation__avatar {
-    background-size: cover;
-}
-.mat-form-field {
-    display: inline;
-}
+// .post-creation__avatar {
+//     background-size: cover;
+// }
+// .mat-form-field {
+//     display: inline;
+// }
 
 // .form__mat-card-action--spacer  {
 //     flex: 1 1 auto;
 // }
 
-.mat-card-image {
-    max-height: 800px;
-    max-width: 100%;
-    width: auto;
-    margin: auto;
-    // height: 200px;
-    //width: 100%;
-    object-fit: cover;
-}
+// .mat-card-image {
+//     max-height: 800px;
+//     max-width: 100%;
+//     width: auto;
+//     margin: auto;
+//     // height: 200px;
+//     //width: 100%;
+//     object-fit: cover;
+// }

@@ -1,4 +1,4 @@
-<form [formGroup]="newPostForm" (ngSubmit)="onNewPostSubmit()">
+<form [formGroup]="newPostForm" (ngSubmit)="postExt? onEditedPostSubmit() : onNewPostSubmit()">
     <!-- <mat-card-content> -->
     <mat-form-field appearance="fill">
         <mat-label> Que voulez vous partager aujourd'hui ? </mat-label>
@@ -17,11 +17,14 @@
             <button type="button" mat-raised-button color="primary" (click)="imageInput.click()" alt="bouton ajouter une image">
                  <mat-icon> add_photo_alternate </mat-icon>
             </button>
+            <button *ngIf="postExt" type="button" mat-raised-button color="primary" (click)="onImageDeleted()" alt="bouton supprimer l' image">
+                <mat-icon> hide_image </mat-icon>
+           </button>
             {{fileName}}
         </div>
         <span class="spacer"></span>
         
-        <button type="reset" mat-raised-button color="primary" (click)="onResetForm()">
+        <button *ngIf="!postExt" type="reset" mat-raised-button color="primary" (click)="onResetForm()">
             <mat-icon>clear</mat-icon>
         </button>
         <button mat-raised-button color="primary" type="submit" alt="publier votre message" [disabled]="!newPostForm.valid" >Publier

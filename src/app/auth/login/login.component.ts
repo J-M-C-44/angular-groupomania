@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(email!, password!)
           .subscribe ( {
             next : (data) => {
-              console.log('données subscribe reçues : ', data)
+              console.log('données authService subscribe reçues : ', data)
               this.snackBarService.openSnackBar('Bienvenue sur le réseau social de Groupomania!','');
               this.tokenService.saveToken(data.token);
               this.router.navigateByUrl('posts');

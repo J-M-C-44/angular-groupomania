@@ -2,20 +2,20 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-comment-edit-dialog',
-  templateUrl: './comment-edit-dialog.component.html',
-  styleUrls: ['./comment-edit-dialog.component.scss']
+  selector: 'app-post-edit-dialog',
+  templateUrl: './post-edit-dialog.component.html',
+  styleUrls: ['./post-edit-dialog.component.scss']
 })
-export class CommentEditDialogComponent implements OnInit {
+export class PostEditDialogComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<CommentEditDialogComponent>,
+    public dialogRef: MatDialogRef<PostEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit(): void {
   }
- 
+
   close() {
     this.dialogRef.close();
   }

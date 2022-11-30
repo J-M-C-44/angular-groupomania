@@ -1,0 +1,41 @@
+
+<mat-card class="example-card">
+    
+    <div class ="header-card">  
+        <div class="avatar-container" > <img class="img-avatar" [src]= userExt.avatarUrl alt="avatar"> </div>
+            <p class="user-card__name"> {{userExt.fullName}}</p>
+    </div>
+
+  <mat-card-content>
+    <ul>
+        <li> 
+            <mat-icon matListItemIcon>numbers</mat-icon>
+            <span class="user-card__liste-item"> {{userExt.id}} </span>
+        </li>
+        <li> 
+            <mat-icon matListItemIcon>engineering</mat-icon>
+            <span class="user-card__liste-item"> {{userExt.fonction }} </span>
+        </li>
+        <li> 
+            <mat-icon matListItemIcon>email</mat-icon>
+            <span class="user-card__liste-item"> {{userExt.email}} </span>
+        </li>
+        <li> 
+            <mat-icon matListItemIcon>history</mat-icon>
+            <span class="user-card__liste-item"> inscrit depuis le {{userExt.createdTime | date:'d/M/yyyy'}} </span>
+        </li>  
+    </ul>    
+  </mat-card-content>
+  
+  <mat-divider inset></mat-divider>
+      
+  <mat-card-actions align="end">  
+    <!-- seul l'administrateur peut supprimer un compte (mais pas son propre compte) -->
+      <button *ngIf="userIsAdmin && (userExt.id !=userId)" mat-raised-button color="primary" type="button" alt="supprimer" (click)="openDialogDelete()">
+            <mat-icon>delete</mat-icon>
+            <span> Supprimer </span>
+      </button>
+  </mat-card-actions>
+
+  
+</mat-card>

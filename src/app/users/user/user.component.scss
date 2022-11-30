@@ -1,11 +1,10 @@
-
 .example-card {
     max-width: 800px;
     min-width: 300px;
     margin: auto;
     margin-top: 2rem ;
   }
-  
+
 .avatar-container {
     display: flex;
     margin: auto;
@@ -13,6 +12,7 @@
     // ICIJCO :voir poruquoi varibale non reconnue !
     background-color: #4E5166;
     padding: 0.5rem;
+    border-radius: 4px 4px 0 0
 }
 .img-avatar {
     display: flex;
@@ -36,6 +36,7 @@
     font-size: 1.5rem;
     font-weight: 500
 }
+
 li {
     display: flex;
     align-items: center;

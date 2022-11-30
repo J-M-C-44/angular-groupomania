@@ -1,0 +1,15 @@
+<h2 mat-dialog-title> Supprimer un {{elementType}} </h2>
+
+
+<mat-dialog-content>
+    <p> Voulez vous vraiment supprimer ce {{elementType}} ? </p>
+    <p *ngIf="elementType =='post'">  Cela entrainera la supression de tous les commentaires et likes associés.  </p>
+    <p *ngIf="elementType =='utilisateur'">  Cela entrainera la supression de tous les posts, commentaires et likes associés.  </p>
+</mat-dialog-content>
+
+
+<mat-dialog-actions >
+    <button class="mat-raised-button mat-primary"(click)="cancel()">Conserver</button>
+    <span class="spacer"></span>
+    <button class="mat-raised-button mat-accent"(click)="delete()">Supprimer</button>
+</mat-dialog-actions>

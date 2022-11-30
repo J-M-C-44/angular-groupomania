@@ -13,8 +13,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule} from '@angular/material/paginator';
+import { MatListModule} from '@angular/material/list';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { HeaderCardUsersInfoComponent } from './components/header-card-users-info/header-card-users-info.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 
 
 
@@ -22,6 +25,7 @@ import { HeaderCardUsersInfoComponent } from './components/header-card-users-inf
   declarations: [
     ToolbarComponent,
     HeaderCardUsersInfoComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -33,6 +37,7 @@ import { HeaderCardUsersInfoComponent } from './components/header-card-users-inf
     MatIconModule,
     MatToolbarModule,
     MatCardModule,
+    MatDialogModule,
   ],
   exports: [
     FormsModule,
@@ -48,6 +53,8 @@ import { HeaderCardUsersInfoComponent } from './components/header-card-users-inf
     MatBadgeModule,
     MatMenuModule,
     MatDialogModule,
+    MatPaginatorModule,
+    MatListModule,
     ToolbarComponent,
     HeaderCardUsersInfoComponent,
 

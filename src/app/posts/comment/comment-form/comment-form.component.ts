@@ -7,6 +7,7 @@ import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CommentEditDialogComponent } from '../comment-edit-dialog/comment-edit-dialog.component';
 import { CommentComponent } from '../comment/comment.component';
+import {formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-comment-form',
@@ -20,7 +21,7 @@ export class CommentFormComponent implements OnInit {
   commentFileName = '';
   commentImageFile!: File;
   commentImagePreview = ''
-  defaultTextForm='defaut text 2'
+
   
   newCommentForm!: FormGroup;/* = new FormGroup({
     //icicjco : reprendre controle back-end
@@ -38,7 +39,6 @@ export class CommentFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.comment) {
-      this.defaultTextForm = this.comment.text
       this.commentImagePreview = this.comment.imageUrl ? this.comment.imageUrl : '' 
     } 
 
@@ -65,7 +65,6 @@ export class CommentFormComponent implements OnInit {
         this.commentImagePreview = fileReader.result as string;
       };
       fileReader.readAsDataURL(this.commentImageFile)
-      console.log('this.commentImageFile : ', this.commentImageFile);
       this.commentFileName = this.commentImageFile.name;
     }
   }
@@ -110,7 +109,9 @@ export class CommentFormComponent implements OnInit {
               this.snackBarService.openSnackBar('c\'est partagé !','');
               this.onResetCommentForm()        
               // ICIJCO : ajouter le created et modified time dans la réponse back-end lors de la création commentaire
-              let newComment = {...data}
+              let createdTime = formatDate(new Date(), 'yyyy-MM-ddThh:mm:ss', 'en-US')
+              let modifiedTime = createdTime;
+              let newComment = {...data, createdTime, modifiedTime }
               postExt.nbComments! ++||1
               postExt.comments!.push(newComment)
             },
@@ -155,7 +156,7 @@ export class CommentFormComponent implements OnInit {
               
             },
             error: (err) => {
-              console.log('données createComment  ko : ', err);
+              console.log('données updateComment  ko : ', err);
               let errorMsgSubmit = 'Publication échouée: ' + err
               this.snackBarService.openSnackBar(errorMsgSubmit,'','','', '', 'snack-style--ko');
             },

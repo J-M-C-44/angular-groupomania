@@ -1,0 +1,10 @@
+<header>
+    <app-toolbar></app-toolbar>
+</header>
+
+
+<section class="users-list">
+    <div *ngFor="let userExt of usersExt" >
+        <app-user [usersExt]= "usersExt" [userExt]= "userExt"  [userIsAdmin] = "userIsAdmin"  [userId]="myUserId"> </app-user>
+    </div>
+</section>

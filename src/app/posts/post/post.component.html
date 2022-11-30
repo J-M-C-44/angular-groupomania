@@ -1,0 +1,51 @@
+
+<mat-card class="example-card">
+
+      <div class ="header-card"> 
+        <app-header-card-users-info [userId] ="postExt.userId"  [createdTime] ="postExt.createdTime"> </app-header-card-users-info>
+        <span class="spacer"></span>
+        <button *ngIf="(userIsAdmin || (postExt.userId == userId))" mat-icon-button [matMenuTriggerFor]="menu" aria-label="bouton icone avec menu pour editer ou supprimer">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openDialogEdit()">
+                    <mat-icon>edit</mat-icon>
+                    <span>éditer</span>
+                </button>
+                <button mat-menu-item (click)="openDialogDelete()">
+                    <mat-icon>delete</mat-icon>
+                    <span>supprimer</span>
+                </button>
+            </mat-menu>
+      </div>
+
+    <img  *ngIf="postExt.imageUrl" [src]="postExt.imageUrl" mat-card-image alt="Post Image">
+    <mat-card-content>
+        <p> {{postExt.text}} </p>
+    </mat-card-content>
+    
+    <mat-divider inset></mat-divider>
+        
+    <mat-card-actions align="end">  
+        <button type="button" mat-raised-button color="primary" (click)="likePost(postExt)" [matBadge]="(postExt.nbLikes!>0)? postExt.nbLikes : ''" [matBadgeColor]="postExt.isLiked ? 'accent' : 'primary'">
+            <mat-icon >thumb_up </mat-icon>
+        </button>
+        <button mat-raised-button color="primary" type="button" alt="commentaires" (click)="showComments(postExt)" [matBadge]="(postExt.nbComments!>0)? postExt.nbComments : ''" matBadgeColor="primary">
+            <mat-icon>comment</mat-icon>
+        </button>
+    </mat-card-actions>
+
+    <div *ngIf="postExt.commentsShowed ">
+
+        <div *ngFor="let comment of postExt.comments" class="comment__item">
+            <app-comment [comment]= "comment" [postExt]= "postExt" class="comment__item"  [isCommentEditable] = "(userIsAdmin || (comment.userId == userId))? true : false"> </app-comment>      
+        </div>
+        <mat-divider></mat-divider>
+        <div class="comment__item">
+            <div mat-card-avatar>
+                <img mat-card-avatar [src]= avatarUrl alt="avatar"> 
+            </div>
+            <app-comment-form [postExt]= "postExt" class = "app-comment__form">  </app-comment-form>    
+        </div>
+    </div>
+</mat-card>
