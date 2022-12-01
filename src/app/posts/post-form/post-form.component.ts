@@ -6,8 +6,12 @@ import { Comment } from '../../shared/models/comment.model';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { MatDialogRef } from '@angular/material/dialog';
+
 import { PostEditDialogComponent } from '../post-edit-dialog/post-edit-dialog.component';
 import {formatDate } from '@angular/common';
+
+
+
 
 @Component({
   selector: 'app-post-form',
@@ -169,7 +173,5 @@ export class PostFormComponent implements OnInit {
           })
     }
   }
-
-
 
 }

@@ -1,0 +1,11 @@
+<form [formGroup]="emailForm" (ngSubmit)="onEditedUserSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label> nouvel email </mat-label>
+      <input matInput placeholder="you@example.com" formControlName="email" required>
+      <span matSuffix><mat-icon>email</mat-icon></span>
+      <mat-error *ngIf="emailForm.controls.email.invalid">{{getErrorMessageEmail()}}</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="(!emailForm.valid || (emailForm.get('email')!.value == editedUser.email))" > Enregistrer </button>
+</form>
+<mat-error *ngIf="errorMsgSubmit">{{ errorMsgSubmit }}</mat-error>

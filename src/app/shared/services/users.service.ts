@@ -170,6 +170,58 @@ export class UsersService {
         )
   }
 
+  updateEmailUser(editedUser:UserExtended, email:string): Observable<User> {
+    let body = {email};
+    return this.http.patch(this.usersUrl+editedUser.id+'/email', body, this.httpOptions)
+          .pipe(
+            tap((data: any) => {
+              console.log('données patch user email  : ', data)
+              // on met à jour le user en cache (et myUser si concerné)
+              this.UsersExtendedCache= this.UsersExtendedCache.filter(p => p.id !== editedUser.id);
+              editedUser.email = email
+              this.UsersExtendedCache.push(editedUser);
+              this.myUser.email = email
+            }),
+            catchError(err => {
+              // console.log('err : ', err);
+              if (!err.status) {
+                err = 'serveur non accessible'  
+            } else if (err.status == 500) {
+                err = 'erreur interne serveur' 
+            } else if (err.status == 404) {
+                err = 'non trouvé'   
+            } else {
+                err = err.error.message
+            } 
+              throw err;
+            })
+          ) 
+  }
+
+  updatepasswordUser(editedUser:UserExtended, oldPassword:string, password:string): Observable<User> {
+    let body = {oldPassword, password};
+    return this.http.patch(this.usersUrl+editedUser.id+'/password', body, this.httpOptions)
+          .pipe(
+            tap((data: any) => {
+              console.log('données patch user password  : ', data)
+            }),
+            catchError(err => {
+              // console.log('err : ', err);
+              if (!err.status) {
+                err = 'serveur non accessible'  
+            } else if (err.status == 500) {
+                err = 'erreur interne serveur' 
+            } else if (err.status == 401) {
+                err = 'ancien mot de passe erroné'  
+            } else if (err.status == 404) {
+                err = 'non trouvé'   
+            } else {
+                err = err.error.message
+            } 
+              throw err;
+            })
+          ) 
+  }
 
   // }
   putUserInCache(data:any) : void {

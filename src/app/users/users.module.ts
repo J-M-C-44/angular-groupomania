@@ -5,6 +5,9 @@ import { UsersRoutingModule } from './users-routing.module';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserComponent } from './user/user.component';
+import { UserEditDialogComponent } from './user-edit-dialog/user-edit-dialog.component';
+import { UserEmailFormComponent } from './user-email-form/user-email-form.component';
+import { UserPasswordFormComponent } from './user-password-form/user-password-form.component';
 
 
 
@@ -12,7 +15,10 @@ import { UserComponent } from './user/user.component';
   declarations: [
     UserDetailsComponent,
     UsersListComponent,
-    UserComponent
+    UserComponent,
+    UserEditDialogComponent,
+    UserEmailFormComponent,
+    UserPasswordFormComponent
   ],
   imports: [
     CommonModule,

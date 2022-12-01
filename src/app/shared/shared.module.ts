@@ -12,9 +12,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog'; 
 import { MatPaginatorModule} from '@angular/material/paginator';
-import { MatListModule} from '@angular/material/list';
+// ICIJCO : voir si j'ai finalmeent besoin de matlist
+import { MatListModule } from '@angular/material/list';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { HeaderCardUsersInfoComponent } from './components/header-card-users-info/header-card-users-info.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
@@ -38,6 +40,7 @@ import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.
     MatToolbarModule,
     MatCardModule,
     MatDialogModule,
+    MatTabsModule,
   ],
   exports: [
     FormsModule,
@@ -55,6 +58,7 @@ import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.
     MatDialogModule,
     MatPaginatorModule,
     MatListModule,
+    MatTabsModule,
     ToolbarComponent,
     HeaderCardUsersInfoComponent,
 

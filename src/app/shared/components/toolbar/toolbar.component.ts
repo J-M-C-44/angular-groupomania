@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenService } from 'src/app/core/services/token.service';
 import { UsersService } from '../../services/users.service';
+import { MatDialog } from '@angular/material/dialog'
+import {UserEditDialogComponent} from 'src/app/users/user-edit-dialog/user-edit-dialog.component';
 
 
 @Component({
@@ -15,11 +17,12 @@ export class ToolbarComponent implements OnInit {
     private router: Router,
     private tokenService: TokenService,
     private usersService: UsersService,
+    private dialog: MatDialog,
        
   ) { }
 
   ngOnInit(): void {
-    //ICIJCO: récupérer token ? à moins que ce ne soit fait par gards/interceptor ?
+
   }
 
   goToPostsList() : void {
@@ -30,10 +33,22 @@ export class ToolbarComponent implements OnInit {
   }
   goToProfile() : void {
     this.router.navigateByUrl('/users/me');
-    // ICICJCO pour test, à virer
-    // this.router.navigateByUrl('/users/1');
-
   }
+
+  openDialogEditUser() : void {
+    console.log('openDialogEditUser')
+    const dialogRef = this.dialog.open(UserEditDialogComponent, {
+        width:'95%',
+        maxWidth:'800px',
+        data: {
+            userId: "me",
+          //pour test
+          // userId: 1,
+        },
+    });
+  }
+
+
   logout() : void {
     this.tokenService.deleteToken();
     this.usersService.eraseMyUserData();

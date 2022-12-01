@@ -1,0 +1,15 @@
+
+<H2> {{titre}}</H2>
+<mat-tab-group>
+    <mat-tab label="Profil"> 
+        Content 1
+    </mat-tab>
+    <mat-tab label="Email"> 
+        <!-- <app-user-email-form [postExt]= "data.postExt" [postsExt]="data.postsExt" class = "app-comment__form">  </app-user-email-form> -->
+        <app-user-email-form [editedUser] = "editedUser" > </app-user-email-form>
+    </mat-tab>
+    <mat-tab label="Mot de passe">
+        <app-user-password-form [editedUser] = "editedUser" > </app-user-password-form>
+    </mat-tab>
+    <mat-tab label="Compte"> Content 4 </mat-tab>
+  </mat-tab-group>
