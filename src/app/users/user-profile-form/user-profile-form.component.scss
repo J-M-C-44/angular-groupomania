@@ -1,0 +1,27 @@
+@import "../../../styles/variables.scss";
+
+img {
+    height: 100px;
+    width: 100px;
+}
+form {
+    margin-top: 1.5rem;
+}
+
+.mat-form-field {
+    display:flex;
+
+}
+
+.profileForm-image{
+    display:flex;
+    margin-bottom: 1.5rem;   
+}
+.profileForm-image__text-container {
+    display:flex;
+    flex-direction: column;
+}
+
+.submit-button:hover {
+    color:$color-n3;
+}

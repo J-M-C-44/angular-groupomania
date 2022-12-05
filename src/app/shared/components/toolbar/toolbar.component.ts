@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TokenService } from 'src/app/core/services/token.service';
 import { UsersService } from '../../services/users.service';
 import { MatDialog } from '@angular/material/dialog'
-import {UserEditDialogComponent} from 'src/app/users/user-edit-dialog/user-edit-dialog.component';
+import { UserEditDialogComponent } from 'src/app/users/user-edit-dialog/user-edit-dialog.component';
 
 
 @Component({
@@ -26,7 +26,8 @@ export class ToolbarComponent implements OnInit {
   }
 
   goToPostsList() : void {
-    this.router.navigate(['/posts']);
+    // this.router.navigate(['/posts']);
+    this.router.navigateByUrl('/posts');
   }
   goToUsersList() : void {
     this.router.navigateByUrl('/users');

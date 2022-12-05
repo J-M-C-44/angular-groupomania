@@ -1,7 +1,41 @@
-.toolbar-logo {
+@import "../../../../styles/variables.scss";
+@import "../../../../styles/mixin.scss";
+
+.toolbar-logo-full {
+    display:none;
     max-width: 300px;
+    @include small-screen {
+      display: flex;
+    }
   }
+
+.toolbar-logo-min {
+    // max-width: 48px;
+    height: 48px;
+    display:flex;
+
+    @include small-screen {
+      display: none;
+    }
+}
 
 // .toolbar-spacer {
 // flex: 1 1 auto;
 // }
+
+
+.toolbar-button {
+  // ICIJCO : voir pourquoi material icone ne sembe pas être importé dans toolbar
+  background-color: white;
+  border: none;
+  color: grey;
+  padding: 0.3rem 0.5rem;
+  margin: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.toolbar-button:hover {
+ 
+  background-color:$color-n3;
+}

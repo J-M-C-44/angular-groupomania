@@ -1,0 +1,38 @@
+// @use '/angular-groupomania/src/styles/mixin.scss' as mixin;
+//@import "/angular-groupomania/src/styles/variables.scss";
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixin.scss";
+
+.editUser-tab-title {
+    display: flex;
+    // align-items: flex-start;
+    button {
+        margin: -10px -15px 0 0;
+    }
+    button:hover {
+        background-color:$color-n3;
+        }
+}
+
+.editUser-tab {
+    
+    // min-height: 470px;
+    &__label-text{
+        display: none;
+        
+        //responsive
+        @include medium-screen {
+            display: flex;
+            margin-left: 0.7rem;
+        }
+    }
+    &__content {
+        margin-top: 1.5rem;
+        button:hover {
+            color:$color-n3;
+        }
+    }
+
+
+
+}

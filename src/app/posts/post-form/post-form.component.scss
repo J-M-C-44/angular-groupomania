@@ -1,3 +1,8 @@
+@import "../../../styles/variables.scss";
+
 .mat-form-field {
     display: inline;
+}
+mat-card-actions button:hover {
+    color:$color-n3;
 }

@@ -14,7 +14,7 @@
             <button *ngIf="isCommentEditable" mat-icon-button [matMenuTriggerFor]="menu" aria-label="bouton icone avec menu pour editer ou supprimer">
                 <mat-icon>more_vert</mat-icon>
             </button>
-            <mat-menu #menu="matMenu">
+            <mat-menu #menu="matMenu" xPosition="before">
                 <button mat-menu-item (click)="openDialogEdit()">
                     <mat-icon>edit</mat-icon>
                     <span>éditer</span>

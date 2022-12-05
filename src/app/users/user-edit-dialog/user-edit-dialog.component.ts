@@ -1,7 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserExtended } from 'src/app/shared/models/user.model';
 import { UsersService } from '../../shared/services/users.service';
+import { MatDialog } from '@angular/material/dialog'
+import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { DeleteDialogComponent } from '../../shared/components/delete-dialog/delete-dialog.component';
+import { TokenService } from 'src/app/core/services/token.service';
+
 
 
 @Component({
@@ -20,6 +26,10 @@ export class UserEditDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<UserEditDialogComponent>,
     private usersService: UsersService,
+    private snackBarService: SnackBarService,
+    private dialog: MatDialog,
+    private tokenService: TokenService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
@@ -76,6 +86,39 @@ export class UserEditDialogComponent implements OnInit {
     this.titre = (this.data.userId == 'me') ? 'Modifier votre profil' : ('Modifier le profil de '+this.editedUser.fullName) ;
   }
 
+  openDialogDelete() : void {
+    console.log('openDialogDelete')
+    let dataType = (this.data.userId == 'me') ? 'myUser' : 'user';
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+     data: {
+       type: dataType,
+     },
+    });
+
+    dialogRef.afterClosed().subscribe(deleteIsConfirmed => {
+      if (deleteIsConfirmed)  {
+        console.log(`deleteIsConfirmed : ${deleteIsConfirmed}`) ;
+        this.usersService.deleteUser(this.editedUser.id )
+          .subscribe ( {  
+            next : (data) => {
+              this.snackBarService.openSnackBar('user supprimé','');
+              if (this.data.userId == 'me') {
+                this.tokenService.deleteToken();
+                this.usersService.eraseMyUserData();
+                this.dialogRef.close();
+                this.router.navigateByUrl('/auth/signup');
+              } 
+              
+            },
+            error: (err) => {
+              console.log('suppression user  ko : ', err);
+              let errorMsgSubmit = 'suppression utilisateur échouée: ' + err
+              this.snackBarService.openSnackBar(errorMsgSubmit,'','','', '', 'snack-style--ko');
+            },
+          })
+      };
+    });
+  }
 
   close() {
     this.dialogRef.close();

@@ -1,4 +1,10 @@
+@import "../../../styles/variables.scss";
+
 .mat-form-field {
     display:flex;
     margin-top: 1.5rem;
+}
+
+button:hover {
+    color:$color-n3;
 }

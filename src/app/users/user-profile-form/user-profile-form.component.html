@@ -1,0 +1,43 @@
+<!-- <mat-icon matListItemIcon>numbers</mat-icon> <span class="user-card__liste-item"> {{editedUser.id}} </span> -->
+
+<form [formGroup]="profileForm" (ngSubmit)="onEditedUserSubmit()">
+    <mat-form-field appearance="outline">
+        <mat-label> Nom : </mat-label>
+        <input matInput placeholder="Majax" formControlName="lastname" required>
+        <mat-error *ngIf="profileForm.controls.lastname.invalid"> {{getErrorMessageLastname()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label> Prénom : </mat-label>
+        <input matInput placeholder="Gérard" formControlName="firstname" required>
+        <mat-error *ngIf="profileForm.controls.firstname.invalid"> {{getErrorMessageFirstname()}} </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label> Fonction : </mat-label>
+        <input matInput placeholder="secrétaire de direction" formControlName="fonction" required>
+        <mat-error *ngIf="profileForm.controls.fonction.invalid"> {{getErrorMessageFonction()}} </mat-error>
+    </mat-form-field>
+
+
+    <div class="profileForm-image">
+            
+            <img *ngIf="imagePreview" [src]="imagePreview" mat-card-avatar alt="your avatar" >   
+            <div class="profileForm-image__text-container">
+                <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
+                    #imageInput class ="form_image-input" (change)="onImageAdded($event)" > 
+                <button type="button"  (click)="imageInput.click()" mat-menu-item alt="bouton remplacer l'image">
+                    <mat-icon> add_photo_alternate </mat-icon> remplacer
+                </button>
+                <button type="button" (click)="onImageDeleted()" mat-menu-item alt="bouton supprimer l' image" [disabled]="">
+                    <mat-icon> hide_image </mat-icon> supprimer
+                </button>
+
+
+            </div>
+
+    </div>
+        
+    <button mat-raised-button color="primary" type="submit" alt="enregistrer" class="submit-button" [disabled]="!profileForm.valid" > Enregistrer </button>
+
+</form>
+
+<mat-error *ngIf="errorMsgSubmit">{{ errorMsgSubmit }}</mat-error>

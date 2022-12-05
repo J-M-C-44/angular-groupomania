@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .example-card {
     max-width: 800px;
     min-width: 300px;
@@ -44,4 +46,8 @@ li {
 }
 .user-card__liste-item {
     margin-left: 1.5rem;
+}
+
+mat-card-actions button:hover {
+    color:$color-n3;
 }

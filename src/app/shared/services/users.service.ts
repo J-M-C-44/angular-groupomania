@@ -170,6 +170,103 @@ export class UsersService {
         )
   }
 
+  updateProfileUser(editedUser:UserExtended, lastname:string, firstname:string, fonction:string, avatar?:File|string, ) : Observable<User> {
+    if (avatar && (avatar != 'toDelete')) {
+      //form data
+      const formData: FormData = new FormData();
+      let user = { id : editedUser.id, lastname: lastname, firstname:firstname, fonction:fonction}
+      formData.append('user', JSON.stringify(user));
+      formData.append('image', avatar);
+      return this.http.put(this.usersUrl+editedUser.id+'/profile', formData, this.httpOptions)
+          .pipe(
+            tap((data: any) => {
+              console.log('données put user profile  : ', data)
+              // on met à jour le user en cache (et myUser si concerné)
+              this.UsersExtendedCache= this.UsersExtendedCache.filter(p => p.id !== editedUser.id);
+              editedUser.lastname = lastname;
+              editedUser.firstname = firstname;
+              editedUser.fonction = fonction;
+              editedUser.avatarUrl = data.avatarUrl;
+              this.UsersExtendedCache.push(editedUser);
+              if (editedUser.id == this.myUser.id) {
+                this.myUser.lastname = lastname;
+                this.myUser.firstname = firstname;
+                this.myUser.fonction = fonction;
+                this.myUser.avatarUrl = data.avatarUrl;
+              }
+            }),
+            catchError(err => {
+               console.log('err : ', err);
+              if (!err.status) {
+                  err = 'serveur non accessible'  
+              } else if (err.status == 500) {
+                  err = 'erreur interne serveur' 
+              } else if (err.status == 404) {
+                  err = 'non trouvé'   
+              } else {
+                  err = err.error.message
+              } 
+              throw err;
+            })
+          )
+    } else {
+      // JSON
+        let body = {} 
+        let id = editedUser.id
+        let isAvatarDeleted = false
+        if (avatar && (avatar = 'toDelete')) {
+          isAvatarDeleted = true;
+          let avatarUrl = avatar
+          body = {id, lastname, firstname, fonction, avatarUrl}; 
+        } else {
+          body = {id, lastname, firstname, fonction}
+        }
+        return this.http.put(this.usersUrl+editedUser.id+'/profile', body, this.httpOptions)
+          .pipe(
+            tap((data: any) => {
+              console.log('données put user profile  : ', data)
+              // on met à jour le user en cache (et myUser si concerné)
+              this.UsersExtendedCache= this.UsersExtendedCache.filter(p => p.id !== editedUser.id);
+              editedUser.lastname = lastname;
+              editedUser.firstname = firstname;
+              editedUser.fonction = fonction;
+              if (isAvatarDeleted) {
+                editedUser.avatarUrl = this.defaultAvatarUrl;
+              }
+              editedUser.avatarUrl = data.avatarUrl,
+              this.UsersExtendedCache.push(editedUser);
+              if (editedUser.id == this.myUser.id) {
+                this.myUser.lastname = lastname;
+                this.myUser.firstname = firstname;
+                this.myUser.fonction = fonction;
+                if (isAvatarDeleted) {
+                  this.myUser.avatarUrl = this.defaultAvatarUrl;
+                }
+                
+              }
+            }),
+            catchError(err => {
+              // console.log('err : ', err);
+              if (!err.status) {
+                err = 'serveur non accessible'  
+            } else if (err.status == 500) {
+                err = 'erreur interne serveur' 
+            } else if (err.status == 404) {
+                err = 'non trouvé'   
+            } else {
+                err = err.error.message
+            } 
+              throw err;
+            })
+          )
+      };
+  }
+
+
+
+
+
+
   updateEmailUser(editedUser:UserExtended, email:string): Observable<User> {
     let body = {email};
     return this.http.patch(this.usersUrl+editedUser.id+'/email', body, this.httpOptions)
@@ -180,7 +277,10 @@ export class UsersService {
               this.UsersExtendedCache= this.UsersExtendedCache.filter(p => p.id !== editedUser.id);
               editedUser.email = email
               this.UsersExtendedCache.push(editedUser);
-              this.myUser.email = email
+              if (editedUser.id == this.myUser.id) {
+                this.myUser.email = email
+              }
+                
             }),
             catchError(err => {
               // console.log('err : ', err);

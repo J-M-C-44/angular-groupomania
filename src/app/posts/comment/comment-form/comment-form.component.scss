@@ -1,3 +1,5 @@
+@import "../../../../styles/variables.scss";
+
 .comment__form{
     margin-left: 1rem;
 }
@@ -9,3 +11,8 @@
 // .form__mat-card-action--spacer  {
 //     flex: 1 1 auto;
 // }
+
+
+mat-card-actions button:hover {
+    color:$color-n3;
+}

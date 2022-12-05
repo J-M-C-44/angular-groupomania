@@ -28,6 +28,9 @@ export class DeleteDialogComponent implements OnInit {
       case "user":
         this.elementType = 'utilisateur';
         break;
+      case "myUser":
+        this.elementType = 'compte';
+        break;
       default:
         this.elementType = 'élément';
     }
