@@ -4,12 +4,28 @@ import { AuthService } from '../shared/auth.service';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { Router } from '@angular/router';
 import { TokenService } from 'src/app/core/services/token.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({
+            opacity: 0,
+        }),
+        animate('300ms ease-in',
+                style({ 
+                      opacity: 1,
+                })
+        )
+      ])
+    ])
+  ]
 })
+
 export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
     email : new FormControl('', [Validators.required, Validators.email]),
@@ -26,6 +42,11 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // si le token actuel est toujours valide et on redirige directement vers la page d'accueil sans demander de ressaisir login/mdp
+    if (this.tokenService.isTokenValid()) {
+      this.snackBarService.openSnackBar('Bon retour sur le réseau social de Groupomania!','');
+      this.router.navigateByUrl('posts');
+    }
   }
 
   getErrorMessageEmail() {
@@ -52,7 +73,7 @@ export class LoginComponent implements OnInit {
   }
   
   onSubmit() {
-    console.warn(this.loginForm.value)
+    // console.warn(this.loginForm.value)
     if (this.loginForm.valid) {
       let {email, password} = this.loginForm.value;
       email = email!.trim();
@@ -63,7 +84,7 @@ export class LoginComponent implements OnInit {
           .subscribe ( {
             next : (data) => {
               console.log('données authService subscribe reçues : ', data)
-              this.snackBarService.openSnackBar('Bienvenue sur le réseau social de Groupomania!','');
+              this.snackBarService.openSnackBar('Bienvenue sur le réseau social de Groupomania!','',3000,'','top');
               this.tokenService.saveToken(data.token);
               this.router.navigateByUrl('posts');
             },

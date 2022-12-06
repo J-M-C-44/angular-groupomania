@@ -5,11 +5,11 @@ import { UsersListComponent } from './users-list/users-list.component';
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
-    //ICIJCO : remplacer redirect ver UserslistComponent quand il sera crée
+    
   { path: '', component: UsersListComponent, canActivate: [AuthGuard] },
   { path: 'users/:id', component: UserDetailsComponent, canActivate: [AuthGuard] },
   // { path: '', component: UserslistComponent, canActivate: [AuthGuard] },
-
+  //ICIJCO : à revoir ?
   { path: '', pathMatch: 'full', redirectTo: 'UserDetailsComponent' }
 ];
 

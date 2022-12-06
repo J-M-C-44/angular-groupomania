@@ -5,11 +5,42 @@ import { UsersService } from '../../shared/services/users.service';
 // import { PageEvent } from '@angular/material/paginator';
 import {Router} from '@angular/router';
 import { User, UserExtended } from '../../shared/models/user.model';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+
 
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.scss']
+  styleUrls: ['./users-list.component.scss'],
+  animations: [
+    trigger('animFromBottom', [
+      transition(':enter', [
+        style({
+            opacity: 0,
+            transform: 'translateY(+100%)',
+        }),
+        animate('300ms ease-out',
+                style({ 
+                      opacity: 1,
+                      transform: 'translateY(0)'
+                })
+        )
+      ]),
+      transition(':leave', [
+        style({
+          opacity: 1,
+          transform: 'translateY(0)',
+        }),
+        animate('250ms ease-in',
+                style({ 
+                      opacity: 0,
+                      transform: 'translateY(+100%)',
+                      
+                })
+        ),
+      ]),
+    ])
+  ]
 })
 export class UsersListComponent implements OnInit {
   myUserId = 0;

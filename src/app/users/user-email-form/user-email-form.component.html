@@ -6,6 +6,6 @@
       <mat-error *ngIf="emailForm.controls.email.invalid">{{getErrorMessageEmail()}}</mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" [disabled]="(!emailForm.valid || (emailForm.get('email')!.value == editedUser.email))" > Enregistrer </button>
+    <button mat-raised-button color="primary" type="submit" title="enregistrer l'email"[disabled]="(!emailForm.valid || (emailForm.get('email')!.value == editedUser.email))" > Enregistrer </button>
 </form>
 <mat-error *ngIf="errorMsgSubmit">{{ errorMsgSubmit }}</mat-error>

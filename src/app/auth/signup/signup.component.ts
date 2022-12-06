@@ -3,11 +3,24 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../shared/auth.service';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { Router } from '@angular/router';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  styleUrls: ['./signup.component.scss'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({
+            opacity: 0,
+        }),
+        animate('300ms ease-in', style({
+            opacity: 1,
+        }))
+      ])
+    ])
+  ]
 })
 
 export class SignupComponent implements OnInit {

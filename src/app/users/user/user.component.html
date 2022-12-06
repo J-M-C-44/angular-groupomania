@@ -31,7 +31,7 @@
       
   <mat-card-actions align="end">  
     <!-- seul l'administrateur peut supprimer un compte (mais pas son propre compte) -->
-      <button *ngIf="userIsAdmin && (userExt.id !=userId)" mat-raised-button color="primary" type="button" alt="supprimer" (click)="openDialogDelete()">
+      <button *ngIf="userIsAdmin && (userExt.id !=userId)" mat-raised-button color="primary" type="button" title="supprimer" alt="supprimer" (click)="openDialogDelete()">
             <mat-icon>delete</mat-icon>
             <span> Supprimer </span>
       </button>

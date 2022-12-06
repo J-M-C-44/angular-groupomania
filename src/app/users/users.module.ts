@@ -9,6 +9,7 @@ import { UserEditDialogComponent } from './user-edit-dialog/user-edit-dialog.com
 import { UserEmailFormComponent } from './user-email-form/user-email-form.component';
 import { UserPasswordFormComponent } from './user-password-form/user-password-form.component';
 import { UserProfileFormComponent } from './user-profile-form/user-profile-form.component';
+// import { PostComponent } from '../posts/post/post.component'
 
 
 
@@ -20,7 +21,8 @@ import { UserProfileFormComponent } from './user-profile-form/user-profile-form.
     UserEditDialogComponent,
     UserEmailFormComponent,
     UserPasswordFormComponent,
-    UserProfileFormComponent
+    UserProfileFormComponent,
+    // PostComponent
   ],
   imports: [
     CommonModule,

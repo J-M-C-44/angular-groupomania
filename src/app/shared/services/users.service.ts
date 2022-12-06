@@ -14,7 +14,7 @@ const baseUrl = 'http://localhost:3000/api/v1/'
 export class UsersService {
 
   private usersUrl = baseUrl+'users/';
-  private postsUrl = baseUrl+'posts';
+  // private postsUrl = baseUrl+'posts';
   public UsersExtendedCache: UserExtended[] =[]
   public myUser:User = {id:0,email:'', lastname:'',firstname:'',fonction:'',avatarUrl:'', role:0, createdTime:'',modifiedTime:''}
   public UsersExtendedCacheFullyCharged = false;
@@ -261,10 +261,6 @@ export class UsersService {
           )
       };
   }
-
-
-
-
 
 
   updateEmailUser(editedUser:UserExtended, email:string): Observable<User> {

@@ -1,5 +1,5 @@
 <form [formGroup]="newCommentForm"  (ngSubmit)="comment? onEditedCommentSubmit(postExt) : onNewCommentSubmit(postExt)" class="comment__form">
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
         <mat-label> Ecrivez votre commentaire </mat-label>
         <textarea   matInput rows="1" class="" maxlength="1000" placeholder="Bravo, j'aime beaucoup !"
                     formControlName="textComment"  required>
@@ -14,21 +14,21 @@
         <div>
             <!-- <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp " formControlName="imagePost" -->
             <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
-                    #commentImageInput class ="form_image-input" (change)="onCommentImageAdded($event)" > 
-            <button type="button" mat-raised-button color="primary" (click)="commentImageInput.click()" alt="bouton ajouter une image">
+                    #commentImageInput class ="form_image-input" title="ajouter une image" (change)="onCommentImageAdded($event)" > 
+            <button type="button" mat-raised-button color="primary" (click)="commentImageInput.click()" alt="bouton ajouter une image" title="ajouter une image">
                  <mat-icon> add_photo_alternate </mat-icon>
             </button>
-            <button *ngIf="comment" type="button" mat-raised-button color="primary" (click)="onCommentImageDeleted()" alt="bouton supprimer l' image">
+            <button *ngIf="comment" type="button" mat-raised-button color="primary" (click)="onCommentImageDeleted()" alt="supprimer" title="supprimer l'image">
                 <mat-icon> hide_image </mat-icon>
            </button>
             <!-- {{commentFileName}} -->
         </div>
         <span class="spacer"></span>
         
-        <button *ngIf="!comment" type="reset" mat-raised-button color="primary" (click)="onResetCommentForm()">
+        <button *ngIf="!comment" type="reset" mat-raised-button color="primary" (click)="onResetCommentForm()" title="réinitialiser">
             <mat-icon>clear</mat-icon>
         </button>
-        <button mat-raised-button color="primary" type="submit" alt="publier votre commentaire" [disabled]="!newCommentForm.valid" >Publier
+        <button mat-raised-button color="primary" type="submit" alt="publier" title="publier votre commentaire" [disabled]="!newCommentForm.valid" >Publier
             <mat-icon>send</mat-icon>
         </button>
     </mat-card-actions>

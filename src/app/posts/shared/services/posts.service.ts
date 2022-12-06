@@ -32,6 +32,7 @@ export interface PaginatedPostList {
 export class PostsService {
 
   private postsUrl = baseUrl+'posts/';
+  private usersUrl = baseUrl+'users/';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -98,6 +99,30 @@ export class PostsService {
             })
           )
    
+  }
+
+  getAllPostsForOneUser(userId:number) : Observable<Post[]> {
+    return this.http.get<Post[]>(this.usersUrl+userId+'/posts')
+          .pipe(
+            tap((data: any) => {
+              console.log('données reçues : ', data)
+            }),  
+            catchError(err => {
+              console.log('err : ', err);
+              if (!err.status) {
+                  err = 'serveur non accessible'  
+              } else if (err.status == 404) {
+                  err = 'non trouvé'  
+              
+              } else if (err.status == 500) {
+                err = 'erreur interne serveur'  
+  
+              } else {
+                  err = err.error.message
+              } 
+              throw err;
+            })
+          )
   }
 
   deletePost (postId:number): Observable<Post> {

@@ -13,7 +13,7 @@
 
 
 <section class="posts-list">
-    <div *ngFor="let postExt of postsExt" >
+    <div @animFromRight *ngFor="let postExt of postsExt" >
         <app-post [postsExt]= "postsExt" [postExt]= "postExt"  [userIsAdmin] = "userIsAdmin"  [userId]="userId"> </app-post>
     </div>
 </section>

@@ -1,10 +1,23 @@
-// @import '../../../styles/variables.scss';
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixin.scss';
 
 .login__global-container {
-    max-width: 90%;
-    margin:auto; 
+    max-width: 800px;
+    margin: auto;
+    // margin-top: 2rem;
+    // border: 1px solid $color-n1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: white;
+    border-radius: 15px;
+    //responsive
+    @include medium-screen {
+        margin-top: 2rem;
+    }
 }
-.login__auth-icon {
+.login__auth-logo {
     display: flex;
     flex-direction: column;
     max-width: 100%;
@@ -17,11 +30,15 @@
     margin:auto; 
     max-width: 700px;
     min-width: 300px;
+    margin-bottom: 2rem;
 }
 
 form {
     display: flex;
     flex-direction: column;
+    mat-icon {
+        color: $color-n1
+    }
 }
 
 .login__switcher-message {

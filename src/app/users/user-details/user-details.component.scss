@@ -1,4 +1,6 @@
-
+.user-details {
+    margin-bottom: 5rem ;
+}
 .example-card {
     max-width: 800px;
     min-width: 300px;
@@ -43,4 +45,15 @@ li {
 }
 .user-card__liste-item {
     margin-left: 1.5rem;
+}
+//ICIJCO - à virer après fin des travaux
+.en-travaux {
+    width: 250px;
+}
+.comment-card {
+    margin-top: 1rem;
+    max-width: 90%;
+    background-color:#f0f0fd;
+    margin-left: 1rem;
+    // display: inline-block;
 }

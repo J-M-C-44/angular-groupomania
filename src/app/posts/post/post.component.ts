@@ -10,11 +10,68 @@ import {PostEditDialogComponent} from '../post-edit-dialog/post-edit-dialog.comp
 import {DeleteDialogComponent} from '../../shared/components/delete-dialog/delete-dialog.component';
 import { MatDialog } from '@angular/material/dialog'
 import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss']
+  styleUrls: ['./post.component.scss'],
+  animations: [
+    trigger('anim', [
+      transition(':enter', [
+        style({
+            opacity: 0,
+            transform: 'translateY(+100%)',
+        }),
+        animate('400ms ease-out',
+                style({ 
+                      opacity: 1,
+                      transform: 'translateY(0)'
+                })
+        ),
+      ]),
+      transition(':leave', [
+        style({
+          opacity: 1,
+          transform: 'translateY(0)',
+        }),
+        animate('250ms ease-in',
+                style({ 
+                      opacity: 0,
+                      transform: 'translateY(+100%)',
+                      
+                })
+        ),
+      ]),
+    ]),
+    trigger('anim2', [
+      transition(':enter', [
+        style({
+            opacity: 0,
+            transform: 'translateX(+100%)',
+        }),
+        animate('400ms ease-out',
+                style({ 
+                      opacity: 1,
+                      transform: 'translateX(0)'
+                })
+        ),
+      ]),
+      transition(':leave', [
+        style({
+          opacity: 1,
+          transform: 'translateX(0)',
+        }),
+        animate('250ms ease-in',
+                style({ 
+                      opacity: 0,
+                      transform: 'translateX(+100%)',
+                      
+                })
+        ),
+      ]),
+    ])
+  ],
 })
 export class PostComponent implements OnInit {
   @Input() postsExt!: PostExtended[]

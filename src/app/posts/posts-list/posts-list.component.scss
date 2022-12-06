@@ -1,3 +1,4 @@
+@import "../../../styles/variables.scss";
 .post-creation {
     margin-top: 2rem ;
     margin-bottom: 4rem ;
@@ -7,7 +8,12 @@
     max-width: 800px;
     margin: auto;
     margin-top: 2rem ;
-  }
+    border: 2px solid #5f637d;
+    border-radius: 30px;
+    // border: 2px solid $color-n3;;
+    
+
+}
  
 // .comment-card {
 //     max-width: 90%;

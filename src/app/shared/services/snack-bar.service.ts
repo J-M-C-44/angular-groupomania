@@ -13,9 +13,9 @@ export class SnackBarService {
     hPosition?: any, vPosition? : any,
     className?: any ) {
     this.matSnackBar.open(message, action, {
-      duration: duration ? duration : 3000,
+      duration: duration ? duration : 2000,
       horizontalPosition: hPosition ? hPosition : 'center',
-      verticalPosition: vPosition ? vPosition : 'top',
+      verticalPosition: vPosition ? vPosition : 'bottom',
       panelClass: className ? className : 'snack-style--ok'
     });
   }

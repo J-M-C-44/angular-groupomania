@@ -1,3 +1,4 @@
+@import "../../../../styles/variables.scss";
 
 .comment__date {
     font-size: x-small;
@@ -8,6 +9,9 @@
     max-width: 90%;
     background-color:#f0f0fd;
     margin-left: 1rem;
+    button:hover {
+        background-color: $color-n3;
+    }
     // display: inline-block;
 }
 // .comment-card__spacer {

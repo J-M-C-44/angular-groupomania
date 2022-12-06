@@ -22,12 +22,12 @@ import { HeaderCardUsersInfoComponent } from './components/header-card-users-inf
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 
 
-
 @NgModule({
   declarations: [
     ToolbarComponent,
     HeaderCardUsersInfoComponent,
     DeleteDialogComponent,
+    
   ],
   imports: [
     CommonModule,

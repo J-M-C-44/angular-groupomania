@@ -12,7 +12,8 @@ import { CommentsService } from '../shared/services/comments.service';
 import { Comment } from '../../shared/models/comment.model';
 import { UsersService } from '../../shared/services/users.service';
 import { PageEvent } from '@angular/material/paginator';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 // import { User } from '../../shared/models/user.model';
 // import {MatDialog} from '@angular/material/dialog'
 // à voir si je garde....
@@ -23,8 +24,38 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-posts-list',
   templateUrl: './posts-list.component.html',
-  styleUrls: ['./posts-list.component.scss']
+  styleUrls: ['./posts-list.component.scss'],
+  animations: [
+    trigger('animFromRight', [
+      transition(':enter', [
+        style({
+            opacity: 0,
+            transform: 'translateX(-100%)',
+        }),
+        animate('500ms ease-out',
+                style({ 
+                      opacity: 1,
+                      transform: 'translateX(0)'
+                })
+        ),
+      ]),
+      transition(':leave', [
+        style({
+          opacity: 1,
+          transform: 'translateX(0)',
+        }),
+        animate('400ms ease-in',
+                style({ 
+                      opacity: 0,
+                      transform: 'translateX(+100%)',
+                      
+                })
+        ),
+      ]),
+    ])
+  ],
 })
+
 export class PostsListComponent implements OnInit {
 
   userId = 0;

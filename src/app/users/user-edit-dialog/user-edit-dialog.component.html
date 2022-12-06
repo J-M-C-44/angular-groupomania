@@ -2,7 +2,7 @@
 <div class="editUser-tab-title"> 
     <h2> {{titre}}</h2>
     <span class="spacer"></span>
-    <button mat-icon-button alt="fermer la fenetre" (click)="close()">
+    <button mat-icon-button alt="fermer la fenetre" title="fermer" (click)="close()">
         <mat-icon>clear</mat-icon>
     </button>
 </div>
@@ -46,7 +46,7 @@
             <span class="editUser-tab__label-text"> Compte </span>
         </ng-template>
         <div class="editUser-tab__content"> 
-            <button mat-raised-button color="primary" type="button" alt="supprimer" (click)="openDialogDelete()">
+            <button mat-raised-button color="primary" type="button" title="supprimer" alt="supprimer" (click)="openDialogDelete()">
                 <mat-icon>delete</mat-icon>
                 <span> Supprimer le compte</span>
             </button>

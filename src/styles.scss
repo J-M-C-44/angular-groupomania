@@ -125,21 +125,21 @@ ul{
 //   text-align: center;
 // }
 .snack-style--ok {
-  background-color: aquamarine;
+  background-color:palegreen;
   color: black;
   display : inline-block;
   text-align: center;
 }
 .snack-style--ko {
-  background-color: red;
+  background-color:$color-n2;
   text-align: center;
 }
 .form_image-input {
   display: none;
 }
-.post-creation__card {
-  background-color: #ffe8e6; //$color-n3-light
-}
+// .post-creation__card {
+//   background-color: #ffe8e6; //$color-n3-light
+// }
 .spacer {
     flex: 1 1 auto;
 }  

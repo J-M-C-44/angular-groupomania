@@ -4,7 +4,7 @@
       <div class ="header-card"> 
         <app-header-card-users-info [userId] ="postExt.userId"  [createdTime] ="postExt.createdTime"> </app-header-card-users-info>
         <span class="spacer"></span>
-        <button *ngIf="(userIsAdmin || (postExt.userId == userId))" mat-icon-button [matMenuTriggerFor]="menu" aria-label="bouton icone avec menu pour editer ou supprimer">
+        <button *ngIf="(userIsAdmin || (postExt.userId == userId))" mat-icon-button [matMenuTriggerFor]="menu" title="éditer ou supprimer" aria-label="bouton icone avec menu pour editer ou supprimer">
             <mat-icon>more_vert</mat-icon>
         </button>
             <mat-menu #menu="matMenu" xPosition="before">
@@ -27,17 +27,17 @@
     <mat-divider inset></mat-divider>
         
     <mat-card-actions align="end">  
-        <button type="button" mat-raised-button color="primary" (click)="likePost(postExt)" [matBadge]="(postExt.nbLikes!>0)? postExt.nbLikes : ''" [matBadgeColor]="postExt.isLiked ? 'accent' : 'primary'">
+        <button type="button" mat-raised-button color="primary" (click)="likePost(postExt)" title="liker" [matBadge]="(postExt.nbLikes!>0)? postExt.nbLikes : ''" [matBadgeColor]="postExt.isLiked ? 'accent' : 'primary'">
             <mat-icon >thumb_up </mat-icon>
         </button>
-        <button mat-raised-button color="primary" type="button" alt="commentaires" (click)="showComments(postExt)" [matBadge]="(postExt.nbComments!>0)? postExt.nbComments : ''" matBadgeColor="primary">
+        <button mat-raised-button color="primary" type="button" alt="commentaires" title="afficher les commentaires"(click)="showComments(postExt)" [matBadge]="(postExt.nbComments!>0)? postExt.nbComments : ''" matBadgeColor="primary">
             <mat-icon>comment</mat-icon>
         </button>
     </mat-card-actions>
 
-    <div *ngIf="postExt.commentsShowed ">
+    <div @anim *ngIf="postExt.commentsShowed ">
 
-        <div *ngFor="let comment of postExt.comments" class="comment__item">
+        <div @anim2 *ngFor="let comment of postExt.comments" class="comment__item">
             <app-comment [comment]= "comment" [postExt]= "postExt" class="comment__item"  [isCommentEditable] = "(userIsAdmin || (comment.userId == userId))? true : false"> </app-comment>      
         </div>
         <mat-divider></mat-divider>

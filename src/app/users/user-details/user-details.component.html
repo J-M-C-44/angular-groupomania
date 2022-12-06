@@ -1,7 +1,9 @@
 <header>
     <app-toolbar></app-toolbar>
 </header>
-<p>user-details works! - to be continued </p>
+<p>user-details : to be continued, work in progess </p>
+<img src="assets/travaux.jpg" type="image" alt="image de travaux" class="en-travaux">
+
 <!-- <img mat-card-avatar [src]= detailedUser.avatarUrl alt="avatar"> 
 
 <p> {{fullName}} </p>
@@ -16,58 +18,88 @@
 
 
 <!--  -->
-
-<mat-card class="example-card">
+<section class="user-details">
+    <mat-card class="example-card">
     
-    <div class ="header-card">  
-        <div class="avatar-container" > <img class="img-avatar" [src]= detailedUser.avatarUrl alt="avatar"> </div>
-        <!-- <mat-card-header>   -->
-            <p class="user-card__name"> {{detailedUser.fullName}}</p>
-        <!-- </mat-card-header> -->
-    </div>
-
-  <!-- <img  *ngIf="postExt.imageUrl" [src]="postExt.imageUrl" mat-card-image alt="Post Image"> -->
-  <mat-card-content>
-    <ul>
-        <li> 
-            <mat-icon matListItemIcon>numbers</mat-icon>
-            <span class="user-card__liste-item"> N° {{detailedUser.id}} </span>
-        </li>
-        <!-- <li> 
-            <mat-icon matListItemIcon>perm_identity</mat-icon>
-            <span class="user-card__liste-item"> Nom : {{detailedUser.lastname }} </span>
-            <span class="user-card__liste-item"> Prénom : {{detailedUser.firstname }} </span>
-        </li> -->
-        <li> 
-            <mat-icon matListItemIcon>engineering</mat-icon>
-            <span class="user-card__liste-item"> {{detailedUser.fonction }} </span>
-        </li>
-        <li> 
-            <mat-icon matListItemIcon>email</mat-icon>
-            <span class="user-card__liste-item"> {{detailedUser.email}} </span>
-        </li>
-        <li> 
-            <mat-icon matListItemIcon>history</mat-icon>
-            <span class="user-card__liste-item"> inscrit depuis le {{detailedUser.createdTime | date:'d/M/yyyy'}} </span>
-        </li>
-        
-    </ul>
-        <!-- <div mat-subheader>Folders</div> -->
-        <!-- <mat-list-item *ngFor="let note of notes">
-            <mat-icon matListItemIcon>note</mat-icon>
-            <div matListItemTitle>{{note.name}}</div>
-            <div matListItemLine>{{note.updated | date}}</div>
-          </mat-list-item> -->
-        
-  </mat-card-content>
-  
-  <mat-divider inset></mat-divider>
+        <div class ="header-card">  
+            <div class="avatar-container" > <img class="img-avatar" [src]= detailedUser.avatarUrl alt="avatar"> </div>
+            <!-- <mat-card-header>   -->
+                <p class="user-card__name"> {{detailedUser.fullName}}</p>
+            <!-- </mat-card-header> -->
+        </div>
+    
+      <!-- <img  *ngIf="postExt.imageUrl" [src]="postExt.imageUrl" mat-card-image alt="Post Image"> -->
+      <mat-card-content>
+        <ul>
+            <li> 
+                <mat-icon matListItemIcon>numbers</mat-icon>
+                <span class="user-card__liste-item"> N° {{detailedUser.id}} </span>
+            </li>
+            <!-- <li> 
+                <mat-icon matListItemIcon>perm_identity</mat-icon>
+                <span class="user-card__liste-item"> Nom : {{detailedUser.lastname }} </span>
+                <span class="user-card__liste-item"> Prénom : {{detailedUser.firstname }} </span>
+            </li> -->
+            <li> 
+                <mat-icon matListItemIcon>engineering</mat-icon>
+                <span class="user-card__liste-item"> {{detailedUser.fonction }} </span>
+            </li>
+            <li> 
+                <mat-icon matListItemIcon>email</mat-icon>
+                <span class="user-card__liste-item"> {{detailedUser.email}} </span>
+            </li>
+            <li> 
+                <mat-icon matListItemIcon>history</mat-icon>
+                <span class="user-card__liste-item"> inscrit depuis le {{detailedUser.createdTime | date:'d/M/yyyy'}} </span>
+            </li>
+            
+        </ul>
+            
+      </mat-card-content>
       
-  <mat-card-actions align="end">  
-      <button mat-raised-button color="primary" type="button" alt="commentaires">
-          <mat-icon>delete</mat-icon>
-      </button>
-  </mat-card-actions>
+      <mat-divider inset></mat-divider>
+          
+      <mat-card-actions align="end">  
+        <button mat-raised-button color="primary" type="button" title="visualiser les posts" (click)="getAllPostsOfUser(detailedUser.id)">
+            <mat-icon>question_answer</mat-icon>
+            <span> voir ses posts </span>
+        </button>
+        <span class="spacer"> </span>
+        <button *ngIf="userIsAdmin && (detailedUser.id !=myUserId)" mat-raised-button color="primary" type="button" title="supprimer" alt="supprimer" (click)="openDialogDelete()">
+            <mat-icon>delete</mat-icon>
+            <span> Supprimer </span>
+        </button>
+      </mat-card-actions>
+    
+    </mat-card>
+</section>
 
-  
-</mat-card>
+
+<section class="user-posts-list">
+    
+    <div *ngFor="let postExt of userPostsExt" >
+        <!-- // ICIJCO - voir pour mutualiser post component -->
+        <!-- <app-post [postsExt]= "userPostsExt" [postExt]= "postExt"  [userIsAdmin] = "userIsAdmin"  [userId]="myUserId"> </app-post> -->
+        <!-- en attendant, solution light pour vérifier les données-->
+        <mat-card class="example-card"> 
+            <mat-card-title> post ID N° {{postExt.id}}</mat-card-title>
+            <mat-card-subtitle>le {{postExt.createdTime | date:'d/M/yy, HH:mm'}}</mat-card-subtitle>
+            <mat-card-content>
+                <p> {{postExt.text}} </p>
+                <img  *ngIf="postExt.imageUrl" [src]="postExt.imageUrl" mat-card-image alt="Post Image">
+                
+            </mat-card-content>
+            <p> nb likes : {{postExt.nbLikes}} </p>
+            <p> nb commentaires : {{postExt.nbComments}}</p>
+            <div *ngFor="let comment of postExt.comments"  >
+                <mat-card class="comment-card"> 
+                    <mat-card-subtitle> user ID N° {{comment.userId}} - le {{comment.createdTime | date:'d/M/yy, HH:mm'}}</mat-card-subtitle>
+                    <mat-card-content >
+                        <p> {{comment.text}} </p>
+                        <img  *ngIf="comment.imageUrl" [src]="comment.imageUrl" mat-card-image alt="comment Image">
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-card>
+    </div>
+</section>
