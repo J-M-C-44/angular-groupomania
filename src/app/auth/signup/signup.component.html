@@ -20,7 +20,7 @@
               <mat-error *ngIf="signupForm.controls.email.invalid">{{getErrorMessageEmail()}}</mat-error>
             </mat-form-field>
 
-            !-----------  mot de passe    ------>
+            <!-----------  mot de passe    ------>
             <mat-form-field appearance="outline">
               <mat-label> votre mot de passe </mat-label>
               <input id="signupFormPassword" matInput formControlName="password" required [type]="hide ? 'password' : 'text'">
