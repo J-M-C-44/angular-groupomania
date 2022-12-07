@@ -1,23 +1,34 @@
+// <-------------          service users : tout ce que tourne autour du user            ------------>
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User, UserExtended } from '../models/user.model';
 import {Router} from '@angular/router';
+import { __param } from 'tslib';
 
-// ICIJCO à mettre en import/param
 const baseUrl = 'http://localhost:3000/api/v1/'
 
 @Injectable({
   providedIn: 'root'
 })
+
+/** regroupe toutes les fonctions relatives aux utilisateurs :
+ *     - récupération des users sur l'API : un user, son user, tous les users
+ *     - mise à jour du user via l'API : profil (dont avatar), email, mot de passe
+ *     - suppression du user via l'API
+ *     - mise en cache des informations users pour ne pas appeler l'API pour des données qui ne bougent pas bcp.
+ *     - ...
+ */
 export class UsersService {
 
   private usersUrl = baseUrl+'users/';
-  // private postsUrl = baseUrl+'posts';
+  // tableau de cache contenant les users + autre info utile
   public UsersExtendedCache: UserExtended[] =[]
-  public myUser:User = {id:0,email:'', lastname:'',firstname:'',fonction:'',avatarUrl:'', role:0, createdTime:'',modifiedTime:''}
   public UsersExtendedCacheFullyCharged = false;
+  // cache des infos du user actuellement connecté 
+  public myUser:User = {id:0,email:'', lastname:'',firstname:'',fonction:'',avatarUrl:'', role:0, createdTime:'',modifiedTime:''}
   defaultAvatarUrl ='assets/logo-avatar.jpg' 
   avatarUrl ='';    
 
@@ -29,13 +40,17 @@ export class UsersService {
     private router: Router,
     ) { }
 
-  
 
+/** récupère le user via get htttp sur l'api 
+ *    (et les met en cache)
+ * @param userId - id du user à récupérer
+ * @returns un user
+ */
   getOneUser(userId:number): Observable<User> {
       return this.http.get<User>(this.usersUrl+userId)
           .pipe(
             tap((data: any) => {
-              console.log('données reçues : ', data)
+              // console.log('données reçues : ', data)
                //mise en cache 
               this.putUserInCache(data) 
             }),
@@ -58,7 +73,11 @@ export class UsersService {
           )
    
   }
-  
+
+  /** récupère via get htttp sur l'API le user de l'utilisateur actuellement connecté 
+ *    (et le met en cache)
+ * @returns un user
+ */
   getMyUser(): Observable<User> {
     return this.http.get<User>(this.usersUrl+'me')
         .pipe(
@@ -66,7 +85,6 @@ export class UsersService {
             // console.log('données reçues : ', data)
             this.myUser = {...data}
             // console.log('this.myUser : ', this.myUser)  
-
             //mise en cache 
             this.putUserInCache(data) 
           }) 
@@ -80,48 +98,15 @@ export class UsersService {
  
 }
 
-  // getMyUserData()  {
-  //   // let avatarUrl='';
-  //   if (this.myUserdata.id && (this.myUserdata.id !=0 ) ) {
-  //       return this.myUserdata
-  //   } else {
-  //       this.getMyUser()
-  //             .subscribe ( {
-  //               next : (data) => {
-  //                 console.log('données getMyUser reçues : ', data)
-  //                 // if (data.avatarUrl)
-  //                   // avatarUrl = data.avatarUrl;
-
-  //                 // if (data.lastname && data.firstname)
-  //                 //   this.fullName = (data.firstname + ' '+ data.lastname)
-  //                 // else if (data.lastname)
-  //                 //   this.fullName = data.lastname
-  //                 // else if(data.firstname)
-  //                 //   this.fullName = data.firstname;
-  //                 // let newUserExtendedCache = {...data, fullName:this.fullName};
-  //                 // newUserExtendedCache.avatarUrl = avatarUrl;
-  //                 // this.UsersExtendedCache = this.UsersExtendedCache!.filter(u => u.id !== data.id)
-  //                 // this.UsersExtendedCache.push(newUserExtendedCache)
-  //                 this.myUserdata = data
-  //                 return this.myUserdata
-
-  //               },
-  //               error: (err) => {
-  //                 this.router.navigateByUrl('/auth/login')
-  //                 return this.myUserdata
-  //               },
-  //               complete: () => {
-  //                 return this.myUserdata
-  //               }
-  //             })
-               
-  //   }
-
+ /** récupère via get htttp sur l'API tous les users 
+ *    (et les met en cache)
+ * @returns un tableau de user
+ */
   getAllUsers() : Observable<User[]> {
     return this.http.get<User[]>(this.usersUrl)
           .pipe(
             tap((data: any) => {
-              console.log('données reçues : ', data)
+              // console.log('données reçues : ', data)
                //mise en cache 
               this.putAllUsersInCache(data) 
             }),
@@ -143,12 +128,16 @@ export class UsersService {
             })
           )
   }
-    
+
+/** supprime le user via delete htttp sur l'API
+ *    (et le supprime du cache)
+ *  @param userId - id du user à supprimer
+ */
   deleteUser (userId:number): Observable<User> {
     return this.http.delete<User>(this.usersUrl+userId)
         .pipe(
           tap((data: any) => {
-            console.log('données deletePost  : ', data)
+            // console.log('données deletePost  : ', data)
             // on supprime le user du cache
             this.UsersExtendedCache= this.UsersExtendedCache.filter(p => p.id !== userId);
           }),
@@ -169,10 +158,17 @@ export class UsersService {
           })
         )
   }
-
+/** met à jour le user (données nom, prénom, fonction et avatar éventuellement) via put htttp sur l'API
+ *    (et le supprime du cache)
+ *  @param editedUser : user "étendu" en cours d'édition
+ *  @param lastname : user "étendu" en cours d'édition
+ *  @param firstname : user "étendu" en cours d'édition
+ *  @param fonction : user "étendu" en cours d'édition
+ *  @param {File|string} avatar  : fichier image de l'avatar ou 'toDelete' si demande de suppression de l'image existante
+ */
   updateProfileUser(editedUser:UserExtended, lastname:string, firstname:string, fonction:string, avatar?:File|string, ) : Observable<User> {
     if (avatar && (avatar != 'toDelete')) {
-      //form data
+      //form data pour gérer le fichier
       const formData: FormData = new FormData();
       let user = { id : editedUser.id, lastname: lastname, firstname:firstname, fonction:fonction}
       formData.append('user', JSON.stringify(user));
@@ -180,7 +176,7 @@ export class UsersService {
       return this.http.put(this.usersUrl+editedUser.id+'/profile', formData, this.httpOptions)
           .pipe(
             tap((data: any) => {
-              console.log('données put user profile  : ', data)
+              // console.log('données put user profile  : ', data)
               // on met à jour le user en cache (et myUser si concerné)
               this.UsersExtendedCache= this.UsersExtendedCache.filter(p => p.id !== editedUser.id);
               editedUser.lastname = lastname;
@@ -210,11 +206,11 @@ export class UsersService {
             })
           )
     } else {
-      // JSON
+      // JSON 
         let body = {} 
         let id = editedUser.id
         let isAvatarDeleted = false
-        if (avatar && (avatar = 'toDelete')) {
+        if (avatar && (avatar == 'toDelete')) {
           isAvatarDeleted = true;
           let avatarUrl = avatar
           body = {id, lastname, firstname, fonction, avatarUrl}; 
@@ -224,7 +220,7 @@ export class UsersService {
         return this.http.put(this.usersUrl+editedUser.id+'/profile', body, this.httpOptions)
           .pipe(
             tap((data: any) => {
-              console.log('données put user profile  : ', data)
+              // console.log('données put user profile  : ', data)
               // on met à jour le user en cache (et myUser si concerné)
               this.UsersExtendedCache= this.UsersExtendedCache.filter(p => p.id !== editedUser.id);
               editedUser.lastname = lastname;
@@ -233,7 +229,6 @@ export class UsersService {
               if (isAvatarDeleted) {
                 editedUser.avatarUrl = this.defaultAvatarUrl;
               }
-              editedUser.avatarUrl = data.avatarUrl,
               this.UsersExtendedCache.push(editedUser);
               if (editedUser.id == this.myUser.id) {
                 this.myUser.lastname = lastname;
@@ -262,13 +257,17 @@ export class UsersService {
       };
   }
 
-
+/** met à jour l'email via l'API
+ *    (et met à jour le cache)
+ *  @param editedUser : user "étendu" en cours d'édition
+ *  @param email : nouvel email 
+ */
   updateEmailUser(editedUser:UserExtended, email:string): Observable<User> {
     let body = {email};
     return this.http.patch(this.usersUrl+editedUser.id+'/email', body, this.httpOptions)
           .pipe(
             tap((data: any) => {
-              console.log('données patch user email  : ', data)
+              // console.log('données patch user email  : ', data)
               // on met à jour le user en cache (et myUser si concerné)
               this.UsersExtendedCache= this.UsersExtendedCache.filter(p => p.id !== editedUser.id);
               editedUser.email = email
@@ -293,13 +292,17 @@ export class UsersService {
             })
           ) 
   }
-
+/** met à jour le password via l'API
+ *  @param editedUser : user "étendu" en cours d'édition
+ *  @param oldPassword : ancien password qui sera vérifié avant modification 
+ *  @param password : nouveau password
+ */
   updatepasswordUser(editedUser:UserExtended, oldPassword:string, password:string): Observable<User> {
     let body = {oldPassword, password};
     return this.http.patch(this.usersUrl+editedUser.id+'/password', body, this.httpOptions)
           .pipe(
             tap((data: any) => {
-              console.log('données patch user password  : ', data)
+              // console.log('données patch user password  : ', data)
             }),
             catchError(err => {
               // console.log('err : ', err);
@@ -319,18 +322,11 @@ export class UsersService {
           ) 
   }
 
-  // }
+/** met à jour le cache avec le user fourni
+ */ 
   putUserInCache(data:any) : void {
     // on renseigne le nom à afficher avec nom, prénom si disponibles, sinon on met par défaut le numéro d'utilisateur
     let fullName = this.formatFullName(data.id, data.lastname, data.firstname)
-    // let fullName =('utilisateur n° ' + data.id)
-    // if (data.lastname && data.firstname)
-    //   fullName = (data.firstname + ' '+ data.lastname)
-    // else if (data.lastname)
-    //   fullName = data.lastname
-    // else if(data.firstname)
-    //   fullName = data.firstname;
-    
 
     let newUserExtendedCache = {...data, fullName:fullName};
     let avatarUrl = data.avatarUrl ? data.avatarUrl : this.defaultAvatarUrl; 
@@ -343,11 +339,12 @@ export class UsersService {
     // console.log('this.UsersExtendedCache : ', this.UsersExtendedCache);
   }
 
-  putAllUsersInCache(users:User[]) {
+/** met à jour l'ensemble du cache avec les users fournis
+ */ 
+  putAllUsersInCache(users:User[]) :void {
     // on supprime le cache car on va le réactualiser en globalité
     this.UsersExtendedCache = [];
     for (let user of users) {
-      //ICIJCO: penser à refactorer le code des autres endroits où on gère le fullname
       let fullName = this.formatFullName(user.id, user.lastname, user.firstname)
       let newUserExt = {...user, fullName:fullName}
       newUserExt.avatarUrl = user.avatarUrl ? user.avatarUrl : this.defaultAvatarUrl;
@@ -358,7 +355,12 @@ export class UsersService {
   } 
 
 
-
+/** formate le fullName pour l'affichage à partir des données disponibles. sans données ce sera le Untilisateur N° ...
+ *  @param userId -  id du user 
+ *  @param lastname -  lastname 
+ *  @param userId -  firstname 
+ *  @retuns fullName -  fullName prêt pour l'affichage
+ */   
   formatFullName(userId:number, lastname:string, firstname:string) : string {
     let fullName =('utilisateur n° ' + userId)
     if (lastname && firstname)
@@ -370,7 +372,8 @@ export class UsersService {
     return fullName
   }
 
-
+/** supprime les données en mémoire temporaire pour l'utilisateur actuel
+ */ 
   eraseMyUserData() : void {
     this.myUser =  {id:0,email:'', lastname:'',firstname:'',fonction:'',avatarUrl:'', role:0, createdTime:'',modifiedTime:''}
   }

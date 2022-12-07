@@ -1,10 +1,18 @@
+<!------------------------          enregistrement d'un nouvel utilisateur (SIGNUP)       --------------------->
+
 <div class="signup__global-container"> 
     <h1>
         <img src="assets/icon-groupomania-red.png" type="image" alt="icone groupomania" class="signup__auth-logo">
     </h1>
-    <div @fadeIn class="signup__container"> 
+
+    <div @fadeIn class="signup__container">
+
         <h2> Enregistrement nouvel utilisateur </h2>
+
+        <!--------------  formulaire d'enregistrement d'un nouvel utilisateur    ------>
         <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+
+            <!-----------  email    ------>
             <mat-form-field appearance="outline">
               <mat-label> votre email </mat-label>
               <input #signupFormEmail matInput placeholder="you@example.com" formControlName="email" required>
@@ -12,6 +20,7 @@
               <mat-error *ngIf="signupForm.controls.email.invalid">{{getErrorMessageEmail()}}</mat-error>
             </mat-form-field>
 
+            !-----------  mot de passe    ------>
             <mat-form-field appearance="outline">
               <mat-label> votre mot de passe </mat-label>
               <input id="signupFormPassword" matInput formControlName="password" required [type]="hide ? 'password' : 'text'">

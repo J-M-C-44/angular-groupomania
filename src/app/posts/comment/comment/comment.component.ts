@@ -1,15 +1,14 @@
-import { Component, OnInit, ɵisDefaultChangeDetectionStrategy } from '@angular/core';
+// <--------------  gestion  de l'affichage unitaire des données d'un commentaire  -  appelé via template par post.component      ------------->
+
+import { Component, OnInit} from '@angular/core';
 import { Input } from '@angular/core';
 import { Comment } from '../../../shared/models/comment.model';
 import { CommentsService } from '../../shared/services/comments.service';
-import { User } from '../../../shared/models/user.model';
 import { UsersService } from '../../../shared/services/users.service';
 import { PostExtended } from '../../../shared/models/post.model';
 import {MatDialog} from '@angular/material/dialog'
 import {CommentEditDialogComponent} from '../comment-edit-dialog/comment-edit-dialog.component';
-// import {CommentDeleteDialogComponent} from '../comment-delete-dialog/comment-delete-dialog.component'
 import {DeleteDialogComponent} from '../../../shared/components/delete-dialog/delete-dialog.component';;
-// import {CommentFormComponent} from '../comment-form/comment-form.component';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 @Component({
@@ -17,6 +16,11 @@ import { SnackBarService } from '../../../shared/services/snack-bar.service';
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']
 })
+
+/**
+ * affichage unitaire des données d'un commentaire
+ * gestion de l'appel à la fenetre dialogue pour edition/suppression du commentaire
+ */
 export class CommentComponent implements OnInit {
   @Input() comment!: Comment;
   @Input() postExt!: PostExtended
@@ -33,30 +37,16 @@ export class CommentComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    // this.avatarUrl = this.defaultAvatarUrl
-    // this.fullName = ('utilisateur n° ' + this.comment.userId)
+    // recherche des infos du user ayant fait le commentaire dans le cache.
     let userFoundinCache =  this.UsersService.UsersExtendedCache.find(searchItem => (searchItem.id == this.comment.userId))
     if (userFoundinCache) {
       this.avatarUrl = userFoundinCache.avatarUrl;
       this.fullName = userFoundinCache.fullName;
+      // si non trouvé, on passe par un appel api.
     } else {
       this.UsersService.getOneUser(this.comment.userId)
         .subscribe ( {
           next : (data) => {
-            console.log('données getOneUser reçues : ', data)
-           
-            // if (data.avatarUrl)
-            //   this.avatarUrl = data.avatarUrl;
-            // if (data.lastname && data.firstname)
-            //   this.fullName = (data.firstname + ' '+ data.lastname)
-            // else if (data.lastname)
-            //   this.fullName = data.lastname
-            // else if(data.firstname)
-            //   this.fullName = data.firstname;
-            // let fullName = this.fullName
-            // let newUserExtendedCache = {...data, fullName:this.fullName};
-            // newUserExtendedCache.avatarUrl = this.avatarUrl;
-            // this.UsersService.UsersExtendedCache.push(newUserExtendedCache)
             this.avatarUrl = data.avatarUrl ? data.avatarUrl : this.defaultAvatarUrl;
 
             if (data.lastname && data.firstname)
@@ -77,6 +67,10 @@ export class CommentComponent implements OnInit {
         })
       } 
   }
+
+/**
+ * ouvre la boite de dialogue permettant d'éditer les données du commentaire 
+ */
   openDialogEdit() : void {
 
     const dialogRef = this.dialog.open(CommentEditDialogComponent, {
@@ -89,6 +83,10 @@ export class CommentComponent implements OnInit {
     });
   }
 
+/** gestion la demande de suppression de commentaire (accessible pour l'admin et le propriétaire du commentaire): 
+ *     - ouvre la fenetre de dialogue demandant la confirmation de suppression du commentaire
+ *     - si confirmée: suppression du commentaire en bdd appel API via comments service et mise à jour des données servant à l'affichage.
+ */
   openDialogDelete() : void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
@@ -98,7 +96,6 @@ export class CommentComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(deleteIsConfirmed => {
       if (deleteIsConfirmed)  {
-        console.log(`deleteIsConfirmed : ${deleteIsConfirmed}`) ;
         this.CommentsService.deleteComment(this.comment.id)
           .subscribe ( {  
             next : (data) => {
@@ -109,11 +106,9 @@ export class CommentComponent implements OnInit {
             },
             error: (err) => {
               console.log('suppression commentaire  ko : ', err);
-              //this.errorMsgSubmit
               let errorMsgSubmit = 'suppression commentaire échouée: ' + err
               this.snackBarService.openSnackBar(errorMsgSubmit,'','','', '', 'snack-style--ko');
             },
-            // complete: () => console.info('complete')
           })
       }
     });

@@ -8,9 +8,7 @@ const routes: Routes = [
     
   { path: '', component: UsersListComponent, canActivate: [AuthGuard] },
   { path: 'users/:id', component: UserDetailsComponent, canActivate: [AuthGuard] },
-  // { path: '', component: UserslistComponent, canActivate: [AuthGuard] },
-  //ICIJCO : à revoir ?
-  { path: '', pathMatch: 'full', redirectTo: 'UserDetailsComponent' }
+
 ];
 
 @NgModule({

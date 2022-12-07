@@ -1,6 +1,8 @@
-<!-- <mat-icon matListItemIcon>numbers</mat-icon> <span class="user-card__liste-item"> {{editedUser.id}} </span> -->
+
+<!----------------- formulaire de modification du profil : nom, prénom, fonction, avatar ------------------>
 
 <form [formGroup]="profileForm" (ngSubmit)="onEditedUserSubmit()">
+
     <mat-form-field appearance="outline">
         <mat-label> Nom : </mat-label>
         <input matInput placeholder="Majax" formControlName="lastname" required>
@@ -20,23 +22,21 @@
 
     <div class="profileForm-image">
             
-            <img *ngIf="imagePreview" [src]="imagePreview" mat-card-avatar alt="your avatar" >   
-            <div class="profileForm-image__text-container">
-                <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
-                    #imageInput class ="form_image-input" (change)="onImageAdded($event)" > 
-                <button type="button"  (click)="imageInput.click()" mat-menu-item alt="bouton remplacer l'image">
-                    <mat-icon> add_photo_alternate </mat-icon> remplacer
-                </button>
-                <button type="button" (click)="onImageDeleted()" mat-menu-item alt="bouton supprimer l' image" [disabled]="">
-                    <mat-icon> hide_image </mat-icon> supprimer
-                </button>
-
-
-            </div>
+        <img *ngIf="imagePreview" [src]="imagePreview" mat-card-avatar alt="your avatar" >   
+        <div class="profileForm-image__text-container">
+            <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
+                #imageInput class ="form_image-input" (change)="onImageAdded($event)" > 
+            <button type="button"  (click)="imageInput.click()" mat-menu-item alt="bouton remplacer l'image">
+                <mat-icon> add_photo_alternate </mat-icon> remplacer
+            </button>
+            <button type="button" (click)="onImageDeleted()" mat-menu-item alt="bouton supprimer l' image" [disabled]="">
+                <mat-icon> hide_image </mat-icon> supprimer
+            </button>
+        </div>
 
     </div>
         
-    <button mat-raised-button color="primary" type="submit" title="enregistrer le profil" alt="enregistrer" class="submit-button" [disabled]="!profileForm.valid" > Enregistrer </button>
+    <button mat-raised-button color="primary" type="submit" title="enregistrer le profil" alt="enregistrer" class="profileForm-submit-button" [disabled]="!profileForm.valid" > Enregistrer </button>
 
 </form>
 

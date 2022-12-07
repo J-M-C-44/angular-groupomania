@@ -1,3 +1,7 @@
+
+// <--------------  gestion de l'édition d'un post  : fenetre de dialogue         ------------->
+// <--------------     - appel par post.component                                 ------------->
+
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -6,6 +10,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './post-edit-dialog.component.html',
   styleUrls: ['./post-edit-dialog.component.scss']
 })
+
+/** boite de dialogue appelée par post.component
+ * données injectées en entrée : 
+ *    - postExt   => post à modifier 
+ *    - postsExt  => tableau des posts  
+ * appelle à son tour post-form via template
+ */
 export class PostEditDialogComponent implements OnInit {
 
   constructor(
@@ -16,7 +27,7 @@ export class PostEditDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  close() {
+  close() :void {
     this.dialogRef.close();
   }
 }

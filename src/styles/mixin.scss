@@ -1,23 +1,7 @@
 
 /* #region  ------------------------------------------   Mixins  -------------------------------*/
 
-@mixin flex-column {
-    display: flex;
-    flex-direction: column;
-}
-@mixin flex-column-jcenter {
-    @include flex-column;
-    justify-content:center;
-}    
-// gestion des différentes ombres
-@mixin shadow-light {
-    box-shadow: 0px 4px 9px $color-n4-dk1;
-}
-@mixin shadow-dark {
-    box-shadow: 0px 4px 9px $color-n4-dk2;
-}
-
-//mediaqueries s'appuyant sur la map de breakpoints
+//mediaqueries s'appuyant sur la map de breakpoints dans le fichier des variables
 @mixin xsmall-screen {
     @media screen and (min-width: map-get($breakpoints, screen-xs)) { 
         @content;

@@ -1,7 +1,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-@use "./styles/mixin.scss" as mixin;
+// @use "./styles/mixin.scss" as mixin;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -16,7 +16,6 @@ $my-custom-typography: mat.define-typography-config(
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-//icijco: après essai: ce n'est pas pas beau, à revoir
 $grey-groupomania-palette: (
  50: #f0f0fd,
  100: #d7dbed,
@@ -51,7 +50,7 @@ $red-groupomania-palette: (
  400: #ff6038,
  500: #ff3b0e,
  600: #ff3408,
- 700: #fd2b01,
+ 700: #fd2d01,
  800: #ef1f00,
  900: #d80000,
 
@@ -98,15 +97,11 @@ $angular-groupomania-theme: mat.define-light-theme((
 @import 
     "./styles/variables.scss";
 
-// * {
-//     box-sizing: border-box;
-//     font-family: 'Lato', sans-serif;
-//     font-size: 16px;
-// }
+
 html, body { height: 100%; }
 body { 
     margin: 0; 
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: lato, Roboto, "Helvetica Neue", sans-serif;
     background-color: $color-n1-light
 }
 ul{
@@ -114,16 +109,10 @@ ul{
   padding: 0;
   margin:0;
 }
-// ::ng-deep .snack-style-ok {
-//   background-color: aquamarine;
-//   color: black;
-//   display : inline-block;
-//   text-align: center;
-// }
-// ::ng-deep .snack-style-ko {
-//   background-color: red;
-//   text-align: center;
-// }
+img {
+  max-height: 700px ;
+} 
+
 .snack-style--ok {
   background-color:palegreen;
   color: black;
@@ -137,9 +126,8 @@ ul{
 .form_image-input {
   display: none;
 }
-// .post-creation__card {
-//   background-color: #ffe8e6; //$color-n3-light
-// }
+
 .spacer {
     flex: 1 1 auto;
-}  
+} 
+

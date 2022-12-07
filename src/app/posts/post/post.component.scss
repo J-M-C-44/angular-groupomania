@@ -1,10 +1,17 @@
 @import "../../../styles/variables.scss";
 
-.example-card {
+.post-card {
     max-width: 800px;
     margin: auto;
     margin-top: 2rem ;
-  }
+
+    &__header {
+        display: flex;
+        button:hover {
+            background-color: $color-n3;
+        }
+    }
+}
 
 .comment__item {
     display: flex;
@@ -19,17 +26,6 @@
     width: 100%;
 }
 
-// icicjco :à revoir avec vraies données quand user intégré
-.example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
-}
-.header-card {
-    display: flex;
-    button:hover {
-        background-color: $color-n3;
-    }
-}
 mat-card-actions button:hover {
     color:$color-n3;
 }

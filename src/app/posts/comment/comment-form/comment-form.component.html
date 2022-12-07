@@ -1,18 +1,19 @@
+<!---------------- formulaire de création / modification de commentaire  --------------------------->
+
 <form [formGroup]="newCommentForm"  (ngSubmit)="comment? onEditedCommentSubmit(postExt) : onNewCommentSubmit(postExt)" class="comment__form">
     <mat-form-field appearance="outline">
         <mat-label> Ecrivez votre commentaire </mat-label>
         <textarea   matInput rows="1" class="" maxlength="1000" placeholder="Bravo, j'aime beaucoup !"
                     formControlName="textComment"  required>
         </textarea> 
-        <!-- ICICJCO: à voir à froid, cf sucre syntaxique -->
-        <!-- <mat-error *ngIf="form.textComment.invalid">{{getErrorMessageTextComment()}}</mat-error> -->
+
         <mat-error *ngIf="newCommentForm.controls.textComment.invalid">{{getErrorMessageTextComment()}}</mat-error>
     </mat-form-field>
     <img *ngIf="commentImagePreview" [src]="commentImagePreview" mat-card-image alt="your picture" >
     
     <mat-card-actions align="end">
         <div>
-            <!-- <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp " formControlName="imagePost" -->
+   
             <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
                     #commentImageInput class ="form_image-input" title="ajouter une image" (change)="onCommentImageAdded($event)" > 
             <button type="button" mat-raised-button color="primary" (click)="commentImageInput.click()" alt="bouton ajouter une image" title="ajouter une image">
@@ -21,7 +22,7 @@
             <button *ngIf="comment" type="button" mat-raised-button color="primary" (click)="onCommentImageDeleted()" alt="supprimer" title="supprimer l'image">
                 <mat-icon> hide_image </mat-icon>
            </button>
-            <!-- {{commentFileName}} -->
+
         </div>
         <span class="spacer"></span>
         

@@ -11,8 +11,6 @@ import { UserPasswordFormComponent } from './user-password-form/user-password-fo
 import { UserProfileFormComponent } from './user-profile-form/user-profile-form.component';
 // import { PostComponent } from '../posts/post/post.component'
 
-
-
 @NgModule({
   declarations: [
     UserDetailsComponent,
@@ -28,7 +26,6 @@ import { UserProfileFormComponent } from './user-profile-form/user-profile-form.
     CommonModule,
     UsersRoutingModule, 
     SharedModule,
-    // SharedModule
   ]
 })
 export class UsersModule { }

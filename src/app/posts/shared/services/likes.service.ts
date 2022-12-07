@@ -1,3 +1,5 @@
+// <-------------          service likes : tout ce que tourne autour des likes            ------------>
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,6 +11,12 @@ const baseUrl = 'http://localhost:3000/api/v1/'
 @Injectable({
   providedIn: 'root'
 })
+
+/** regroupe toutes les fonctions relatives aux likes :
+ *     - récupération de tous les likes pour un post donné  (via POST HTTP sur l'API)
+ *     - ajouter un like sur un post donné (via POST HTTP sur l'API)
+ *     - supprimer un like sur un post donné (via DELETE HTTP sur l'API)
+ */
 export class LikesService {
 
   private likesUrl = baseUrl+'likes/';
@@ -18,10 +26,16 @@ export class LikesService {
   };
   constructor(private http: HttpClient) { }
 
+  /**
+   * ajoute un like sur un post donné (via POST HTTP sur l'API)
+   * @param postId - id du post sur lequel ajouté un like
+   */
   likePost(postId:number): Observable<Like> { 
     return this.http.post(this.postsUrl+postId+'/likes', this.httpOptions)
       .pipe(
-        tap((data: any) => console.log('données likePost reçues : ', data)),
+        tap((data: any) => {
+          // console.log('données likePost reçues : ', data)
+        }),
         catchError(err => {
           // console.log('err : ', err);
           if (!err.status) {
@@ -35,10 +49,17 @@ export class LikesService {
         })
       )
   };
-  unlikePost(postId:number): Observable<Like> { 
-    return this.http.delete(this.likesUrl+postId, this.httpOptions)
+
+/**
+  * suppression d'un like donné (via DELETE HTTP sur l'API)
+  * @param likeId - id du like à supprimer
+  */
+  unlikePost(likeId:number): Observable<Like> { 
+    return this.http.delete(this.likesUrl+likeId, this.httpOptions)
       .pipe(
-        tap((data: any) => console.log('données delete like reçues : ', data)),
+        tap((data: any) => {
+          // console.log('données delete like reçues : ', data)
+        }),
         catchError(err => {
           // console.log('err : ', err);
           if (!err.status) {
@@ -55,10 +76,17 @@ export class LikesService {
       )
   };
 
+  /**
+   * récupère tous les likes pour un post donné  (via GET HTTP sur l'API)
+   * @param postId - id du post sur lequel recherche les likes
+   * @returns tableau des likes
+   */
   getAllLikesForOnePost (postId:number): Observable<Like[]> {
     return this.http.get<Like[]>(this.postsUrl+postId+'/likes/')
         .pipe(
-          tap((data: any) => console.log('données getAllLikesForOnePost reçues : ', data)),
+          tap((data: any) => {
+            // console.log('données getAllLikesForOnePost reçues : ', data)
+          }),
           catchError(err => {
               // console.log('err : ', err);
             if (!err.status) {

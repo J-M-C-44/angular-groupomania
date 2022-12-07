@@ -1,9 +1,11 @@
+<!----------------------------      affichage unitaire des données d'un post   ---------------->
 
-<mat-card class="example-card">
+<mat-card class="post-card">
 
-      <div class ="header-card"> 
+      <div class ="post-card__header"> 
         <app-header-card-users-info [userId] ="postExt.userId"  [createdTime] ="postExt.createdTime"> </app-header-card-users-info>
         <span class="spacer"></span>
+        <!-- seul l'administrateur ou le propriétaire du post peuvent accéder au menu d'édition/suppression  -->
         <button *ngIf="(userIsAdmin || (postExt.userId == userId))" mat-icon-button [matMenuTriggerFor]="menu" title="éditer ou supprimer" aria-label="bouton icone avec menu pour editer ou supprimer">
             <mat-icon>more_vert</mat-icon>
         </button>
@@ -35,7 +37,8 @@
         </button>
     </mat-card-actions>
 
-    <div @anim *ngIf="postExt.commentsShowed ">
+    <!----------------------------      commentaires associés au post affichés si demandé  ---------------->
+    <div @anim1 *ngIf="postExt.commentsShowed ">
 
         <div @anim2 *ngFor="let comment of postExt.comments" class="comment__item">
             <app-comment [comment]= "comment" [postExt]= "postExt" class="comment__item"  [isCommentEditable] = "(userIsAdmin || (comment.userId == userId))? true : false"> </app-comment>      

@@ -1,51 +1,61 @@
 @import "../../../styles/variables.scss";
 
-.example-card {
+// .user-card {
+//     max-width: 800px;
+//     min-width: 300px;
+//     margin: auto;
+//     margin-top: 2rem ;
+//   }
+
+// .avatar-container {
+//     display: flex;
+//     margin: auto;
+//     max-width: 100%;
+//     background-color: $color-n1;
+//     padding: 0.5rem;
+//     border-radius: 4px 4px 0 0
+// }
+
+
+.user-card {
     max-width: 800px;
     min-width: 300px;
     margin: auto;
     margin-top: 2rem ;
-  }
 
-.avatar-container {
-    display: flex;
-    margin: auto;
-    max-width: 100%;
-    // ICIJCO :voir poruquoi varibale non reconnue !
-    background-color: #4E5166;
-    padding: 0.5rem;
-    border-radius: 4px 4px 0 0
-}
-.img-avatar {
-    display: flex;
-    margin: auto;
-    height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-}
+    &__avatar-container {
+        display: flex;
+        margin: auto;
+        max-width: 100%;
+        background-color: $color-n1;
+        padding: 0.5rem;
+        border-radius: 4px 4px 0 0
+    }
+    &__avatar-img {
+        display: flex;
+        margin: auto;
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
 
-// .header-card {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     max-width: 100%;
-// }
-
-.user-card__name {
-    text-align: center;
-    margin: 1rem;
-    font-size: 1.5rem;
-    font-weight: 500
+    &__name {
+        text-align: center;
+        margin: 1rem;
+        font-size: 1.5rem;
+        font-weight: 500
+    }
+    &__liste-item {
+        margin-left: 1.5rem;
+    }
 }
+    
 
 li {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
-}
-.user-card__liste-item {
-    margin-left: 1.5rem;
 }
 
 mat-card-actions button:hover {

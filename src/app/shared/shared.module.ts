@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSliderModule } from '@angular/material/slider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -14,7 +13,6 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog'; 
 import { MatPaginatorModule} from '@angular/material/paginator';
-// ICIJCO : voir si j'ai finalmeent besoin de matlist
 import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
@@ -34,7 +32,6 @@ import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatSliderModule,
     MatInputModule,
     MatIconModule,
     MatToolbarModule,
@@ -46,7 +43,6 @@ import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatSliderModule,
     MatInputModule,
     MatIconModule,
     MatButtonModule,

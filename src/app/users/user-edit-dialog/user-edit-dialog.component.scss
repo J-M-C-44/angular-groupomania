@@ -1,11 +1,9 @@
-// @use '/angular-groupomania/src/styles/mixin.scss' as mixin;
-//@import "/angular-groupomania/src/styles/variables.scss";
 @import "../../../styles/variables.scss";
 @import "../../../styles/mixin.scss";
 
 .editUser-tab-title {
     display: flex;
-    // align-items: flex-start;
+
     button {
         margin: -10px -15px 0 0;
     }
@@ -16,7 +14,6 @@
 
 .editUser-tab {
     
-    // min-height: 470px;
     &__label-text{
         display: none;
         

@@ -1,10 +1,16 @@
+<!------------------------          connexion d'un utilisateur déjà enregistré (LOGIN)        --------------------->
+
 <div class="login__global-container"> 
     <h1>
       <img src="assets/icon-groupomania-red.png" type="image" alt="icone groupomania" class="login__auth-logo">
     </h1>
+
     <div @fadeIn class="login__container"> 
         <h2> Connexion </h2>
+        <!------------    formulaire dde connexion     ------>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+             <!-----------  email    ------>
             <mat-form-field appearance="outline">
               <mat-label> votre email </mat-label>
               <input matInput placeholder="you@example.com" formControlName="email" required>
@@ -12,6 +18,7 @@
               <mat-error *ngIf="loginForm.controls.email.invalid">{{getErrorMessageEmail()}}</mat-error>
             </mat-form-field>
 
+             <!-----------  mot de passe    ------>
             <mat-form-field appearance="outline">
               <mat-label> votre mot de passe </mat-label>
               <input matInput formControlName="password" required [type]="hide ? 'password' : 'text'">
@@ -23,7 +30,9 @@
 
             <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid" > Se connecter </button>
         </form>
+
         <mat-error *ngIf="errorMsgSubmit">{{ errorMsgSubmit }}</mat-error>
+
         <p class="login__switcher-message"> 
             Nouveau chez groupomania ? <a routerLink="/auth/signup"> Inscrivez-vous !</a> 
         </p>

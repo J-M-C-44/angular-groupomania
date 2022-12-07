@@ -4,10 +4,8 @@ import { PostExtended } from '../../shared/models/post.model';
 import { PostsService } from '../shared/services/posts.service';
 import { LikesService } from '../shared/services/likes.service';
 import { UsersService } from '../../shared/services/users.service';
-import { Like } from '../../shared/models/like.model';
-import { Post } from '../../shared/models/post.model';
-import {PostEditDialogComponent} from '../post-edit-dialog/post-edit-dialog.component';
-import {DeleteDialogComponent} from '../../shared/components/delete-dialog/delete-dialog.component';
+import { PostEditDialogComponent } from '../post-edit-dialog/post-edit-dialog.component';
+import { DeleteDialogComponent } from '../../shared/components/delete-dialog/delete-dialog.component';
 import { MatDialog } from '@angular/material/dialog'
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -17,7 +15,9 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
   animations: [
-    trigger('anim', [
+    // anim1 : - apparition progressive par le bas des commentaires (:enter),
+    //         - l'inverse pour le masquage des commenatires (:leave)
+    trigger('anim1', [
       transition(':enter', [
         style({
             opacity: 0,
@@ -44,11 +44,13 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
         ),
       ]),
     ]),
+    // anim2 : - apparition progressive par la gauche du nouveau commentaire dans la liste lors de sa création  (:enter),
+    //         - disparition progressive du commentaires par la droite lors de sa suppression (:leave)
     trigger('anim2', [
       transition(':enter', [
         style({
             opacity: 0,
-            transform: 'translateX(+100%)',
+            transform: 'translateX(-100%)',
         }),
         animate('400ms ease-out',
                 style({ 
@@ -73,7 +75,18 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     ])
   ],
 })
+
+/**
+ * affichage unitaire des données d'un post
+ * gestion de l'appel à la fenetre dialogue pour edition/suppression du post
+ * gestion de l'ajout de like
+ * affichage/masquage de la partie commentaires :
+ *    - afficher les commentaires existants (via app-comment, cf template)
+ *    - affichier le formulaire de création de commentaire (via app-comment-form, cf template)
+ */
 export class PostComponent implements OnInit {
+
+  // données en provenance du composant parent posts-list et qui seront également mises à jour pour certaines
   @Input() postsExt!: PostExtended[]
   @Input() postExt!: PostExtended
   @Input() userIsAdmin! : boolean
@@ -93,8 +106,10 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
   }
 
+/**
+ * ouvre la boite de dialogue permettant d'éditer les données du post 
+ */
   openDialogEdit() : void {
-    console.log('openDialogEdit')
     const dialogRef = this.dialog.open(PostEditDialogComponent, {
         width:'95%',
         maxWidth:'800px',
@@ -105,6 +120,10 @@ export class PostComponent implements OnInit {
     });
   }
 
+/** gestion la demande de suppression de post (accessible pour l'admin et le propriétaire du post): 
+ *     - ouvre la fenetre de dialogue demandant la confirmation de suppression du post
+ *     - si confirmée: suppression du post en bdd appel API via posts service
+ */
   openDialogDelete() : void {
      console.log('openDialogDelete')
      const dialogRef = this.dialog.open(DeleteDialogComponent, {
@@ -115,33 +134,33 @@ export class PostComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(deleteIsConfirmed => {
       if (deleteIsConfirmed)  {
-        console.log(`deleteIsConfirmed : ${deleteIsConfirmed}`) ;
         this.PostsService.deletePost(this.postExt.id)
           .subscribe ( {  
             next : (data) => {
               this.snackBarService.openSnackBar('post supprimé',''); 
-              // la suppression par filter ne déclenchant pas la détection de changement angular, on passe par splice
+              // la suppression par filter ne déclenchant pas la détection de changement angular, on passe donc par splice
               // this.postsExt = this.postsExt.filter(p => p.id !== this.postExt.id);
               const index: number = this.postsExt.indexOf(this.postExt);
               if (index !== -1) {
                 this.postsExt.splice(index, 1);
               }
-              console.log('this.postsExt :', this.postsExt);
             },
             error: (err) => {
               console.log('suppression post  ko : ', err);
-              //this.errorMsgSubmit
               let errorMsgSubmit = 'suppression post échouée: ' + err
               this.snackBarService.openSnackBar(errorMsgSubmit,'','','', '', 'snack-style--ko');
             },
-            // complete: () => console.info('complete')
           })
       };
     });
   }
 
-  likePost(postExt:PostExtended) {
-    // console.log('like : postExt.id = ', postExt.id, 'isLiked :', postExt.isLiked, 'nb likes: ', postExt.nbLikes, ' likeId: ',  postExt.likeId)
+  /**
+   * supprime un like sur le post si l'utilisateur actuel en avait déjà un, sinon l'ajoute
+   * @param postExt : post en cours de like/unlike
+   */
+  likePost(postExt:PostExtended) :void {
+  
     if (postExt.isLiked) {
       this.LikesService.unlikePost(postExt.likeId!)
       .subscribe ( {
@@ -175,15 +194,18 @@ export class PostComponent implements OnInit {
         })
     }
     
-  }   
+  }
+/**affiche/masque la partie commentaires contenant:
+ *    - les commentaires existants (via app-comment, cf template)
+ *    - le formulaire de création de commentaire (via app-comment-form, cf template)
+ * @param postExt 
+*/   
   showComments(postExt:PostExtended) {
-    console.log('showComments: postID = ', postExt.id)
     let userFoundinCache =  this.UsersService.UsersExtendedCache.find(searchItem => (searchItem.id == this.userId))
     this.avatarUrl = userFoundinCache?.avatarUrl ? userFoundinCache.avatarUrl : this.defaultAvatarUrl ;
 
     postExt.commentsShowed= !postExt.commentsShowed
-    // console.log('showComments: postExt = ', postExt)
-    // console.log('showComments: postExt.comments = ', postExt.comments)
+
 
   }
 

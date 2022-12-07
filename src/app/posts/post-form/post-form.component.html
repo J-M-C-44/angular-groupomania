@@ -1,7 +1,7 @@
+<!---------------- formulaire de création / modification de post  --------------------------->
+
 <form [formGroup]="newPostForm" (ngSubmit)="postExt? onEditedPostSubmit() : onNewPostSubmit()">
-    <!-- <mat-card-content> -->
-    <!-- <mat-form-field appearance="fill"> -->
-        <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline">
         <mat-label> Que voulez vous partager aujourd'hui ? </mat-label>
         <textarea   matInput rows="3" class="" maxlength="1000" placeholder="Bonjour tout le monde!"
                     formControlName="textPost" required> 
@@ -12,7 +12,6 @@
     
     <mat-card-actions align="end">
         <div>
-            <!-- <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp " formControlName="imagePost" -->
             <input  type="file" accept="image/png, image/jpeg, image/gif, image/webp "
                     #imageInput class ="form_image-input" title="ajouter une image" (change)="onImageAdded($event)" > 
             <button type="button" mat-raised-button color="primary" (click)="imageInput.click()" alt="bouton ajouter une image" title="ajouter une image">
@@ -25,7 +24,7 @@
         </div>
         <span class="spacer"></span>
         
-        <button *ngIf="!postExt" type="reset" mat-raised-button color="primary" title="réinitialiser" image(click)="onResetForm()">
+        <button *ngIf="!postExt" type="reset" mat-raised-button color="primary" title="réinitialiser" (click)="onResetForm()">
             <mat-icon>clear</mat-icon>
         </button>
         <button mat-raised-button color="primary" type="submit" alt="publier votre message" title="réinitialiser" [disabled]="!newPostForm.valid" >Publier

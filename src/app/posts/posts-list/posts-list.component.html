@@ -1,9 +1,9 @@
 
-<!-- <p>posts-list works!</p> -->
 <header>
     <app-toolbar></app-toolbar>
 </header>
 
+<!---------------------------------  création d'un post  --------------------------------> 
 <section class="post-creation" *ngIf="!isLoading">
     <mat-card class="example-card post-creation__card" >
         <app-header-card-users-info [userId] ="userId"> </app-header-card-users-info>
@@ -11,16 +11,18 @@
       </mat-card>
 </section>
 
-
+<!--------------------------  affichage de la liste des posts ---------------------------> 
 <section class="posts-list">
     <div @animFromRight *ngFor="let postExt of postsExt" >
         <app-post [postsExt]= "postsExt" [postExt]= "postExt"  [userIsAdmin] = "userIsAdmin"  [userId]="userId"> </app-post>
     </div>
 </section>
 
-<mat-paginator [length]="totalRows"
-              [pageSize]="10"
-              [pageSizeOptions]="[5, 10, 25]"
-              (page)="managePageEvent($event)"
-              aria-label="Sélectionner une page">
+
+<!-------------  gestion de la pagination  --------->
+<mat-paginator  [length]="totalRows"
+                [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25]"
+                (page)="managePageEvent($event)"
+                aria-label="Sélectionner une page">
 </mat-paginator>

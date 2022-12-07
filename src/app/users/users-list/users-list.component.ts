@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+// <--------------  gestion de la liste des utilisateurs : accès via bouton toolbar ou saisie url ---------->
 
+import { Component, OnInit } from '@angular/core';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { UsersService } from '../../shared/services/users.service';
-// import { PageEvent } from '@angular/material/paginator';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { User, UserExtended } from '../../shared/models/user.model';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { trigger, style, transition, animate } from '@angular/animations';
 
 
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.scss'],
+  // animation gérant - l'apparition progressive par le bas des utilisateurs (:enter),
+  //                   - l'inverse pour la suppression d'un utilisateur (:leave)
   animations: [
     trigger('animFromBottom', [
       transition(':enter', [
@@ -42,42 +44,52 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     ])
   ]
 })
+
+/**
+ * gestion de la liste des utilisateurs : 
+ *   - recherche l'ensemble des utilisateurs :
+ *       - dans le tableau de cache utilisateur si celui-ci est complet
+ *       - côté API (via le service user) sinon
+ *   - prépare les données nécessaires à l'affichage des utilisateurs 
+ *   - affiche "unitairement" chacun des utilisateurs via le composant enfant user ( cf template)
+ */
 export class UsersListComponent implements OnInit {
+  // userId de l'utisateur actuel
   myUserId = 0;
-  detailedUser: UserExtended = {id:0,email:'', lastname:'',firstname:'',fonction:'',avatarUrl:'', role:0, createdTime:'',modifiedTime:'', fullName:''}
   userIsAdmin = false;
   users:User[] =[];
+  // tableau des utilisateurs avec complément de données. Sert de référence pour l'affichage.
   usersExt:UserExtended[] =[];
+  detailedUser: UserExtended = {id:0,email:'', lastname:'',firstname:'',fonction:'',avatarUrl:'', role:0, createdTime:'',modifiedTime:'', fullName:''}
   defaultAvatarUrl ='assets/logo-avatar.jpg' 
 
   constructor(
     private snackBarService: SnackBarService,
-    // private PostsService: PostsService,
     private usersService: UsersService,
-    // private LikesService: LikesService,
-    // private CommentsService: CommentsService,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
 
-    // on vérifie si on n'a pas déjà les données du user actuel avant d'aller les chercher
+    // les données du user actuel sont nécessaires pour l'affichage/utilisation de certaines fonctions.
+    // on utilise des données du user actuel si on les a déjà ( elles sont stockées temporairement dans le service user)
     if (this.usersService.myUser.id !=0) {
       this.myUserId = this.usersService.myUser.id,
       this.usersService.myUser.role! > 0 ? this.userIsAdmin = true : this.userIsAdmin = false;
 
+      // puis on récupère tous les utilisateurs de la bdd
       this.getAllUsers();
 
+    //si on n'a pas les données du  user actuel, on les récupère sur l'api (via service user)
     } else { 
         this.usersService.getMyUser()
           .subscribe ( {
             next : (data) => {
-              console.log('données getMyUser reçues : ', data);
+              // console.log('données getMyUser reçues : ', data);
               this.myUserId = data.id
               data.role! > 0 ? this.userIsAdmin = true : this.userIsAdmin = false;
-              // if (data.avatarUrl) {
-              //   this.avatarUrl = data.avatarUrl;
-              // }
+
+              // puis on récupère tous les utilisateurs de la bdd
               this.getAllUsers() 
             }
             ,
@@ -89,6 +101,11 @@ export class UsersListComponent implements OnInit {
     }
   }
 
+/**
+ *  - constitution de la liste de l'ensemble des utilisateurs :
+ *       - recherche dans le tableau de cache utilisateur si celui-ci est complet
+ *       - recherche côté API sinon (via le service user qui les mettra en cache )
+ */
   getAllUsers() :void {
     // si toutes les données sont déjà en cache, on les récupères directement
     if (this.usersService.UsersExtendedCacheFullyCharged) {
@@ -99,32 +116,16 @@ export class UsersListComponent implements OnInit {
       this.usersService.getAllUsers()
           .subscribe ( {
             next : (data) => {
-              console.log('données getAllUsers reçues : ', data);
-              // this.users = data;
+              // console.log('données getAllUsers reçues : ', data);
               // le user service a mis toutes les données étendues en cache, on les récupère
               this.usersExt = this.usersService.UsersExtendedCache
-
-              // for (let user of this.users) {
-              //   // on créé le tableau des données "users étendues" servant à l'affichage
-              //   //ICIJCO: penser à refactorer le code des autres endroits où on gère le fullname
-              //   let fullName = this.usersService.formatFullName(user.id, user.lastname, user.firstname)
-              //   let newUserExt = {...user, fullName:fullName}
-              //   newUserExt.avatarUrl = user.avatarUrl ? user.avatarUrl : this.defaultAvatarUrl;
-              //   console.log('newUsertExt : ', newUserExt)
-              //   this.usersExt.push(newUserExt)
-              // }
-              // // on enregistre en cache l'ensemble des users vu qu'on les a tous récupérés 
-              // this.usersService.UsersExtendedCache = this.usersExt
-              // this.usersService.UsersExtendedCacheFullyCharged = true;
 
             },
             error: (err) => {
               console.log('données getAllUserss  ko : ', err);
-              //this.errorMsgSubmit
               let errorMsgSubmit = 'récupération des Users échouée: ' + err
               this.snackBarService.openSnackBar(errorMsgSubmit,'','','', '', 'snack-style--ko');
             },
-           // complete: () => console.info('complete')
           })    
 
     }

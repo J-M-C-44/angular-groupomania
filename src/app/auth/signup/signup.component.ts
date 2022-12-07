@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../shared/auth.service';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { Router } from '@angular/router';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { trigger, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-signup',
@@ -23,6 +23,9 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   ]
 })
 
+/**
+ * gestion de l'enregistrement d'un nouvel utilisateur
+ */
 export class SignupComponent implements OnInit {
   signupForm = new FormGroup({
     email : new FormControl('', [Validators.required, Validators.email]),
@@ -30,7 +33,6 @@ export class SignupComponent implements OnInit {
   })
   hide = true;
   errorMsgSubmit=''
-  // @ViewChild("signupFormEmail") yourControl : ElementRef;
 
   constructor(
     private authService: AuthService,
@@ -42,12 +44,21 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  
+/**
+ * restitue l'eventuel message d'erreur sur la saisie de l'email
+ * @return { string } message d'erreur
+ */
   getErrorMessageEmail() {
     if (this.signupForm.controls.email.hasError('required'))
         return 'email obligatoire';
     return this.signupForm.controls.email.invalid ? 'format d\'email invalide ' : ''
   }
 
+  /**
+ * restitue l'eventuel message d'erreur sur la saisie du mot de passel
+ * @return { string } message d'erreur
+ */
   getErrorMessagePassword() {
     if (this.signupForm.controls.password.hasError('required'))
         return 'mot de passe obligatoire';
@@ -55,8 +66,12 @@ export class SignupComponent implements OnInit {
       : '';
   }
   
+/**
+ * gère la demande d'enregistrement avec les données validées du formulaire :
+ *    - appel API via service auth
+ *    - reroutage vers page de login
+ */
   onSubmit() {
-    console.warn(this.signupForm.value)
     if (this.signupForm.valid) {
       let {email, password} = this.signupForm.value;
       email = email!.trim();
@@ -64,17 +79,12 @@ export class SignupComponent implements OnInit {
       this.authService.signup(email!, password!)
           .subscribe ( {
             next : (data) => {
-              console.log('données signup reçues : ', data)
               this.snackBarService.openSnackBar('enregistrement réussi! Connectez vous pour accéder au réseau social','');
               this.router.navigateByUrl('auth/login');
             },
             error: (err) => {
               console.log('données signup ko : ', err);
               this.errorMsgSubmit = 'enregistrement impossible:  ' + err;
-              // document
-              //   .getElementById(signupFormEmail)
-              //   .focus()
-                // #signupFormEmail.focus
               if (err.includes('invalid email')) 
                  this.el.nativeElement.querySelector('input[formControlName="email"]')
                     .focus()

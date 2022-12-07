@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .user-details {
     margin-bottom: 5rem ;
 }
@@ -12,8 +14,7 @@
     display: flex;
     margin: auto;
     max-width: 100%;
-    // ICIJCO :voir poruquoi varibale non reconnue !
-    background-color: #4E5166;
+    background-color: $color-n1;
     padding: 0.5rem;
 }
 .img-avatar {
@@ -24,13 +25,6 @@
     border-radius: 50%;
     object-fit: cover;
 }
-
-// .header-card {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     max-width: 100%;
-// }
 
 .user-card__name {
     text-align: center;
@@ -53,7 +47,6 @@ li {
 .comment-card {
     margin-top: 1rem;
     max-width: 90%;
-    background-color:#f0f0fd;
+    background-color:$color-n4;
     margin-left: 1rem;
-    // display: inline-block;
 }

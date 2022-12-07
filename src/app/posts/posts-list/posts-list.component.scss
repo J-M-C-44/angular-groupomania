@@ -1,48 +1,13 @@
-@import "../../../styles/variables.scss";
 .post-creation {
     margin-top: 2rem ;
     margin-bottom: 4rem ;
-}
 
-.example-card {
-    max-width: 800px;
-    margin: auto;
-    margin-top: 2rem ;
-    border: 2px solid #5f637d;
-    border-radius: 30px;
-    // border: 2px solid $color-n3;;
+    &__card {
+        max-width: 800px;
+        margin: auto;
+        margin-top: 2rem ;
+        border: 2px solid #5f637d;
+        border-radius: 30px;
     
-
+    }
 }
- 
-// .comment-card {
-//     max-width: 90%;
-//     background-color:#f0f0fd;
-//     margin-left: 1rem;
-//     // display: inline-block;
-//  ;
-// }
-// .comment__form-container {
-//     display:flex;
-// }
-
-// .post-creation__avatar {
-//     background-size: cover;
-// }
-// .mat-form-field {
-//     display: inline;
-// }
-
-// .form__mat-card-action--spacer  {
-//     flex: 1 1 auto;
-// }
-
-// .mat-card-image {
-//     max-height: 800px;
-//     max-width: 100%;
-//     width: auto;
-//     margin: auto;
-//     // height: 200px;
-//     //width: 100%;
-//     object-fit: cover;
-// }

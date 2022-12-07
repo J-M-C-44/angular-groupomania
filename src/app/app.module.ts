@@ -7,12 +7,6 @@ import { PostsModule } from 'src/app/posts/posts.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//icijco
-import { MatSliderModule } from '@angular/material/slider';
-// import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-// import { MatFormFieldModule } from '@angular/material/form-field';
-// import { MatInputModule } from '@angular/material/input';
-
 
 
 @NgModule({
@@ -27,12 +21,7 @@ import { MatSliderModule } from '@angular/material/slider';
     PostsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-//icicjco
-    MatSliderModule,
-    // MatFormFieldModule,
-    // FormsModule,
-    // ReactiveFormsModule,
-    // MatInputModule
+
 
   ],
   providers: [],

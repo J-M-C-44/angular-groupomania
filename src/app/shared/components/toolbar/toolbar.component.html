@@ -1,26 +1,32 @@
+<!--------------------------    Toolbar servant de header de navigation global    -------------------->
+
 <mat-toolbar color = "primary">
     <h1>
+        <!---- images du logo groupomania: utilsée alternativement / responsive  ----->
         <img src="../../../../assets/icon-left-font-monochrome-white.svg" type="image" alt="logo groupomania" class="toolbar-logo-full">
         <img src="../../../../assets/icon-left-font-monochrome-white-min.svg" type="image" alt="logo groupomania" class="toolbar-logo-min">
     </h1>
 
     <span class="spacer"></span>
-    
+
+        <!---- bouton pour aller sur la liste des posts  ----->
         <button (click)="goToPostsList()" mat-raised-button class="material-icons-outlined" class="toolbar-button" aria-label="boutton pour aller sur la liste des postes" title ="voir les posts" >
             <mat-icon color = "primary">question_answer</mat-icon>
         </button>
 
+        <!---- bouton pour aller sur la liste des users  ----->
         <button (click)="goToUsersList()" mat-icon-button class="material-icons-outlined" class="toolbar-button" aria-label="boutton pour aller sur la liste des utilisateurs" title ="voir les utilisateurs">
             <mat-icon color = "primary">groups</mat-icon>
         </button>
 
     <span class="spacer"></span>
                          
-        <!-- <button (click)="goToProfile()" mat-icon-button class="material-icons-outlined" aria-label="icon-button pour aller sur son profil"> -->
+        <!---- bouton pour modifier son profil  ----->
         <button (click)="openDialogEditUser()" mat-icon-button class="material-icons-outlined" class="toolbar-button" aria-label="boutton pour aller sur son profil" title ="modifier son profil">
             <mat-icon color = "primary" >person</mat-icon>
         </button>
 
+        <!---- bouton pour se déconnecter  ----->
         <button (click)="logout()" mat-icon-button class="material-icons-outlined" class="toolbar-button" aria-label="icon-button pour se déconnecter" title ="se déconnecter">
             <mat-icon color = "primary" >logout</mat-icon>
         </button>

@@ -1,7 +1,8 @@
+// <--------------  gestion de la modification de l'email : appelé par edit-user-dialog  ------------->
+
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
-// import { MatDialogRef } from '@angular/material/dialog';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { UserExtended } from 'src/app/shared/models/user.model';
 
@@ -10,11 +11,17 @@ import { UserExtended } from 'src/app/shared/models/user.model';
   templateUrl: './user-email-form.component.html',
   styleUrls: ['./user-email-form.component.scss']
 })
+
+/** gestion de la modification de l'email :
+ *     - saisie d'un formulaire
+ *     - appel API via user service
+ *     - mise à jour des données pour l'affichage
+ */
 export class UserEmailFormComponent implements OnInit {
   emailForm!: FormGroup;
   errorMsgSubmit=''
   
-
+  // données en provenance du composant parent (user-edit-dialog) et qui seront également mises à jour
   @Input() editedUser!: UserExtended
 
   constructor(
@@ -23,39 +30,43 @@ export class UserEmailFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('input editedUser :' , this.editedUser)
+    // formulaire pour la partie email. On initialise avec l'éventuelle donnée en notre possession.
     this.emailForm = new FormGroup({
       email : new FormControl(this.editedUser?.email, [Validators.required, Validators.email]),
     });
   }
 
-  getErrorMessageEmail() {
+/** restitue l'eventuel message d'erreur sur la saisie de l'email
+ *  @return { string } message d'erreur
+ */
+  getErrorMessageEmail() :string {
     if (this.emailForm.controls.email.hasError('required'))
         return 'email obligatoire';
     return this.emailForm.controls.email.invalid ? 'format d\'email invalide ' : ''
   }
 
+/**
+ * gère la demande de modification de l'email avec la donnée validée du formulaire:
+ *    - appel API via service user
+ *    - mise à jour de l'email du user pour l'affichage
+ */
+  onEditedUserSubmit() :void {
 
-  onEditedUserSubmit() {
-    console.log ('on edit user email!' )
     if (this.emailForm.valid) {
       
       let {email} = this.emailForm.value;
-      console.log('modification de user demandée - this.emailForm.value: ', email)
       email = email.trim();
       
-      console.log('modification de user demandée - email : ',email!)
       this.usersService.updateEmailUser(this.editedUser, email)
           .subscribe ( {
             next : (data) => {
               this.errorMsgSubmit = ''
               this.snackBarService.openSnackBar('email modifié !','');
-              // this.onResetForm()   
               // on met à jour le user pour l'affichage
               this.editedUser.email = email
+              // réinitialisation du formulaire
               this.emailForm = new FormGroup({
                 email : new FormControl(this.editedUser?.email, [Validators.required, Validators.email]),
-              //  this.dialogRef.close()
               });
             },
 
@@ -64,7 +75,6 @@ export class UserEmailFormComponent implements OnInit {
               this.errorMsgSubmit = 'modification échouée: ' + err
               this.snackBarService.openSnackBar(this.errorMsgSubmit,'','','', '', 'snack-style--ko');
             },
-            // complete: () => console.info('complete')
           })
     }
   }

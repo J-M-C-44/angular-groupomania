@@ -4,8 +4,6 @@
 .signup__global-container {
     max-width: 800px;
     margin: auto;
-    // margin-top: 2rem;
-    // border: 1px solid $color-n1;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -15,6 +13,13 @@
     //responsive
     @include medium-screen {
         margin-top: 2rem;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        mat-icon {
+            color: $color-n1
+        }
     }
 }
 .signup__auth-logo {
@@ -33,13 +38,7 @@
     margin-bottom: 2rem;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    mat-icon {
-        color: $color-n1
-    }
-}
+
 
 .signup__switcher-message {
     margin-top: 2rem;

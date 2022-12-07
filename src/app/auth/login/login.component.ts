@@ -27,6 +27,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 })
 
 export class LoginComponent implements OnInit {
+  // formulaire 
   loginForm = new FormGroup({
     email : new FormControl('', [Validators.required, Validators.email]),
     password : new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
@@ -83,8 +84,8 @@ export class LoginComponent implements OnInit {
       this.authService.login(email!, password!)
           .subscribe ( {
             next : (data) => {
-              console.log('données authService subscribe reçues : ', data)
-              this.snackBarService.openSnackBar('Bienvenue sur le réseau social de Groupomania!','',3000,'','top');
+              // console.log('données authService subscribe reçues : ', data)
+              this.snackBarService.openSnackBar('Bienvenue sur le réseau social de Groupomania!','',2500,'','top');
               this.tokenService.saveToken(data.token);
               this.router.navigateByUrl('posts');
             },

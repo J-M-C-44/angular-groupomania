@@ -1,27 +1,33 @@
+<!----------------------------      affichage unitaire des données utilisateur   ---------------->
 
-<mat-card class="example-card">
+<mat-card class="user-card">
     
     <div class ="header-card">  
-        <div class="avatar-container" > <img class="img-avatar" [src]= userExt.avatarUrl alt="avatar"> </div>
+        <div class="user-card__avatar-container" > <img class="user-card__avatar-img" [src]= userExt.avatarUrl alt="avatar"> </div>
             <p class="user-card__name"> {{userExt.fullName}}</p>
     </div>
 
   <mat-card-content>
     <ul>
-        <li> 
-            <mat-icon matListItemIcon>numbers</mat-icon>
+        
+        <li>  <!------------------   user id    ------------->
+            <mat-icon matListItemIcon title="id">numbers</mat-icon>
             <span class="user-card__liste-item"> {{userExt.id}} </span>
         </li>
-        <li> 
-            <mat-icon matListItemIcon>engineering</mat-icon>
+
+        
+        <li> <!------------------  fonction   -------------->
+            <mat-icon matListItemIcon title="fonction">engineering</mat-icon>
             <span class="user-card__liste-item"> {{userExt.fonction }} </span>
         </li>
-        <li> 
-            <mat-icon matListItemIcon>email</mat-icon>
+         
+        <li> <!-------------------  email   ---------------->
+            <mat-icon matListItemIcon title="email">email</mat-icon>
             <span class="user-card__liste-item"> {{userExt.email}} </span>
         </li>
-        <li> 
-            <mat-icon matListItemIcon>history</mat-icon>
+        
+        <li> <!------------------  ancienneté   ------------->
+            <mat-icon matListItemIcon title="ancienneté" >history</mat-icon>
             <span class="user-card__liste-item"> inscrit depuis le {{userExt.createdTime | date:'d/M/yyyy'}} </span>
         </li>  
     </ul>    
@@ -30,7 +36,7 @@
   <mat-divider inset></mat-divider>
       
   <mat-card-actions align="end">  
-    <!-- seul l'administrateur peut supprimer un compte (mais pas son propre compte) -->
+    <!---- seul l'administrateur peut supprimer un compte (mais pas son propre compte) ---->
       <button *ngIf="userIsAdmin && (userExt.id !=userId)" mat-raised-button color="primary" type="button" title="supprimer" alt="supprimer" (click)="openDialogDelete()">
             <mat-icon>delete</mat-icon>
             <span> Supprimer </span>

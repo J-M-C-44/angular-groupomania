@@ -1,4 +1,6 @@
-// ICIJCO: à passer en mutualisé car utilisé par post aussi --> "commentaire" ou "post" + message différent
+// <------------------    boite de dialogue mutualisée de demande de confirmation de suppression     --------->
+// <------------------       appelée par les components: user-edit-dialog, user, post, comment       --------->
+
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -8,6 +10,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./delete-dialog.component.scss']
 })
 
+/** adapte le contenu de la boite de dialogue de demande de confirmation de suppression selon la donnée injectée en entrée: "type".
+ *  Le type correspond à 'posts', 'comment', 'user', 'myUser'.
+ *  Renvoie "true" à la fermeture de la fenetre de dialog si demande suppression confirmée par l'utilisateur  
+ */
 export class DeleteDialogComponent implements OnInit {
 
   elementType = ''
@@ -34,16 +40,13 @@ export class DeleteDialogComponent implements OnInit {
       default:
         this.elementType = 'élément';
     }
-
-
   }
 
-
-  cancel() {
+  cancel() :void {
     this.dialogRef.close();
   }
 
-  delete() {
+  delete() :void {
     this.dialogRef.close(true);
   }
 

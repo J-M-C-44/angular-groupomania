@@ -1,10 +1,11 @@
-// component en cours de développement
+//  <!-------------- !!!!!!!!   component en cours de développement : détails d'un user avec affichage de ses posts  !!!!!!  ---------->
+//  <!-------------- !!!!!!!!   n'est pas appelé pour le moment (mais possible par saisie directe URL users/:id      !!!!!!  ---------->
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../shared/services/users.service';
 import { User, UserExtended } from '../../shared/models/user.model';
-import { DecodedToken, TokenService } from 'src/app/core/services/token.service';
+import { TokenService } from 'src/app/core/services/token.service';
 import { DeleteDialogComponent } from '../../shared/components/delete-dialog/delete-dialog.component';
 import { MatDialog } from '@angular/material/dialog'
 import { SnackBarService } from '../../shared/services/snack-bar.service';
@@ -24,7 +25,7 @@ import { Comment } from '../../shared/models/comment.model';
 })
 export class UserDetailsComponent implements OnInit {
 
-  decodedToken= new DecodedToken ;
+  // decodedToken= new DecodedToken ;
   myUserId = 0;
   detailedUser: UserExtended = {id:0,email:'', lastname:'',firstname:'',fonction:'',avatarUrl:'', role:0, createdTime:'',modifiedTime:'', fullName:''}
   userIsAdmin = false;
@@ -99,6 +100,10 @@ export class UserDetailsComponent implements OnInit {
         }) 
     }
   }
+/** gestion la demande de suppression de compte (accessible pour l'admin uniquement): 
+ *     - ouvre la fenetre de dialogue demandant la confirmation de suppression du compte
+ *     - si confirmée: suppression du compte en bdd appel API via user service
+ */
   openDialogDelete() : void {
     console.log('openDialogDelete')
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
@@ -125,6 +130,10 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
+  
+/** récupère tous les pots créés par le user sur l'API via service user aisni que tous les likes et commentaires associés 
+ * @param { number } UserId - id du user pour lequel on cherche les posts
+ */
   getAllPostsOfUser(userId:number) :void {
     this.postsService.getAllPostsForOneUser(userId)
           .subscribe ( {
@@ -201,7 +210,6 @@ export class UserDetailsComponent implements OnInit {
             },
             error: (err) => {
               console.log('données getAllPostsForOneUser  ko : ', err);
-              //this.errorMsgSubmit
               let errorMsgSubmit = 'récupération des posts échouée: ' + err
               this.snackBarService.openSnackBar(errorMsgSubmit,'','','', '', 'snack-style--ko');
             },

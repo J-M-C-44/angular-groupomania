@@ -1,3 +1,4 @@
+<!----------------------------      fenetre de dialogue pour edition des données de l'utilisateur   ---------------->
 
 <div class="editUser-tab-title"> 
     <h2> {{titre}}</h2>
@@ -7,9 +8,10 @@
     </button>
 </div>
 
-<!-- <mat-tab-group color=primary dynamicHeight fitInkBarToContent > -->
+
 <mat-tab-group color=primary dynamicHeight fitInkBarToContent class="editUser-tab">
-<!-- <mat-tab-group color=primary dynamicHeight class="editUser-tab"> -->
+
+    <!-------------------------- Profil ------------------------>
     <mat-tab>
         <ng-template mat-tab-label class="editUser-tab__label">
             <mat-icon class="editUser-tab__label-icone">person</mat-icon>
@@ -17,9 +19,8 @@
         </ng-template>
         <app-user-profile-form [editedUser] = "editedUser" class="editUser-tab__content"> </app-user-profile-form>
     </mat-tab>
-    <!-- <mat-tab label="Profil"> 
-        <app-user-profile-form [editedUser] = "editedUser" class="editUser-tab-content"> </app-user-profile-form>
-    </mat-tab> -->
+
+    <!--------------------------- Email ------------------------>
     <mat-tab>
         <ng-template mat-tab-label class="editUser-tab__label">
             <mat-icon class="editUser-tab__label-icone">email</mat-icon>
@@ -27,9 +28,8 @@
         </ng-template>
         <app-user-email-form [editedUser] = "editedUser" class="editUser-tab__content"> </app-user-email-form>
     </mat-tab>
-    <!-- <mat-tab label="Email"> 
-        <app-user-email-form [editedUser] = "editedUser" class="editUser-tab-content"> </app-user-email-form>
-    </mat-tab> -->
+
+    <!----------------------- mot de passe ---------------------->
     <mat-tab>
         <ng-template mat-tab-label class="editUser-tab__label">
             <mat-icon class="editUser-tab__label-icone">key</mat-icon>
@@ -37,9 +37,8 @@
         </ng-template>
          <app-user-password-form [editedUser] = "editedUser" class="editUser-tab__content"> </app-user-password-form>
     </mat-tab>
-    <!-- <mat-tab label="Mot de passe" >
-        <app-user-password-form [editedUser] = "editedUser" class="editUser-tab-content"> </app-user-password-form>
-    </mat-tab> -->
+ 
+    <!--------------------supression du compte  ------------------>
     <mat-tab>
         <ng-template mat-tab-label class="editUser-tab__label">
             <mat-icon class="editUser-tab-label__icone">delete_forever</mat-icon>
@@ -52,12 +51,5 @@
             </button>
         </div>
     </mat-tab>
-    <!-- <mat-tab label="Compte">
-        <div class="editUser-tab-content"> 
-            <button mat-raised-button color="primary" type="button" alt="supprimer" (click)="openDialogDelete()">
-                <mat-icon>delete</mat-icon>
-                <span> Supprimer le compte</span>
-            </button>
-         </div>
-    </mat-tab> -->
+
   </mat-tab-group>

@@ -9,6 +9,10 @@ export interface User {
     createdTime: string;
     modifiedTime:string
 }
+
+/**
+ * Sert pour détenir l'ensemble des données liées aus users. Servira de référence pour l'affichage de la liste des users 
+ */
 export interface UserExtended extends User {
     fullName: string;
 }

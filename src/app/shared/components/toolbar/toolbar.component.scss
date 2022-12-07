@@ -10,7 +10,6 @@
   }
 
 .toolbar-logo-min {
-    // max-width: 48px;
     height: 48px;
     display:flex;
 
@@ -19,23 +18,17 @@
     }
 }
 
-// .toolbar-spacer {
-// flex: 1 1 auto;
-// }
-
 
 .toolbar-button {
-  // ICIJCO : voir pourquoi material icone ne sembe pas être importé dans toolbar
   background-color: white;
   border: none;
-  color: grey;
   padding: 0.3rem 0.5rem;
   margin: 0.5rem;
   border-radius: 4px;
   cursor: pointer;
+  
+  &:hover{
+    background-color:$color-n3;
+  }
 }
 
-.toolbar-button:hover {
- 
-  background-color:$color-n3;
-}

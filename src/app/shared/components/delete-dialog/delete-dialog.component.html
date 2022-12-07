@@ -1,3 +1,4 @@
+<!------------------    boite de dialogue muitualisée de demande de confirmation de suppression  --------->
 
 <h2 mat-dialog-title *ngIf="elementType !='compte'"> Supprimer un {{elementType}} </h2>
 <h3 mat-dialog-title *ngIf="elementType =='compte'"> Supprimer votre compte </h3>
@@ -23,16 +24,6 @@
     <p *ngIf="elementType =='post'">  Cela entrainera la supression de tous les commentaires et likes associés.  </p>
     
 </mat-dialog-content>
-<!-- 
-
-<mat-dialog-content>
-
-    <p> Voulez vous vraiment supprimer ce {{elementType}} ? </p>
-    <p *ngIf="elementType =='post'">  Cela entrainera la supression de tous les commentaires et likes associés.  </p>
-    <p *ngIf="elementType =='utilisateur' || 'compte' ">  Cela entrainera la supression de tous les posts, commentaires et likes associés.  </p>
-    
-</mat-dialog-content> -->
-
 
 <mat-dialog-actions >
     <button class="mat-raised-button mat-primary" (click)="cancel()">Conserver</button>
