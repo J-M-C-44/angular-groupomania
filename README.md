@@ -1,27 +1,32 @@
-# AngularGroupomania
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.3.
+# Angular-Groupomania :  front-end de l'application du réseau social Groupomania
 
-## Development server
+## Description
+  Projet 7 du parcours de Développeur Web d'OpenClassRooms : construire un réseau social d'entreprise. Celui-ci a pour but d'augmenter les relations sociales au sein de l'entreprise et ainsi améliorer l'ambiance entre collaborateurs. 
+  
+  Ici n'est traité que le front-end. La partie back-end est disponible dans le repository suivant : https://github.com/J-M-C-44/groupomania_backend.git. Il est préférable de démarrer par l'installation du back-end.
+##  Installation
+  
+pré-requis : installer Node et Angular CLI (https://angular.io/cli) si cela n'est pas déjà fait.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1) Dans le terminal, à partir du dossier angular-groupomania, taper `npm install`. Cela installera tout les dépendances.
 
-## Code scaffolding
+2) Dans le terminal, toujours à partir du angular-groupomania, taper `ng serve`. Cela lancera le serveur, le message `Compiled successfully` apparaitra une fois le serveur prêt. 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+3) Depuis votre navigateur, accéder à l'application via `http://localhost:4200/`
 
-## Build
+##  Fonctionnalités
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- enregistrement d'un utilisateur (email + mot de passe)
+- connexion d'un utilisateur enregistré (email + mot de passe)
+- affichage des posts publiés (avec pagination)
+- publication de posts (texte et image)
+- édition et suppression de ses propres posts (ou de tous les posts pour l'administrateur)
+- possibilité de liker/disliker un post (1 seul like par utilisateur)
+- affichage des commentaires de chaque post
+- publication de commentaires (texte et image)
+- édition et supression de ses propres commentaires (ou de tous les commentaires pour l'administrateur)
+- affichage de la liste des utilisateurs
+- possibilité de compléter/modifier son profil (nom, prénom, fonction, avatar), son email et son mot de passe.
+- suppression de son propre compte (un de n'importe quel compte pour l'administrateur)
+   
