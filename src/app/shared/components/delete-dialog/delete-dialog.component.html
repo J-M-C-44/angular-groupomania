@@ -18,7 +18,7 @@
     
 </mat-dialog-content>
 
-<mat-dialog-content *ngIf="elementType == ('post' || 'comment')">
+<mat-dialog-content *ngIf="elementType == 'post' || 'commentaire'">
 
     <p> Voulez vous vraiment supprimer ce {{elementType}} ? </p>
     <p *ngIf="elementType =='post'">  Cela entrainera la supression de tous les commentaires et likes associés.  </p>
