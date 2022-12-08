@@ -37,7 +37,7 @@ export class PostFormComponent implements OnInit {
 
   constructor(
     private snackBarService: SnackBarService,
-    private PostsService: PostsService,
+    private postsService: PostsService,
     @Optional() public dialogRef: MatDialogRef<PostEditDialogComponent>,
   ) { }
 
@@ -127,7 +127,7 @@ export class PostFormComponent implements OnInit {
       textPost = textPost!.trim();
       // console.log('création de post demandée - textPost: ',textPost!, 'imagePost : ', imagePost! )
 
-      this.PostsService.createPost(textPost!,imagePost!)
+      this.postsService.createPost(textPost!,imagePost!)
           .subscribe ( {
             next : (data) => {
               // console.log('données createPost reçues : ', data)
@@ -175,7 +175,7 @@ export class PostFormComponent implements OnInit {
       }
       textPost = textPost!.trim();
       // console.log('modification de post demandée - textPost: ',textPost!, 'imagePost : ', imagePost! )
-      this.PostsService.updatePost(this.postExt!.id, textPost!,imagePost!)
+      this.postsService.updatePost(this.postExt!.id, textPost!,imagePost!)
           .subscribe ( {
             next : (data) => {
               this.snackBarService.openSnackBar('c\'est partagé !','');

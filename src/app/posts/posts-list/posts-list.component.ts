@@ -77,10 +77,10 @@ export class PostsListComponent implements OnInit {
 
   constructor(
      private snackBarService: SnackBarService,
-     private PostsService: PostsService,
-     private UsersService: UsersService,
-     private LikesService: LikesService,
-     private CommentsService: CommentsService,
+     private postsService: PostsService,
+     private usersService: UsersService,
+     private likesService: LikesService,
+     private commentsService: CommentsService,
      private router: Router,
   ) { }
   
@@ -88,16 +88,16 @@ export class PostsListComponent implements OnInit {
 
     // les données du user actuel sont nécessaires pour l'affichage/utilisation de certaines fonctions.
     // on utilise des données du user actuel si on les a déjà ( elles sont stockées temporairement dans le service user)
-    if (this.UsersService.myUser.id !=0) {
-      this.userId = this.UsersService.myUser.id,
-      this.UsersService.myUser.role! > 0 ? this.userIsAdmin = true : this.userIsAdmin = false;
+    if (this.usersService.myUser.id !=0) {
+      this.userId = this.usersService.myUser.id,
+      this.usersService.myUser.role! > 0 ? this.userIsAdmin = true : this.userIsAdmin = false;
       this.isLoading = false;
        // puis on récupère une page de posts sur l'api
       this.getAllPostsByPage();
     
     //si on n'a pas les données du  user actuel, on les récupère sur l'api (via service user)
     } else { 
-      this.UsersService.getMyUser()
+      this.usersService.getMyUser()
         .subscribe ( {
           next : (data) => {
             console.log('données getMyUser reçues : ', data);
@@ -128,7 +128,7 @@ export class PostsListComponent implements OnInit {
   getAllPostsByPage(page?:number, limit?:number) :void {
 
     // récupération d'unepage de posts
-    this.PostsService.getAllPosts(page,limit)
+    this.postsService.getAllPosts(page,limit)
           .subscribe ( {
             next : (data) => {
               console.log('données getAllPosts reçues : ', data)
@@ -152,7 +152,7 @@ export class PostsListComponent implements OnInit {
                 this.postsExt.push(newPostExt)
 
                 // on récupère les likes associés au post et on regarde si le user actuel l'a déjà liké
-                this.LikesService.getAllLikesForOnePost(post.id)
+                this.likesService.getAllLikesForOnePost(post.id)
                   .subscribe ( {
                     next : (data) => {
                       this.likes = data;
@@ -163,7 +163,7 @@ export class PostsListComponent implements OnInit {
                         likeId = userLike.id
                       }
                       // on récupère ensuite également les commentaires associés au post
-                      this.CommentsService.getAllCommentsForOnePost(post.id)
+                      this.commentsService.getAllCommentsForOnePost(post.id)
                         .subscribe ({
                           next : (data) => {
                             let searchedPostExt =  this.postsExt.find(searchItem => (searchItem.id == post.id));
@@ -188,7 +188,7 @@ export class PostsListComponent implements OnInit {
 
                     },
                     error: (err) => {
-                      this.CommentsService.getAllCommentsForOnePost(post.id)
+                      this.commentsService.getAllCommentsForOnePost(post.id)
                         .subscribe ({
                           next : (data) => {
                             let searchedPostExt =  this.postsExt.find(searchItem => (searchItem.id == post.id));

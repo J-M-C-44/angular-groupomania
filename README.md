@@ -19,14 +19,14 @@ pré-requis : installer Node et Angular CLI (https://angular.io/cli) si cela n'e
 
 - enregistrement d'un utilisateur (email + mot de passe)
 - connexion d'un utilisateur enregistré (email + mot de passe)
-- affichage des posts publiés (avec pagination)
+- affichage des posts publiés (ordre antéchronologique, avec pagination)
 - publication de posts (texte et image)
 - édition et suppression de ses propres posts (ou de tous les posts pour l'administrateur)
-- possibilité de liker/disliker un post (1 seul like par utilisateur)
+- possibilité de liker un post (1 seul like par utilisateur)
 - affichage des commentaires de chaque post
 - publication de commentaires (texte et image)
 - édition et supression de ses propres commentaires (ou de tous les commentaires pour l'administrateur)
 - affichage de la liste des utilisateurs
 - possibilité de compléter/modifier son profil (nom, prénom, fonction, avatar), son email et son mot de passe.
-- suppression de son propre compte (un de n'importe quel compte pour l'administrateur)
+- suppression de son propre compte (ou de n'importe quel compte pour l'administrateur)
    

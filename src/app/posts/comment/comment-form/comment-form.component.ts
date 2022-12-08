@@ -34,7 +34,7 @@ export class CommentFormComponent implements OnInit {
   newCommentForm!: FormGroup;
 
   constructor(
-    private CommentsService: CommentsService,
+    private commentsService: CommentsService,
     private snackBarService: SnackBarService,
     @Optional() public dialogRef: MatDialogRef<CommentEditDialogComponent>,
   ) { }
@@ -123,7 +123,7 @@ export class CommentFormComponent implements OnInit {
       }
       textComment = textComment!.trim();
   
-      this.CommentsService.addComment(postExt.id, textComment, imageComment)
+      this.commentsService.addComment(postExt.id, textComment, imageComment)
           .subscribe ( {
             next : (data) => {
               this.snackBarService.openSnackBar('c\'est partagé !','');
@@ -160,7 +160,7 @@ export class CommentFormComponent implements OnInit {
         return
       }
       textComment = textComment!.trim();
-      this.CommentsService.updateComment(this.comment!.id, textComment, imageComment)
+      this.commentsService.updateComment(this.comment!.id, textComment, imageComment)
           .subscribe ( {
             next : (data) => {
               this.snackBarService.openSnackBar('c\'est partagé !','');

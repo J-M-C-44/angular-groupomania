@@ -30,21 +30,21 @@ export class CommentComponent implements OnInit {
   fullName ='';
 
   constructor(
-    private UsersService: UsersService,
-    private CommentsService: CommentsService,
+    private usersService: UsersService,
+    private commentsService: CommentsService,
     private snackBarService: SnackBarService,
     public dialog: MatDialog
     ) { }
 
   ngOnInit(): void {
     // recherche des infos du user ayant fait le commentaire dans le cache.
-    let userFoundinCache =  this.UsersService.UsersExtendedCache.find(searchItem => (searchItem.id == this.comment.userId))
+    let userFoundinCache =  this.usersService.UsersExtendedCache.find(searchItem => (searchItem.id == this.comment.userId))
     if (userFoundinCache) {
       this.avatarUrl = userFoundinCache.avatarUrl;
       this.fullName = userFoundinCache.fullName;
       // si non trouvé, on passe par un appel api.
     } else {
-      this.UsersService.getOneUser(this.comment.userId)
+      this.usersService.getOneUser(this.comment.userId)
         .subscribe ( {
           next : (data) => {
             this.avatarUrl = data.avatarUrl ? data.avatarUrl : this.defaultAvatarUrl;
@@ -96,7 +96,7 @@ export class CommentComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(deleteIsConfirmed => {
       if (deleteIsConfirmed)  {
-        this.CommentsService.deleteComment(this.comment.id)
+        this.commentsService.deleteComment(this.comment.id)
           .subscribe ( {  
             next : (data) => {
               this.snackBarService.openSnackBar('commentaire supprimé',''); 

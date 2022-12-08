@@ -97,9 +97,9 @@ export class PostComponent implements OnInit {
 
   constructor(
     private snackBarService: SnackBarService,
-    private PostsService: PostsService,
-    private LikesService: LikesService,
-    private UsersService: UsersService,
+    private postsService: PostsService,
+    private likesService: LikesService,
+    private usersService: UsersService,
     private dialog: MatDialog
   ) { }
 
@@ -134,7 +134,7 @@ export class PostComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(deleteIsConfirmed => {
       if (deleteIsConfirmed)  {
-        this.PostsService.deletePost(this.postExt.id)
+        this.postsService.deletePost(this.postExt.id)
           .subscribe ( {  
             next : (data) => {
               this.snackBarService.openSnackBar('post supprimé',''); 
@@ -162,7 +162,7 @@ export class PostComponent implements OnInit {
   likePost(postExt:PostExtended) :void {
   
     if (postExt.isLiked) {
-      this.LikesService.unlikePost(postExt.likeId!)
+      this.likesService.unlikePost(postExt.likeId!)
       .subscribe ( {
         next : (data) => {
           postExt.nbLikes!-- ;
@@ -181,7 +181,7 @@ export class PostComponent implements OnInit {
         },
       })
     } else {
-        this.LikesService.likePost(postExt.id)
+        this.likesService.likePost(postExt.id)
         .subscribe ( {
           next : (data) => {
             postExt.nbLikes!++ ;
@@ -201,7 +201,7 @@ export class PostComponent implements OnInit {
  * @param postExt 
 */   
   showComments(postExt:PostExtended) {
-    let userFoundinCache =  this.UsersService.UsersExtendedCache.find(searchItem => (searchItem.id == this.userId))
+    let userFoundinCache =  this.usersService.UsersExtendedCache.find(searchItem => (searchItem.id == this.userId))
     this.avatarUrl = userFoundinCache?.avatarUrl ? userFoundinCache.avatarUrl : this.defaultAvatarUrl ;
 
     postExt.commentsShowed= !postExt.commentsShowed

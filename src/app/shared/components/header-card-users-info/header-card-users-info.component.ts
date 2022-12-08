@@ -21,23 +21,23 @@ export class HeaderCardUsersInfoComponent implements OnInit {
   fullName ='';
  
   constructor(
-         private UsersService: UsersService,
+         private usersService: UsersService,
   ) { }
 
   ngOnInit(): void {
 
     // recherche en cache du user. si non trouvé on va chercher via l'API
-    let userFoundinCache =  this.UsersService.UsersExtendedCache.find(searchItem => (searchItem.id == this.userId))
+    let userFoundinCache =  this.usersService.UsersExtendedCache.find(searchItem => (searchItem.id == this.userId))
     if (userFoundinCache) {
       this.avatarUrl = userFoundinCache.avatarUrl;
       this.fullName = userFoundinCache.fullName;
     } else {
-      this.UsersService.getOneUser(this.userId)
+      this.usersService.getOneUser(this.userId)
         .subscribe ( {
           next : (data) => {
             // console.log('données getOneUser reçues : ', data)
             this.avatarUrl = data.avatarUrl ? data.avatarUrl : this.defaultAvatarUrl;
-            this.fullName = this.UsersService.formatFullName(data.id, data.lastname, data.firstname)
+            this.fullName = this.usersService.formatFullName(data.id, data.lastname, data.firstname)
           },
 
           error: (err) => {
