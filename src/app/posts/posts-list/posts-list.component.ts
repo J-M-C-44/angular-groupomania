@@ -127,7 +127,7 @@ export class PostsListComponent implements OnInit {
  */
   getAllPostsByPage(page?:number, limit?:number) :void {
 
-    // récupération d'unepage de posts
+    // récupération d'une page de posts
     this.postsService.getAllPosts(page,limit)
           .subscribe ( {
             next : (data) => {

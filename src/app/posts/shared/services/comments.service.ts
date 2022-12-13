@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Comment } from '../../../shared/models/comment.model';
 
@@ -46,7 +46,8 @@ export class CommentsService {
                 err = 'serveur non accessible'  
             } else if (err.status == 404) {
                 err = 'non trouvé'  
-            
+              // err = of([]);
+              // console.log('non trouvé !, err = ', err)
             } else if (err.status == 500) {
               err = 'erreur interne serveur'  
  
